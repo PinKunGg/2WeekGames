@@ -15,11 +15,6 @@ public class RoomListInfo : MonoBehaviour
     [SerializeField] TMP_Text _roomPlayerCount;
     [SerializeField] TMP_Text _roomPing;
 
-    [Space]
-    [SerializeField] Image _privateRoomIcon;
-    [SerializeField] Canvas _roomPasswordInputUI;   
-    [SerializeField] TMP_InputField _roomPasswordInput;
-
     public RoomInfo info {get; private set;}
 
     public void SetRoomInfo(RoomInfo roomInfo){
@@ -28,15 +23,6 @@ public class RoomListInfo : MonoBehaviour
         _roomPlayerCount.text = string.Format("{0} / {1}",roomInfo.PlayerCount,roomInfo.MaxPlayers);
         
         _roomPing.text = string.Format("{0} ms",PhotonNetwork.GetPing());
-
-        if(!string.IsNullOrEmpty(info.CustomProperties["roomPassword"].ToString())){
-            _privateRoomIcon.gameObject.SetActive(true);
-
-            _roomPasswordInputUI = GameObject.Find("RoomListPasswordInput_ui").GetComponent<Canvas>();
-            _roomPasswordInput = GameObject.Find("RoomListPasswordInput").GetComponent<TMP_InputField>();
-            Button joinButton = GameObject.Find("JoinRoomList_Button").GetComponent<Button>();
-            joinButton.onClick.AddListener(JoinRoom);
-        }
     }
 
     public void ClickToJoin(){
@@ -46,22 +32,7 @@ public class RoomListInfo : MonoBehaviour
             return;
         }
 
-        if(!string.IsNullOrEmpty(info.CustomProperties["roomPassword"].ToString())){
-            _roomPasswordInputUI.enabled = true;
-            return;
-        }
-
         PhotonNetwork.NickName = _playerName.text;
         PhotonNetwork.JoinRoom(_roomName.text);
-    }
-
-    public void JoinRoom(){
-        if(info.CustomProperties["roomPassword"].ToString() == _roomPasswordInput.text){
-            Debug.Log("Password Correct");
-            PhotonNetwork.NickName = _playerName.text;
-            PhotonNetwork.JoinRoom(_roomName.text);
-        }else{
-            Debug.Log("Password Wrong");
-        }
     }
 }

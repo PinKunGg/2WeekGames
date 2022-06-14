@@ -12,13 +12,12 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     [Space]
     public TMP_InputField _createRoomName;
-    public TMP_InputField _createRoomPassword;
+    public Toggle _createRoomVisible;
     public Slider _createMaxPlayer;
 
     [Space]
     public Canvas _joinRoomList_ui;
     public TMP_InputField _joinRoomName;
-    public TMP_InputField _joinRoomPassword;
 
     public void CreateRoom(){
         if(string.IsNullOrEmpty(_playerName.text) && string.IsNullOrEmpty(_createRoomName.text)){
@@ -31,17 +30,12 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
         RoomOptions options = new RoomOptions(){
             MaxPlayers = byte.Parse(_createMaxPlayer.value.ToString()),
+            IsVisible = _createRoomVisible.isOn
         };
-
-        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
-        options.CustomRoomProperties.Add("roomPassword",_createRoomPassword.text);
-        string[] _roomProperty = new string[] {"roomPassword"};
-        options.CustomRoomPropertiesForLobby = _roomProperty;
 
         PreparePlayerData();
 
         PhotonNetwork.CreateRoom(_createRoomName.text,options,TypedLobby.Default);
-        PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(_roomProperty);
     }
 
     List<RoomInfo> infos = new List<RoomInfo>();
@@ -60,18 +54,9 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
             return;
         }
 
-        int index = infos.FindIndex(x => x.Name == _joinRoomName.text);
-
-        if(index != -1){
-            if(infos[index].CustomProperties["roomPassword"].ToString() == _joinRoomPassword.text){
-                Debug.Log("Password Correct");
-                PhotonNetwork.JoinRoom(_joinRoomName.text);
-            }else{
-                Debug.Log("Password Wrong");
-            }
-        }
-
         PreparePlayerData();
+
+        PhotonNetwork.JoinRoom(_joinRoomName.text);
     }
 
     void PreparePlayerData(){
