@@ -1409,7 +1409,7 @@ GameObject:
   - component: {fileID: 975196481}
   m_Layer: 5
   m_Name: Monster Health Bar
-  m_TagString: HealthBar
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

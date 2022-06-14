@@ -74,13 +74,13 @@ public class Player_Attack_Control : MonoBehaviour
         {
             anim.SetBool("Draw", false);
             IsDrawed = true;
-            photonView.RPC("SwapWeapon", RpcTarget.All, true);
+            photonView.RPC("SwapWeapon", RpcTarget.AllBuffered, true);
         }
         else if (this.anim.GetCurrentAnimatorStateInfo(1).IsName("Draw A Great Sword 1") && !IsDraw && IsDrawed)
         {
             anim.SetBool("Draw", false);
             IsDrawed = false;
-            photonView.RPC("SwapWeapon", RpcTarget.All, false);
+            photonView.RPC("SwapWeapon", RpcTarget.AllBuffered, false);
         }
     }
     [PunRPC]
