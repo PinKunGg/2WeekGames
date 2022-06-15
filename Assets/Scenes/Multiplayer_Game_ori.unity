@@ -439,6 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CloseServer_button: {fileID: 1177756009}
   OpenServer_button: {fileID: 701984340}
+  disconnectFromServer: {fileID: 0}
 --- !u!1 &371119018
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +520,7 @@ GameObject:
   - component: {fileID: 381045616}
   - component: {fileID: 381045615}
   - component: {fileID: 381045619}
+  - component: {fileID: 381045620}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -626,6 +628,28 @@ MonoBehaviour:
   _content: {fileID: 2008194685}
   _playerListInfo: {fileID: 6567762548724360074, guid: c531ee590b0c3fe47b78f3bbcd2816cd,
     type: 3}
+--- !u!114 &381045620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381045614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &442193896
 GameObject:
   m_ObjectHideFlags: 0

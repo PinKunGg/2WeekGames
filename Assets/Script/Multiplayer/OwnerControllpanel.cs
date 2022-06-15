@@ -29,6 +29,10 @@ public class OwnerControllpanel : MonoBehaviourPunCallbacks
             disconnectFromServer.OnClick_Disconnect();
         }
         else{
+
+            object[] datas = new object[] { true };
+
+            PhotonNetwork.RaiseEvent(1, datas, RaiseEventOptions.Default, ExitGames.Client.Photon.SendOptions.SendReliable);
             Debug.Log(6.1f);
             PhotonNetwork.LeaveRoom();
         }

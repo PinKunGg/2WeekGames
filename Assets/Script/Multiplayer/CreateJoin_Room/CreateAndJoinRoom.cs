@@ -78,7 +78,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom(){
         base.OnJoinedRoom();
 
-        PhotonNetwork.LoadLevel("Multiplayer_Game");
+        PhotonNetwork.LoadLevel("Multiplayer_Game_ori");
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message){
