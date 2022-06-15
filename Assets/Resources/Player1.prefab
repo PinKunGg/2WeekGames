@@ -689,6 +689,7 @@ MonoBehaviour:
     base_Damage: 0
     base_Cri_Rate: 0
     base_Cri_Damage: 0
+  Player_Name: 
   HealthBar: {fileID: 0}
   Friend_HealthBar_Prefab: {fileID: 6245234170904314966, guid: 108a299152a7ecb4c85417814706a2ec,
     type: 3}
@@ -3814,7 +3815,7 @@ GameObject:
   - component: {fileID: 4187588736400697353}
   m_Layer: 0
   m_Name: Weapon Hand
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3893,7 +3894,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 8666687207722023893}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1

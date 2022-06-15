@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerListMenu : MonoBehaviourPunCallbacks
 {
+    PlayerNameInRoomCollector playerNameInRoomCollector;
+
     [SerializeField] Transform _content;
     [SerializeField] PlayerListInfo _playerListInfo;
 
@@ -15,6 +19,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         base.OnEnable();
 
         GetAllCurrentPlayerInRoom();
+        playerNameInRoomCollector = GetComponent<PlayerNameInRoomCollector>();
     }
 
     void GetAllCurrentPlayerInRoom(){
@@ -36,7 +41,9 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
         base.OnPlayerEnteredRoom(newPlayer);
-        
+
+        //playerNameInRoomCollector.AddPlayerName(newPlayer.NickName);
+
         Debug.LogFormat("Player '{0}' join the game",newPlayer.NickName);
         AddPlayerList(newPlayer);
     }

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player_Stat : MonoBehaviour
 {
     PhotonView photonView;
     public BasePlayerStat basePlayerStat;
+
+    public string Player_Name;
 
     [Header("Player UI")]
     public Slider HealthBar;
@@ -18,6 +21,7 @@ public class Player_Stat : MonoBehaviour
     public float Current_HP;
 
     [Header("Friend Health")]
+
     public Slider Friend_HealthBar;
     void Start()
     {
@@ -33,6 +37,7 @@ public class Player_Stat : MonoBehaviour
             temp.transform.parent = GameObject.FindGameObjectWithTag("FriendHealthZone").transform;
             temp.transform.localScale = new Vector3(1, 1, 1);
             Friend_HealthBar = temp.GetComponentInChildren<Slider>();
+            temp.GetComponentInChildren<TextMeshProUGUI>().text = Player_Name;
             UpdateFriend_CurrentStat();
         }
     }
