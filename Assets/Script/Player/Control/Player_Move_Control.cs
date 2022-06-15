@@ -9,6 +9,7 @@ public class Player_Move_Control : MonoBehaviour
     GameObject cam_main;
     Animator anim;
     Rigidbody rb;
+    Player_Inventory player_inventory;
 
     public GameObject cam_player;
     Player_Attack_Control player_Attack_Control;
@@ -42,9 +43,14 @@ public class Player_Move_Control : MonoBehaviour
         cam_main = Camera.main.gameObject;
         rb = GetComponent<Rigidbody>();
         temp_move_speed = move_speed;
-
+        player_inventory = Player_Inventory.player_Inventory;
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
+    }
+
+    private void Start()
+    {
+        if (photonView.IsMine) { player_inventory.CameraPlayer = cam_player; }
     }
 
     private void Update()
@@ -54,7 +60,6 @@ public class Player_Move_Control : MonoBehaviour
             cam_player.SetActive(false);
             return;
         }
-
         Dash();
         CheckRollAnimIsRun();
     }

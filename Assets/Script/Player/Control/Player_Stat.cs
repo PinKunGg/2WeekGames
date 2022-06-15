@@ -8,11 +8,14 @@ using TMPro;
 public class Player_Stat : MonoBehaviour
 {
     PhotonView photonView;
+    public PlayerListMenu playerListMenu;
     public BasePlayerStat basePlayerStat;
+    public PlayerNameControl playerNameControl;
 
     public string Player_Name;
 
     [Header("Player UI")]
+    public TextMeshProUGUI PlayerNameUI;
     public Slider HealthBar;
     public GameObject Friend_HealthBar_Prefab;
 
@@ -26,20 +29,20 @@ public class Player_Stat : MonoBehaviour
     void Start()
     {
         photonView = GetComponent<PhotonView>();
+        playerListMenu = PlayerListMenu.playerListMenu;
+        
         if (photonView.IsMine)
         {
+            playerListMenu.AddPlayerStat(this);
             HealthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Slider>();
-            UpdateCurrentStat();
+            PlayerNameUI = GameObject.FindGameObjectWithTag("PlayerName").GetComponent<TextMeshProUGUI>();
+            PlayerNameUI.text = Player_Name;
+            SetCurrentStat();
         }
-        else 
-        {
-            GameObject temp = Instantiate(Friend_HealthBar_Prefab);
-            temp.transform.parent = GameObject.FindGameObjectWithTag("FriendHealthZone").transform;
-            temp.transform.localScale = new Vector3(1, 1, 1);
-            Friend_HealthBar = temp.GetComponentInChildren<Slider>();
-            temp.GetComponentInChildren<TextMeshProUGUI>().text = Player_Name;
-            UpdateFriend_CurrentStat();
-        }
+        //else
+        //{
+        //    if (!Friend_HealthBar) { CreateFriendHealthBar(null); }
+        //}
     }
 
     // Update is called once per frame
@@ -50,42 +53,72 @@ public class Player_Stat : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.X)) 
+        if (Input.GetKeyDown(KeyCode.X))
         {
             Current_HP -= 5;
-            photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP);
+            photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Player_Name);
         }
     }
 
-    void UpdateCurrentStat() 
+    void SetCurrentStat()
     {
         Max_Current_HP = basePlayerStat.base_HP;
         Current_HP = Max_Current_HP;
-        HealthBar.maxValue = Max_Current_HP;
-
-        photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP);
+        if (HealthBar)
+        {
+            HealthBar.maxValue = Max_Current_HP;
+            HealthBar.value = Current_HP;
+        }
+        else if (Friend_HealthBar)
+        {
+            Friend_HealthBar.maxValue = Max_Current_HP;
+            Friend_HealthBar.value = Current_HP;
+        }
+        UpdateHealthBarForOther();
     }
 
-    void UpdateFriend_CurrentStat() 
+    public void UpdateHealthBarForOther() 
     {
-        Max_Current_HP = basePlayerStat.base_HP;
-        Current_HP = Max_Current_HP;
-        Friend_HealthBar.maxValue = Max_Current_HP;
-
-        photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP);
+        if (!photonView) { photonView = GetComponent<PhotonView>(); }
+        if (photonView.IsMine) 
+        {
+            Debug.Log("Health F Run");
+            photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP,Player_Name);
+        }
     }
+
 
     [PunRPC]
-    void UpdateHealthBar(float value) 
+    void UpdateHealthBar(float value,string name) 
     {
+        if (!photonView) { photonView = GetComponent<PhotonView>(); }
+        Current_HP = value;
         if (photonView.IsMine)
         {
+            Debug.Log("Health My : " + this.gameObject.name + value);
             HealthBar.value = value;
         }
-        else 
+        else
         {
+            if (!Friend_HealthBar) { CreateFriendHealthBar(name);  }
+            Friend_HealthBar.maxValue = 100f;
             Friend_HealthBar.value = value;
+            Debug.Log("Health F : " + this.gameObject.name + value);
         }
+    }
+
+    void CreateFriendHealthBar(string name) 
+    {
+        Debug.Log("Create F HealthBar");
+        //SetCurrentStat();
+        playerNameControl = PlayerNameControl.playerNameControl;
+        GameObject temp = Instantiate(Friend_HealthBar_Prefab);
+        temp.transform.parent = GameObject.FindGameObjectWithTag("FriendHealthZone").transform;
+        temp.transform.localScale = new Vector3(1, 1, 1);
+        Friend_HealthBar = temp.GetComponentInChildren<Slider>();
+        //temp.GetComponentInChildren<TextMeshProUGUI>().text = playerNameControl.GetOtherNamePlayer();
+        temp.GetComponentInChildren<TextMeshProUGUI>().text = name;
+        playerNameControl.AddHealthBar(temp);
     }
 }
 
