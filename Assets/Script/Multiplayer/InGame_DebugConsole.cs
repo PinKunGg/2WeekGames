@@ -8,6 +8,8 @@ public class InGame_DebugConsole : MonoBehaviour
     public string Tag;
     private void Awake() {
 
+        Application.targetFrameRate = 60;
+
         GameObject[] obj = GameObject.FindGameObjectsWithTag(Tag);
 
         if(obj.Length > 1){
@@ -16,6 +18,12 @@ public class InGame_DebugConsole : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Update() {
+        if(Application.targetFrameRate != 60){
+            Application.targetFrameRate = 60;
+        }
     }
     
     // Adjust via the Inspector
@@ -54,9 +62,9 @@ public class InGame_DebugConsole : MonoBehaviour
         GUI.Label(
            new Rect(
                5,                   // x, left offset
-               Screen.height - 150, // y, bottom offset
-               300f,                // width
-               150f                 // height
+               Screen.height - 200, // y, bottom offset
+               400f,                // width
+               200f                 // height
            ),      
            currentText,             // the display text
            GUI.skin.textArea        // use a multi-line text area

@@ -248,8 +248,8 @@ GameObject:
   - component: {fileID: 6944105635108505260}
   - component: {fileID: 6944105635108505259}
   - component: {fileID: 6944105635108505258}
-  - component: {fileID: 4691400304199348154}
-  - component: {fileID: 3630224504835223198}
+  - component: {fileID: 1274294481601022452}
+  - component: {fileID: 9176690505856357831}
   - component: {fileID: 6944105635108505262}
   - component: {fileID: 3336417708117062323}
   - component: {fileID: 6548994703132225746}
@@ -339,7 +339,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4691400304199348154
+--- !u!114 &1274294481601022452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -348,12 +348,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6944105635108505257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953a34dca4b931c4bb47bbfd3eff8302, type: 3}
+  m_Script: {fileID: 11500000, guid: fdf09668e5f903c4286b0f0ad31e4835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSaveOnExit: 0
-  _isSaveByPass: 0
---- !u!114 &3630224504835223198
+--- !u!114 &9176690505856357831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -362,15 +360,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6944105635108505257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10e628187a79a2b4d99434ada4325505, type: 3}
+  m_Script: {fileID: 11500000, guid: ba9014a8fabc8de41997fe675c56da16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos_txt: {fileID: 8832306133981180688}
   sc:
-    a: 0
-    b: 
     pos: {x: 0, y: 0, z: 0}
-  isSaveDone: 0
 --- !u!114 &6944105635108505262
 MonoBehaviour:
   m_ObjectHideFlags: 0

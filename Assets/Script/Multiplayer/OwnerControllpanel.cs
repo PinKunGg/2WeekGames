@@ -11,43 +11,31 @@ public class OwnerControllpanel : MonoBehaviourPunCallbacks
     [SerializeField]Button CloseServer_button;
     [SerializeField]Button OpenServer_button;
 
-    public DisconnectFromServer disconnectFromServer;
-
     private void Start() {
-        if(!PhotonNetwork.IsMasterClient){
-            CloseServer_button.gameObject.SetActive(false);
-            OpenServer_button.gameObject.SetActive(false);
-        }
-        else{
-            CloseServer_button.gameObject.SetActive(true);
-            OpenServer_button.gameObject.SetActive(true);
-        }
+        try{
+            if(!PhotonNetwork.IsMasterClient){
+                CloseServer_button.gameObject.SetActive(false);
+                OpenServer_button.gameObject.SetActive(false);
+            }
+            else{
+                CloseServer_button.gameObject.SetActive(true);
+                OpenServer_button.gameObject.SetActive(true);
+            }
+        }catch{}
     }
 
-    public void OnClick_Disconnect(){
-        if(PhotonNetwork.IsMasterClient){
-            disconnectFromServer.OnClick_Disconnect();
-        }
-        else{
-
-            object[] datas = new object[] { true };
-
-            PhotonNetwork.RaiseEvent(1, datas, RaiseEventOptions.Default, ExitGames.Client.Photon.SendOptions.SendReliable);
-            Debug.Log(6.1f);
-            PhotonNetwork.LeaveRoom();
-        }
-    }
     public void OnClick_CloseServer(){
-        disconnectFromServer.OnClick_CloseServer();
+        if(PhotonNetwork.IsMasterClient){
+            base.photonView.RPC("RPC_Disconnect",RpcTarget.Others);
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
     }
+
     public void OnClick_OpenServer(){
-        disconnectFromServer.OnClick_OpenServer();
-    }
-
-    public override void OnLeftRoom(){
-        base.OnLeftRoom();
-
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadSceneAsync(0);
+        if(PhotonNetwork.IsMasterClient){
+            PhotonNetwork.CurrentRoom.IsOpen = true;
+            PhotonNetwork.CurrentRoom.IsVisible = true;
+        }
     }
 }
