@@ -16,6 +16,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
 
     private List<PlayerListInfo> _playerListingInfos = new List<PlayerListInfo>();
     public List<Player_Stat> allPlayerStat;
+    public List<Player_Attack_Control> AllAttack_Controls;
 
     public void Awake() 
     {
@@ -82,12 +83,20 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
     {
         allPlayerStat.Add(Value);
     }
+    public void AddAttackControl(Player_Attack_Control Value)
+    {
+        AllAttack_Controls.Add(Value);
+    }
 
     void TriggerWhenPlayerJoin() 
     {
         foreach (Player_Stat player_Stat in allPlayerStat) 
         {
             player_Stat.UpdateHealthBarForOther();
+        }
+        foreach (Player_Attack_Control player_Attack_Control in AllAttack_Controls) 
+        {
+            player_Attack_Control.UpdateAnimForOther();
         }
     }
 }

@@ -11,7 +11,7 @@ public class Player_Move_Control : MonoBehaviour
     Rigidbody rb;
     Player_Inventory player_inventory;
 
-    public GameObject cam_player;
+    public GameObject cam_player, cam_player_inven;
     Player_Attack_Control player_Attack_Control;
     public bool IsWalk, IsRun = false;
     Vector3 movedir;
@@ -50,15 +50,33 @@ public class Player_Move_Control : MonoBehaviour
 
     private void Start()
     {
-        if (photonView.IsMine) { player_inventory.CameraPlayer = cam_player; }
+        if (photonView.IsMine)
+        {
+            player_inventory.player_Move_Control = this;
+            player_inventory.CameraPlayer = cam_player;
+        }
+        else 
+        {
+            cam_player.SetActive(false);
+            cam_player_inven.SetActive(false);
+        }
     }
 
     private void Update()
     {
         if (!photonView.IsMine)
         {
-            cam_player.SetActive(false);
             return;
+        }
+        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1")) 
+        {
+            return;
+        }
+        if (player_inventory.InvenUI.activeSelf) 
+        {
+            anim.SetBool("IsWalk", false);
+            anim.SetBool("IsRun", false);
+            return; 
         }
         Dash();
         CheckRollAnimIsRun();
@@ -148,7 +166,7 @@ public class Player_Move_Control : MonoBehaviour
 
     void CheckRollAnimIsRun()
     {
-        if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Sprinting Forward Roll"))
+        if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Dash"))
         {
             if (player_Attack_Control.IsBlock && player_Attack_Control.IsDrawed)
             {

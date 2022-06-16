@@ -12,8 +12,14 @@ public class Player_Inventory : MonoBehaviour
     {
         player_Inventory = this;
     }
+
+    [Header("Animator For Change")]
+    public RuntimeAnimatorController animAxe;
+    public RuntimeAnimatorController animSwordAndShield;
+
     [Header("invenSetting")]
     public GameObject InvenUI,CameraPlayer;
+    public Player_Move_Control player_Move_Control;
     public Inventory inventory;
     public GameObject prefab_invenSlot;
     public GameObject Inventory_zone;
@@ -191,6 +197,17 @@ public class Player_Inventory : MonoBehaviour
                 Damage += ClothesSlot_Item[x].Damage;
                 Cri_Damage += ClothesSlot_Item[x].CriDamage;
                 Cri_Rate += ClothesSlot_Item[x].CriRate;
+                if (ClothesSlot_Item[x].type == Item.Type.Weapond)
+                {
+                    if (ClothesSlot_Item[x].NameItem == "Axe")
+                    {
+                        player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animAxe;
+                    }
+                    else if (ClothesSlot_Item[x].NameItem == "Sword&Shield")
+                    {
+                        player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animSwordAndShield;
+                    }
+                }
             }
         }
     }
