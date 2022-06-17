@@ -106,43 +106,59 @@ public class Player_Attack_Control : MonoBehaviour
 
     void CheckWhenEndAnimDraw() 
     {
+        string _animConName = ""; 
         if (this.anim.GetCurrentAnimatorStateInfo(1).IsName("Draw") && IsDraw && !IsDrawed)
         {
             anim.SetBool("Draw", false);
             IsDrawed = true;
-            photonView.RPC("SwapWeapon", RpcTarget.All, true);
+            if (anim.runtimeAnimatorController == player_inventory.animAxe)
+            {
+                _animConName = "Axe";
+            }
+            else if (anim.runtimeAnimatorController == player_inventory.animSwordAndShield)
+            {
+                _animConName = "SwordAndShield";
+            }
+            else if (anim.runtimeAnimatorController == player_inventory.animMagic)
+            {
+                _animConName = "Stuff";
+            }
+            photonView.RPC("SwapWeapon", RpcTarget.All, true, _animConName);
         }
         else if (this.anim.GetCurrentAnimatorStateInfo(1).IsName("Draw") && !IsDraw && IsDrawed)
         {
             IsDrawByOpenInven = false;
             anim.SetBool("Draw", false);
             IsDrawed = false;
-            photonView.RPC("SwapWeapon", RpcTarget.All, false);
+            photonView.RPC("SwapWeapon", RpcTarget.All, false,null);
         }
     }
     [PunRPC]
-    public void SwapWeapon(bool value) 
+    public void SwapWeapon(bool value,string _animConName) 
     {
         if (anim == null) { GetComponent<Animator>(); }
         if (player_inventory == null) { player_inventory = Player_Inventory.player_Inventory; }
         Debug.Log("It Run : " + this.gameObject.name);
         if (value)
         {
-            if (anim.runtimeAnimatorController == player_inventory.animAxe)
+            if (_animConName == "Axe")
             {
+                anim.runtimeAnimatorController = player_inventory.animAxe;
                 Weapon_Back.SetActive(false);
                 Weapon_Hand.SetActive(true);
                 Weapon_Stuff.SetActive(false);
             }
-            else if (anim.runtimeAnimatorController == player_inventory.animSwordAndShield) 
+            else if (_animConName == "SwordAndShield") 
             {
+                anim.runtimeAnimatorController = player_inventory.animSwordAndShield;
                 Weapon_Back.SetActive(false);
                 Weapon_Hand.SetActive(true);
                 Weapon_Shield.SetActive(true);
                 Weapon_Stuff.SetActive(false);
             }
-            else if (anim.runtimeAnimatorController == player_inventory.animMagic)
+            else if (_animConName == "Stuff")
             {
+                anim.runtimeAnimatorController = player_inventory.animMagic;
                 Weapon_Back.SetActive(false);
                 Weapon_Hand.SetActive(false);
                 Weapon_Shield.SetActive(false);
@@ -200,6 +216,7 @@ public class Player_Attack_Control : MonoBehaviour
             Weapon_Stuff.SetActive(Iswweapon_stuff);
             anim = GetComponent<Animator>();
             player_inventory = Player_Inventory.player_Inventory;
+            Debug.Log("animCon Name : " + animConName);
             if (animConName == "Axe") { anim.runtimeAnimatorController = player_inventory.animAxe; }
             else if (animConName == "Sword&Shield") { anim.runtimeAnimatorController = player_inventory.animSwordAndShield; }
             else if (animConName == "Stuff") { anim.runtimeAnimatorController = player_inventory.animMagic; }
