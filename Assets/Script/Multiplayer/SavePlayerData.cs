@@ -21,7 +21,7 @@ public class SavePlayerData : MonoBehaviourPunCallbacks
         sm = SaveManager.sm;
 
         _networkManager = GetComponent<NetworkManager>();
-        _playerManMulti = GetComponent<PlayerManager_Multiplayer>();
+        _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
     }
     public void SaveData(Player player){
         _isSaveDone = false;
@@ -37,19 +37,25 @@ public class SavePlayerData : MonoBehaviourPunCallbacks
         _isSaveDone = true;
     }
 
-    public void LoadData(Player player){
+    public void LoadData(PhotonView player){
         _isLoadDone = false;
-        int userIndex = _playerManMulti.GetPlayer(player.ActorNumber);
+        int userIndex = _playerManMulti.GetPlayer(player.OwnerActorNr);
 
-        string data = js.LoadJson(Application.persistentDataPath,player.NickName);
-
+        string data = js.LoadJson(Application.persistentDataPath,player.Owner.NickName);
+        
         if(string.IsNullOrEmpty(data)){
-            Debug.LogWarningFormat("[Master] Data from player '{0}' not found",player.NickName);
+            Debug.LogWarningFormat("[Master] Data from player '{0}' not found",player.Owner.NickName);
         }else{
-            Debug.LogWarningFormat("[Master] Data from player '{0}' found",player.NickName);
-            _playerManMulti._allPlayerInCurrentRoom[userIndex].GetComponent<PlayerData>().ReciveSaveData(data);
+            Debug.LogWarningFormat("[Master] Data from player '{0}' found",player.Owner.NickName);
+            base.photonView.RPC("RPC_SendSaveDataToPlayer",RpcTarget.All,player.OwnerActorNr,data);
         }
 
         _isLoadDone = true;
+    }
+
+    [PunRPC]
+    void RPC_SendSaveDataToPlayer(int playerID, string data){
+        int userIndex = _playerManMulti.GetPlayer(playerID);
+        _playerManMulti._allPlayerInCurrentRoom[userIndex].GetComponent<PlayerData>().ReciveSaveData(data);
     }
 }

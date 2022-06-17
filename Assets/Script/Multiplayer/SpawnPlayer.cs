@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class SpawnPlayer : MonoBehaviour
 {
     public GameObject playerPrefabs;
 
     private void Start() {
+        if(!PhotonNetwork.IsMasterClient){return;}
+
         SpawnNewPlayer();
     }
 

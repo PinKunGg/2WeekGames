@@ -17,13 +17,22 @@ public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
     }
 
     public int GetPlayer(int ActorID){
-        int userIndex = _allPlayerInCurrentRoom.FindIndex(x => x.GetComponent<PhotonView>().OwnerActorNr == ActorID);
-        return userIndex;
+        try{
+            int userIndex = _allPlayerInCurrentRoom.FindIndex(x => x.GetComponent<PhotonView>().OwnerActorNr == ActorID);
+            return userIndex;
+        }catch{
+            _allPlayerInCurrentRoom.RemoveAll(item => item == null);
+            Debug.LogErrorFormat("Player Id '{0}' from list is null or empty",ActorID);
+            return -1;
+        }
     }
 
     public void AddPlayer(GameObject obj){
         _allPlayerInCurrentRoom.Add(obj);
-        _savePlayerData.LoadData(PhotonNetwork.LocalPlayer);
+
+        if(PhotonNetwork.IsMasterClient){
+            _savePlayerData.LoadData(obj.GetComponent<PhotonView>());
+        }
     }
 
     public void RemovePlayer(int ActorID){

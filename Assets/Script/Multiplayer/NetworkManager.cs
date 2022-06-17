@@ -21,9 +21,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
         base.OnEnable();
 
         _playerListMenu = FindObjectOfType<PlayerListMenu>();
+        _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         _spawnPlayer = FindObjectOfType<SpawnPlayer>();
         _savePlayerData = GetComponent<SavePlayerData>();
-        _playerManMulti = GetComponent<PlayerManager_Multiplayer>();
 
         PhotonNetwork.AddCallbackTarget(this);
     }
@@ -46,7 +46,34 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
         if(PhotonNetwork.IsMasterClient){
             _isCheckNameDone = false;
             CheckPlayerName(newPlayer);
+
+            StartCoroutine(WaitForCheckPlayerNameIsDone(newPlayer));
         }
+    }
+
+    IEnumerator WaitForCheckPlayerNameIsDone(Player newPlayer){
+        while(!_isCheckNameDone){
+            yield return null;
+        }
+
+        Debug.Log("CheckPlayerName Done!");
+
+        if(_isNotSaveThisPlayerData){
+            yield break;
+        }
+
+        base.photonView.RPC("RPC_SpawnNewPlayer",newPlayer);
+        base.photonView.RPC("RPC_AddPlayerToPlayerListMenu",RpcTarget.All,newPlayer);
+    }
+
+    [PunRPC]
+    void RPC_AddPlayerToPlayerListMenu(Player newPlayer){
+        _playerListMenu.AddPlayerListMenu(newPlayer);
+    }
+
+    [PunRPC]
+    void RPC_SpawnNewPlayer(){
+        _spawnPlayer.SpawnNewPlayer();
     }
     
     public override void OnPlayerLeftRoom(Player otherPlayer){
@@ -56,8 +83,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         if(_isNotSaveThisPlayerData){
             Debug.LogErrorFormat("Data from player '{0}' was not saved",otherPlayer.NickName);
-
-            _playerManMulti.RemovePlayer(otherPlayer.ActorNumber);
             _isNotSaveThisPlayerData = false;
             return;
         }
@@ -65,16 +90,33 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
         if(PhotonNetwork.IsMasterClient){
             _savePlayerData.SaveData(otherPlayer);
 
-            StartCoroutine(WaitUntilSaveFinish(otherPlayer));
+            StartCoroutine(WaitUntilSaveFinish(otherPlayer.ActorNumber));
         }
     }
 
-    IEnumerator WaitUntilSaveFinish(Player otherPlayer){
+    IEnumerator WaitUntilSaveFinish(int leavePlayerID){
         while(!_savePlayerData._isSaveDone){
             yield return null;
         }
 
-        _playerManMulti.RemovePlayer(otherPlayer.ActorNumber);
+        base.photonView.RPC("RPC_RemovePlayerFromPlayerList",RpcTarget.All,leavePlayerID);
+        base.photonView.RPC("RPC_RemovePlayerFromPlayerListMenu",RpcTarget.All,leavePlayerID);
+    }
+
+    [PunRPC]
+    void RPC_RemovePlayerFromPlayerListMenu(int otherPlayer){
+        if(!_playerListMenu){
+            _playerListMenu = FindObjectOfType<PlayerListMenu>();
+        }
+        _playerListMenu.RemovePlayerListMenu(otherPlayer);
+    }
+    [PunRPC]
+    void RPC_RemovePlayerFromPlayerList(int otherPlayer){
+        if(!_playerManMulti){
+            _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        }
+
+        _playerManMulti.RemovePlayer(otherPlayer);
     }
 
     [PunRPC]
@@ -116,7 +158,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
     void CheckPlayerName(Player newPlayer){
         if(!PhotonNetwork.IsMasterClient){return;}
 
-        for (int i = 0; i < _playerListMenu._playerListingInfos.Count - 1; i++){
+        for (int i = 0; i < _playerListMenu._playerListingInfos.Count; i++){
             if (_playerListMenu._playerListingInfos[i].info.NickName == newPlayer.NickName){
                 Debug.Log("Kick " + newPlayer.NickName);
                     

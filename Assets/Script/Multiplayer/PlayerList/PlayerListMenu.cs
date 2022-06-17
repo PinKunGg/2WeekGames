@@ -13,7 +13,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
 
     public override void OnEnable(){
         base.OnEnable();
-
+        
         GetAllCurrentPlayerInRoom();
     }
 
@@ -25,20 +25,12 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer){
-        base.OnPlayerEnteredRoom(newPlayer);
-
-        AddPlayerListMenu(newPlayer);
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer){
-        base.OnPlayerLeftRoom(otherPlayer);
-
-        RemovePlayerListMenu(otherPlayer.ActorNumber);
-    }
-
-
     public void AddPlayerListMenu(Player player){
+        int indexPlayerListMenu = _playerListingInfos.FindIndex(x => x.info.ActorNumber == player.ActorNumber);
+        if(indexPlayerListMenu != -1){
+            return;
+        }
+
         PlayerListInfo playerInfo = Instantiate(_playerListInfo,_content);
 
         if(playerInfo != null){
@@ -48,6 +40,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
     }
 
     public void RemovePlayerListMenu(int ActorID){
+        Debug.Log(ActorID);
         int indexPlayerListMenu = _playerListingInfos.FindIndex(x => x.info.ActorNumber == ActorID);
         if(indexPlayerListMenu != -1){
             Destroy(_playerListingInfos[indexPlayerListMenu].gameObject);

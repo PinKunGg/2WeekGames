@@ -62,9 +62,9 @@ public class InGame_DebugConsole : MonoBehaviour
         GUI.Label(
            new Rect(
                5,                   // x, left offset
-               Screen.height - 200, // y, bottom offset
-               400f,                // width
-               200f                 // height
+               Screen.height - 170, // y, bottom offset
+               340f,                // width
+               170f                 // height
            ),      
            currentText,             // the display text
            GUI.skin.textArea        // use a multi-line text area
