@@ -578,10 +578,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6f306a6c6394e4692f9bdae3e89a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNameControl: {fileID: 0}
   _content: {fileID: 2008194685}
   _playerListInfo: {fileID: 6567762548724360074, guid: c531ee590b0c3fe47b78f3bbcd2816cd,
     type: 3}
   _playerListingInfos: []
+  allPlayerStat: []
+  AllAttack_Controls: []
 --- !u!114 &381045620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1317,6 +1320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefabs: {fileID: 6944105635108505257, guid: b50ed2f3629ab584a86be21d82d5b11e,
     type: 3}
+  spawnPoint: {fileID: 1211795498}
 --- !u!1 &1217253053
 GameObject:
   m_ObjectHideFlags: 0

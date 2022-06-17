@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class SpawnPlayer : MonoBehaviour
 {
     public GameObject playerPrefabs;
+    public Transform spawnPoint;
 
     private void Start() {
         if(!PhotonNetwork.IsMasterClient){return;}
@@ -15,7 +16,7 @@ public class SpawnPlayer : MonoBehaviour
     }
 
     public void SpawnNewPlayer(){
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabs.name,Vector2.zero,Quaternion.identity);
+        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabs.name,spawnPoint.position,Quaternion.identity);
         playerObj.name = PhotonNetwork.NickName;
     }
 }

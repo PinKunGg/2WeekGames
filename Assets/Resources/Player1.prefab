@@ -619,8 +619,8 @@ GameObject:
   - component: {fileID: 5706409153926811576}
   - component: {fileID: 7090372668201715253}
   - component: {fileID: 3552255912618185662}
-  - component: {fileID: 5987851214285322312}
-  - component: {fileID: 5029508541383194556}
+  - component: {fileID: 3898532229387177482}
+  - component: {fileID: 106759262658111325}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -710,6 +710,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsSkill1
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsSkill2
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -825,8 +828,8 @@ MonoBehaviour:
   Weapon_Back: {fileID: 1379693230}
   Weapon_Hand: {fileID: 8666687207722023893}
   Weapon_Shield: {fileID: 5943747055511949000}
+  Weapon_Stuff: {fileID: 0}
   IsDrawed: 0
-  IsSkill: 0
   IsBlock: 0
 --- !u!114 &7090372668201715253
 MonoBehaviour:
@@ -841,9 +844,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dash_cooldown_Ui: {fileID: 0}
+  Skill1_cooldown_UI: {fileID: 0}
+  Skill2_cooldown_UI: {fileID: 0}
   Isdash: 0
   dash_cooldown: 0
   temp_dash_cooldown: 0
+  IsSkill1: 0
+  IsSkill1_Cooldown: 0
+  skill1_cooldown: 10
+  temp_skill1_cooldown: 0
+  IsSkill2: 0
+  IsSkill2_Cooldown: 0
+  skill2_cooldown: 10
+  temp_skill2_cooldown: 0
 --- !u!114 &3552255912618185662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,7 +885,7 @@ MonoBehaviour:
   Max_Current_HP: 0
   Current_HP: 0
   Friend_HealthBar: {fileID: 0}
---- !u!114 &5987851214285322312
+--- !u!114 &3898532229387177482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -881,27 +894,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1340595616905285499}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953a34dca4b931c4bb47bbfd3eff8302, type: 3}
+  m_Script: {fileID: 11500000, guid: ba9014a8fabc8de41997fe675c56da16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5029508541383194556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1340595616905285499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10e628187a79a2b4d99434ada4325505, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pos_txt: {fileID: 2220670500220356205}
   sc:
-    a: 0
-    b: 
     pos: {x: 0, y: 0, z: 0}
-  isSaveDone: 0
+--- !u!114 &106759262658111325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340595616905285499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf09668e5f903c4286b0f0ad31e4835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1921752928056292881
 GameObject:
   m_ObjectHideFlags: 0
