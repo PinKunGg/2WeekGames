@@ -33,6 +33,7 @@ public class Player_Stat : MonoBehaviour
         
         if (photonView.IsMine)
         {
+            Player_Name = photonView.Owner.NickName;
             playerListMenu.AddPlayerStat(this);
             HealthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Slider>();
             PlayerNameUI = GameObject.FindGameObjectWithTag("PlayerName").GetComponent<TextMeshProUGUI>();

@@ -26,7 +26,6 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         base.OnEnable();
         
         GetAllCurrentPlayerInRoom();
-        GetAllPlayerNameInRoom();
     }
 
     void GetAllCurrentPlayerInRoom(){
@@ -34,7 +33,8 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         
         foreach(KeyValuePair<int,Player> playerInfo in PhotonNetwork.CurrentRoom.Players){
             AddPlayerListMenu(playerInfo.Value);
-        }
+            // playerNameControl.AddOtherNamePlayer(playerInfo.Value.NickName);
+        }        
     }
 
     public void AddPlayerListMenu(Player player){
@@ -42,46 +42,28 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         if(indexPlayerListMenu != -1){
             return;
         }
-    }
 
-    void GetAllPlayerNameInRoom() 
-    {
-        foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
-        {
-            playerNameControl.AddOtherNamePlayer(playerInfo.Value.NickName);
-        }
-        playerNameControl.CountGetName++;
-    }
-
-    void AddPlayerList(Player player){
         PlayerListInfo playerInfo = Instantiate(_playerListInfo,_content);
 
         if(playerInfo != null){
             playerInfo.SetPlayerInfo(player);
             _playerListingInfos.Add(playerInfo);
         }
+
+        playerNameControl.AddOtherNamePlayer(player.NickName);
+        TriggerWhenPlayerJoin();
+        playerNameControl.CountGetName++;
     }
 
     public void RemovePlayerListMenu(int ActorID){
         Debug.Log(ActorID);
         int indexPlayerListMenu = _playerListingInfos.FindIndex(x => x.info.ActorNumber == ActorID);
         if(indexPlayerListMenu != -1){
+            playerNameControl.RemoveHealthBar_ByName(_playerListingInfos[indexPlayerListMenu].info.NickName);
+
             Destroy(_playerListingInfos[indexPlayerListMenu].gameObject);
             _playerListingInfos.RemoveAt(indexPlayerListMenu);
         }
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer){
-        base.OnPlayerEnteredRoom(newPlayer);
-
-        playerNameControl.AddOtherNamePlayer(newPlayer.NickName);
-        TriggerWhenPlayerJoin();
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer){
-        base.OnPlayerLeftRoom(otherPlayer);
-
-        playerNameControl.RemoveHealthBar_ByName(otherPlayer.NickName);
     }
 
     public void AddPlayerStat(Player_Stat Value) 
