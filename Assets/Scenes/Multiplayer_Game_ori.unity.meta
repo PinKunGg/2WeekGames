@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/Multiplayer_Game_ori.unity.meta
 guid: 3b79c5da81ab2114384b2836f924c387
+========
+guid: f0a4881a643e1d348b2d23c1fe3e3803
+>>>>>>>> Art:Assets/Art/Map_Scene/Map01_Forest.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

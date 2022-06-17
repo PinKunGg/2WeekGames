@@ -12,12 +12,22 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     [Space]
     public TMP_InputField _createRoomName;
-    public Toggle _createRoomVisible;
+    public Button _PrivateRoom;
+    public Button _PublicRoom;
+    
     public Slider _createMaxPlayer;
+    public TMP_InputField _createMaxPlayer_InputField;
 
     [Space]
     public Canvas _joinRoomList_ui;
     public TMP_InputField _joinRoomName;
+
+    bool _isRoomVisible;
+    float _maxPlayer = 2;
+
+    private void Start() {
+        OnClick_PublicRoom();
+    }
 
     public void CreateRoom(){
         if(string.IsNullOrEmpty(_playerName.text) && string.IsNullOrEmpty(_createRoomName.text)){
@@ -29,13 +39,43 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         }
 
         RoomOptions options = new RoomOptions(){
-            MaxPlayers = byte.Parse(_createMaxPlayer.value.ToString()),
-            IsVisible = _createRoomVisible.isOn
+            MaxPlayers = byte.Parse(_createMaxPlayer_InputField.text.ToString()),
+            IsVisible = _isRoomVisible
         };
 
         PreparePlayerData();
 
         PhotonNetwork.CreateRoom(_createRoomName.text,options,TypedLobby.Default);
+    }
+
+    public void OnClick_PrivateRoom(){
+        _PrivateRoom.interactable = false;
+        _PublicRoom.interactable = true;
+
+        _isRoomVisible = false;
+    }
+    public void OnClick_PublicRoom(){
+        _PrivateRoom.interactable = true;
+        _PublicRoom.interactable = false;
+
+        _isRoomVisible = true;
+    }
+
+    public void OnMaxPlayerValueChange(){
+        _maxPlayer = _createMaxPlayer.value;
+        _createMaxPlayer_InputField.text = _maxPlayer.ToString();
+    }
+
+    public void OnMaxPlayerValueChange_InputField(){
+        if(float.Parse(_createMaxPlayer_InputField.text) > 4f){
+            _maxPlayer = 4f;
+            _createMaxPlayer_InputField.text = _maxPlayer.ToString();
+        }
+        else{
+            _maxPlayer = float.Parse(_createMaxPlayer_InputField.text);
+        }
+
+        _createMaxPlayer.value = _maxPlayer;
     }
 
     List<RoomInfo> infos = new List<RoomInfo>();
