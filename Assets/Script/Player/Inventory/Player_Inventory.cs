@@ -16,6 +16,7 @@ public class Player_Inventory : MonoBehaviour
     [Header("Animator For Change")]
     public RuntimeAnimatorController animAxe;
     public RuntimeAnimatorController animSwordAndShield;
+    public RuntimeAnimatorController animMagic;
 
     [Header("invenSetting")]
     public GameObject InvenUI,CameraPlayer;
@@ -206,6 +207,10 @@ public class Player_Inventory : MonoBehaviour
                     else if (ClothesSlot_Item[x].NameItem == "Sword&Shield")
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animSwordAndShield;
+                    }
+                    else if (ClothesSlot_Item[x].NameItem == "Stuff") 
+                    {
+                        player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animMagic;
                     }
                 }
             }

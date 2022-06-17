@@ -68,7 +68,7 @@ public class Player_Move_Control : MonoBehaviour
         {
             return;
         }
-        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1")) 
+        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1") || anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2")) 
         {
             return;
         }
