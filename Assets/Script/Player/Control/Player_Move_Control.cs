@@ -34,6 +34,7 @@ public class Player_Move_Control : MonoBehaviour
     public float iframe_time = 0.5f;
     float delay_iframe = 0;
     public bool IsDash = false;
+    public bool IsIframe = false;
 
     private void Awake()
     {
@@ -142,11 +143,8 @@ public class Player_Move_Control : MonoBehaviour
             {
                 rb.velocity = new Vector3(movedir.normalized.x*dash_speed, rb.velocity.y, movedir.normalized.z * dash_speed);
                 temp_dash_time += Time.deltaTime;
-                if (temp_dash_time >= delay_iframe && temp_dash_time < (delay_iframe+iframe_time)) 
-                {
-                    Debug.Log("Iframe on");
-                }
-                else { Debug.Log("Iframe off"); }
+                if (temp_dash_time >= delay_iframe && temp_dash_time < (delay_iframe+iframe_time)) { IsIframe = true; }
+                else { IsIframe = false; }
             }
         }
         else 

@@ -13,10 +13,13 @@ public class Player_Inventory : MonoBehaviour
         player_Inventory = this;
     }
 
+    public Player_Stat player_Stat;
+
     [Header("Animator For Change")]
     public RuntimeAnimatorController animAxe;
     public RuntimeAnimatorController animSwordAndShield;
     public RuntimeAnimatorController animMagic;
+    public RuntimeAnimatorController animBow;
 
     [Header("invenSetting")]
     public GameObject InvenUI,CameraPlayer;
@@ -200,21 +203,27 @@ public class Player_Inventory : MonoBehaviour
                 Cri_Rate += ClothesSlot_Item[x].CriRate;
                 if (ClothesSlot_Item[x].type == Item.Type.Weapond)
                 {
-                    if (ClothesSlot_Item[x].NameItem == "Axe")
+                    if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.Axe)
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animAxe;
                     }
-                    else if (ClothesSlot_Item[x].NameItem == "Sword&Shield")
+                    else if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.SwordAndShield)
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animSwordAndShield;
                     }
-                    else if (ClothesSlot_Item[x].NameItem == "Stuff") 
+                    else if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.Stuff) 
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animMagic;
+                    }
+                    else if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.Bow)
+                    {
+                        player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animBow;
                     }
                 }
             }
         }
+        player_Stat.gameObject.GetComponent<Player_Attack_Control>().CheckWeaponUse();
+        player_Stat.SetCurrentStat();
     }
 
     public void SelectSlot(int slotnumber) 
@@ -261,21 +270,21 @@ public class Player_Inventory : MonoBehaviour
         UpdateStat();
     }
 
-    //void LoadItem() 
-    //{
-    //    for (int x = 0; x< inventory.ItemIndexArray.Length;x++) 
-    //    {
-    //        if (inventory.ItemNameArray[x] == "") { return; }
-    //        foreach (Item item in AllItem)
-    //        {
-    //            if (inventory.ItemNameArray[x] == item.NameItem)
-    //            {
-    //                AddItem(item, inventory.ItemIndexArray[x]);
-    //                break;
-    //            }
-    //        }
-    //    }
-    //}
+    void LoadItem()
+    {
+        for (int x = 0; x < inventory.ItemIndexArray.Length; x++)
+        {
+            if (inventory.ItemNameArray[x] == "") { return; }
+            foreach (Item item in AllItem)
+            {
+                if (inventory.ItemNameArray[x] == item.NameItem)
+                {
+                    AddItem(item, inventory.ItemIndexArray[x]);
+                    break;
+                }
+            }
+        }
+    }
 }
 [System.Serializable]
 public class Inventory 

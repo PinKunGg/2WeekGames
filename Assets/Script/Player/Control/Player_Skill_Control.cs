@@ -8,6 +8,7 @@ public class Player_Skill_Control : MonoBehaviour
 {
     PhotonView photonView;
     Player_Move_Control player_Move_Control;
+    Player_Attack_Control player_Attack_Control;
     Animator anim;
 
     [Header("Cooldown UI")]
@@ -34,6 +35,7 @@ public class Player_Skill_Control : MonoBehaviour
     {
         photonView = GetComponent<PhotonView>();
         player_Move_Control = GetComponent<Player_Move_Control>();
+        player_Attack_Control = GetComponent<Player_Attack_Control>();
         anim = GetComponent<Animator>();
         if (photonView.IsMine) 
         {
@@ -55,6 +57,8 @@ public class Player_Skill_Control : MonoBehaviour
         {
             return;
         }
+        CountCooldown();
+        if (player_Attack_Control.IsBlock) { return; }
         if (Input.GetKeyDown(KeyCode.Q) && anim.GetBool("IsDraw") == true && temp_skill1_cooldown == skill1_cooldown && !anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2") && !anim.GetCurrentAnimatorStateInfo(1).IsName("Dash"))
         {
             Skill1(true);
@@ -69,7 +73,6 @@ public class Player_Skill_Control : MonoBehaviour
             Dash_cooldown_Ui.fillAmount = 1;
         }
 
-        CountCooldown();
     }
 
     void CountCooldown()

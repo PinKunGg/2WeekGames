@@ -36,15 +36,22 @@ public class Monster_Stat : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Weapon")) 
         {
-            Current_HP -= 5;
+            float totoal_damage = 0;
+            PlayerWeaponDamage playerWeaponDamage = other.GetComponent<PlayerWeaponDamage>();
+            if (Random.value * 100 < playerWeaponDamage.CriRate)
+            {
+                totoal_damage = playerWeaponDamage.Damage * ((playerWeaponDamage.CriDamage+100)/100);
+            }
+            else { totoal_damage = playerWeaponDamage.Damage; }
+            Current_HP -= totoal_damage;
             photonView.RPC("TakeDamage", RpcTarget.All,Current_HP);
         }
     }
 
     [PunRPC]
-    void TakeDamage(float value) 
+    void TakeDamage(float Damage) 
     {
-        Monster_HealthBar.value = value;
+        Monster_HealthBar.value = Damage;
     }
 }
 
@@ -53,6 +60,6 @@ public class BaseMonsterStat
 {
     public string Name_Monster;
     public float base_HP = 100;
-    public float base_Armor = 0;
+    public float base_Armor = 5;
     public float base_Damage = 0;
 }
