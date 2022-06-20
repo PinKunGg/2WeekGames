@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class ItemSlot : MonoBehaviour ,IPointerClickHandler
 {
     public int NumberOfSlot;
+    public bool IsClothesSlot = false;
     Player_Inventory player_Inventory;
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,13 @@ public class ItemSlot : MonoBehaviour ,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        player_Inventory.SelectSlot(NumberOfSlot);
+        if (!IsClothesSlot)
+        {
+            player_Inventory.SelectSlot(NumberOfSlot);
+        }
+        else if (IsClothesSlot) 
+        {
+            player_Inventory.RemoveFormClothesSlot(NumberOfSlot);
+        }
     }
 }

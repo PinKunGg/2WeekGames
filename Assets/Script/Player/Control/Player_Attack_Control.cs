@@ -13,6 +13,7 @@ public class Player_Attack_Control : MonoBehaviour
     Player_Move_Control player_Move_Control;
     Player_Inventory player_inventory;
     bool IsFormOther = false;
+    public bool IsNoWeapon = false;
 
     public GameObject CameraAimBow;
 
@@ -70,6 +71,10 @@ public class Player_Attack_Control : MonoBehaviour
             }
             return; 
         }
+        if (IsNoWeapon) 
+        { 
+            return; 
+        }
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1") || anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2")) { return; }
         if (Input.GetKeyDown(KeyCode.LeftControl) && IsDrawed)
         {
@@ -79,7 +84,20 @@ public class Player_Attack_Control : MonoBehaviour
         Attacking();
         CheckWhenEndAnimDraw();
     }
+    public void IsPlayerNoWeapond(bool value) 
+    {
+        IsNoWeapon = value;
+        if (value) { photonView.RPC("RpcPlayerNoWeapond", RpcTarget.All); }
 
+    }
+    [PunRPC]
+    void RpcPlayerNoWeapond() 
+    {
+        for (int x = 0; x < AllWeaponObj.Length; x++)
+        {
+            AllWeaponObj[x].SetActive(false);
+        }
+    }
     void Attacking()
     {
         if (player_Move_Control.IsRun) { return; }
@@ -285,12 +303,12 @@ public class Player_Attack_Control : MonoBehaviour
         }
     }
 
-    public void SetDamage(float Damage , float CriRate , float CriDamage) 
+    public void SetDamage(float Damage , float CriRate , float CriDamage, float Damage_Multiply) 
     {
         for (int x = 0; x < AllWeaponObj.Length; x++) 
         {
             PlayerWeaponDamage playerWeapon = AllWeaponObj[x].GetComponent<PlayerWeaponDamage>();
-            playerWeapon.Damage = Damage;
+            playerWeapon.Damage = Damage + (Damage * (Damage_Multiply/100));
             playerWeapon.CriRate = CriRate;
             playerWeapon.CriDamage = CriDamage;
         }

@@ -14,6 +14,7 @@ public class Player_Inventory : MonoBehaviour
     }
 
     public Player_Stat player_Stat;
+    public Sprite Defath_Sprite;
 
     [Header("Animator For Change")]
     public RuntimeAnimatorController animAxe;
@@ -27,8 +28,10 @@ public class Player_Inventory : MonoBehaviour
     public Inventory inventory;
     public GameObject prefab_invenSlot;
     public GameObject Inventory_zone;
-    public Image[] ClothesSlot_pic = new Image[6];
-    public Item[] ClothesSlot_Item = new Item[6];
+    public Image[] ClothesSlot_pic = new Image[7];
+    public Item[] ClothesSlot_Item = new Item[7];
+    public int PotionSlot = 0;
+    public string[] ClothesSlot_Item_to_inven = new string[7];
     public List<Image> AllSlotPic;
     public List<Item> AllItem;
     bool IsFirstRun = false;
@@ -67,12 +70,17 @@ public class Player_Inventory : MonoBehaviour
         {
             AddItem(Test, 1);
         }
+        if (Input.GetKeyDown(KeyCode.L)) 
+        {
+            RemoveItem(Test, 2);
+        }
     }
 
     public void OpenInven() 
     {
         InvenUI.SetActive(!InvenUI.activeSelf);
         CameraPlayer.SetActive(!CameraPlayer.activeSelf);
+        player_Move_Control.SwitchCursor(InvenUI.activeSelf);
         UpdateSlot();
     }
 
@@ -84,8 +92,10 @@ public class Player_Inventory : MonoBehaviour
             slot.transform.parent = Inventory_zone.transform;
             slot.transform.localScale = Vector3.one;
             slot.GetComponent<ItemSlot>().NumberOfSlot = x;
+            inventory.ItemNameArray[x] = null;
             AllSlotPic.Add(slot.GetComponent<Image>());
         }
+        InvenUI.SetActive(!InvenUI.activeSelf);
     }
 
     void AddItem(Item _item,int amount) 
@@ -94,7 +104,7 @@ public class Player_Inventory : MonoBehaviour
         {
             if (_item.NameItem == item.NameItem) 
             {
-                if (_item.type == Item.Type.Other)
+                if (_item.type == Item.Type.Other || _item.type == Item.Type.Potion)
                 {
                     if (FindSlotByName(_item.NameItem) == 99)
                     {
@@ -123,13 +133,53 @@ public class Player_Inventory : MonoBehaviour
         SortItem();
     }
 
+    void RemoveItem(Item _item, int amount)
+    {
+        int _amount = amount;
+        int remove_count = 0;
+        foreach (Item item in AllItem)
+        {
+            if (FindSlotByName(_item.NameItem) == 99)
+            {
+                return;
+            }
+            else 
+            {
+                int pos = FindSlotByName(_item.NameItem);
+                if (inventory.ItemIndexArray[pos] - _amount > 0)
+                {
+                    inventory.ItemIndexArray[pos] = inventory.ItemIndexArray[pos] - _amount;
+                    remove_count += _amount;
+                }
+                else if (inventory.ItemIndexArray[pos] - _amount <= 0)
+                {
+                    _amount = _amount - inventory.ItemIndexArray[pos];
+                    remove_count += inventory.ItemIndexArray[pos];
+                    inventory.ItemNameArray[pos] = "";
+                    inventory.ItemIndexArray[pos] = 0;
+                }
+            }
+            
+
+            if (_amount == 0) { break; }
+        }
+        if (_amount > 0)
+        {
+            AddItem(_item, remove_count);
+        }
+        else 
+        {
+            SortItem();
+        }
+    }
+
     void SortItem() 
     {
         temp_inven = new Inventory();
         count_temp_inven = 0;
 
-        Item.Type[] types = new Item.Type[7] {Item.Type.Weapond, Item.Type.Clothes_Head ,
-            Item.Type.Clothes_Body , Item.Type.Clothes_Pant , Item.Type.Clothes_Feet , Item.Type.Veil , Item.Type.Other };
+        Item.Type[] types = new Item.Type[8] {Item.Type.Weapond, Item.Type.Clothes_Head ,
+            Item.Type.Clothes_Body , Item.Type.Clothes_Pant , Item.Type.Clothes_Feet , Item.Type.Veil , Item.Type.Potion , Item.Type.Other };
         for (int cout_temp_type = 0; cout_temp_type < types.Length; cout_temp_type++) 
         {
             for (int x = 0; x < inventory.ItemNameArray.Length; x++)
@@ -157,8 +207,6 @@ public class Player_Inventory : MonoBehaviour
     {
         for (int x = 0; x < inventory.ItemIndexArray.Length; x++) 
         {
-            Debug.Log(inventory.ItemNameArray[x] + " == " + value + " > ");
-            Debug.Log(inventory.ItemNameArray[x] == value);
             if (inventory.ItemNameArray[x] == value || inventory.ItemNameArray[x] == null) 
             { 
                 return x; 
@@ -171,16 +219,20 @@ public class Player_Inventory : MonoBehaviour
     {
         for (int x = 0; x < inventory.ItemNameArray.Length; x++) 
         {
-            if (inventory.ItemNameArray[x] != "") 
+            if (inventory.ItemNameArray[x] != null)
             {
-                for (int y = 0; y < AllItem.Count; y++) 
+                for (int y = 0; y < AllItem.Count; y++)
                 {
-                    if (inventory.ItemNameArray[x] == AllItem[y].NameItem) 
+                    if (inventory.ItemNameArray[x] == AllItem[y].NameItem)
                     {
                         AllSlotPic[x].sprite = AllItem[y].ItemPic;
                         break;
                     }
                 }
+            }
+            else if(inventory.ItemNameArray[x] == null)
+            {
+                AllSlotPic[x].sprite = AllItem[0].ItemPic;
             }
         }
     }
@@ -228,12 +280,37 @@ public class Player_Inventory : MonoBehaviour
 
     public void SelectSlot(int slotnumber) 
     {
-        if (inventory.ItemNameArray[slotnumber] == "") { return; }
+        if (inventory.ItemNameArray[slotnumber] == null) { return; }
         foreach (Item item in AllItem) 
         {
             if (inventory.ItemNameArray[slotnumber] == item.NameItem) 
             {
                 if (item.type == Item.Type.Other) { return; }
+                else if (item.type == Item.Type.Potion)
+                {
+                    ClothesSlot_pic[6].sprite = item.ItemPic;
+                    ClothesSlot_Item[6] = item;
+                    if (inventory.ItemIndexArray[slotnumber] - 5 > 0)
+                    {
+                        inventory.ItemIndexArray[slotnumber] = inventory.ItemIndexArray[slotnumber] - 5;
+                        PotionSlot = 5;
+                    }
+                    else if (inventory.ItemIndexArray[slotnumber] - 5 == 0)
+                    {
+                        inventory.ItemNameArray[slotnumber] = null;
+                        inventory.ItemIndexArray[slotnumber] = 0;
+                        PotionSlot = 5;
+                        ClothesSlot_pic[slotnumber].sprite = Defath_Sprite;
+                    }
+                    else if (inventory.ItemIndexArray[slotnumber] - 5 < 0)
+                    {
+                        PotionSlot = inventory.ItemIndexArray[slotnumber];
+                        inventory.ItemNameArray[slotnumber] = null;
+                        inventory.ItemIndexArray[slotnumber] = 0;
+                        ClothesSlot_pic[slotnumber].sprite = Defath_Sprite;
+                    }
+                    break;
+                }
                 else if (item.type == Item.Type.Clothes_Head)
                 {
                     ClothesSlot_pic[0].sprite = item.ItemPic;
@@ -258,16 +335,49 @@ public class Player_Inventory : MonoBehaviour
                 {
                     ClothesSlot_pic[4].sprite = item.ItemPic;
                     ClothesSlot_Item[4] = item;
+                    player_Stat.gameObject.GetComponent<Player_Buff_Control>().Veil_Buff_int = item.Veil_Skill;
+                    player_Move_Control.dash_cooldown = item.Veil_Dash_Cooldown;
+                    player_Move_Control.IsCanDash = true;
+                    player_Stat.gameObject.GetComponent<Player_Skill_Control>().init();
                 }
                 else if (item.type == Item.Type.Weapond)
                 {
                     ClothesSlot_pic[5].sprite = item.ItemPic;
                     ClothesSlot_Item[5] = item;
                 }
+                inventory.ItemNameArray[slotnumber] = null;
+                inventory.ItemIndexArray[slotnumber] = 0;
+                player_Stat.gameObject.GetComponent<Player_Attack_Control>().IsPlayerNoWeapond(false);
                 break;
             }
         }
         UpdateStat();
+        SortItem();
+    }
+
+    public void RemoveFormClothesSlot(int slotNumber) 
+    {
+        if (slotNumber != 6)
+        {
+            AddItem(ClothesSlot_Item[slotNumber], 1);
+            ClothesSlot_Item[slotNumber] = null;
+            ClothesSlot_pic[slotNumber].sprite = Defath_Sprite;
+            if (slotNumber == 1)
+            {
+                player_Stat.gameObject.GetComponent<Player_Attack_Control>().IsPlayerNoWeapond(true);
+            }
+            else if (slotNumber == 4) 
+            {
+                player_Move_Control.IsCanDash = false;
+            }
+            UpdateStat();
+        }
+        else 
+        {
+            AddItem(ClothesSlot_Item[slotNumber], PotionSlot);
+            ClothesSlot_Item[slotNumber] = null;
+            ClothesSlot_pic[slotNumber].sprite = Defath_Sprite;
+        }
     }
 
     void LoadItem()

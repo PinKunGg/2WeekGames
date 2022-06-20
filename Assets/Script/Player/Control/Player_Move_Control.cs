@@ -16,16 +16,22 @@ public class Player_Move_Control : MonoBehaviour
     public bool IsWalk, IsRun = false;
     Vector3 movedir;
 
+    public float SpeedMultiply = 0;
+
     [Header("Speed Setting")]
     public float move_speed_run = 600f;
     public float move_speed = 400f;
+    float temp_move_speed_run;
     float temp_move_speed;
+    float speed_multiply = 0;
+    float speed_run_multiply = 0;
 
     [Header("Rotation Speed Setting")]
     public float trunsmoothtime = 0.1f;
     float trunsmoothvelocity;
 
     [Header("Dash Setting")]
+    public bool IsCanDash = false;
     public float dash_speed = 10f;
     public float dash_cooldown = 2.5f;
     public float dash_time = 1f;
@@ -44,9 +50,9 @@ public class Player_Move_Control : MonoBehaviour
         cam_main = Camera.main.gameObject;
         rb = GetComponent<Rigidbody>();
         temp_move_speed = move_speed;
+        temp_move_speed_run = move_speed_run;
         player_inventory = Player_Inventory.player_Inventory;
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        SwitchCursor(false);
     }
 
     private void Start()
@@ -56,7 +62,7 @@ public class Player_Move_Control : MonoBehaviour
             player_inventory.player_Move_Control = this;
             player_inventory.CameraPlayer = cam_player;
         }
-        else 
+        else
         {
             cam_player.SetActive(false);
             cam_player_inven.SetActive(false);
@@ -69,21 +75,35 @@ public class Player_Move_Control : MonoBehaviour
         {
             return;
         }
-        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1") || anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2")) 
+        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1") || anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2"))
         {
             return;
         }
-        if (player_inventory.InvenUI.activeSelf) 
+        if (player_inventory.InvenUI.activeSelf)
         {
             anim.SetBool("IsWalk", false);
             anim.SetBool("IsRun", false);
-            return; 
+            return;
         }
         Dash();
         CheckRollAnimIsRun();
     }
 
-    void MoveMent() 
+    public void SwitchCursor(bool value)
+    {
+        if (!value)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else if (value)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+    void MoveMent()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -100,31 +120,40 @@ public class Player_Move_Control : MonoBehaviour
             rb.velocity = new Vector3(movedir.normalized.x * move_speed, rb.velocity.y, movedir.normalized.z * move_speed);
             IsWalk = true;
         }
-        else if(!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Rolling"))
+        else if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Rolling"))
         {
-            rb.velocity = new Vector3(0,rb.velocity.y,0);
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
             IsWalk = false;
         }
     }
 
-    void Run() 
+    void Run()
     {
         if (player_Attack_Control.IsDraw) { return; }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            move_speed = move_speed_run;
+            move_speed = temp_move_speed_run + (temp_move_speed_run * (speed_run_multiply / 100));
             IsRun = true;
         }
         else
         {
-            move_speed = temp_move_speed;
+            move_speed = temp_move_speed + (temp_move_speed * (speed_multiply / 100));
             IsRun = false;
         }
     }
 
+    public void updateMoveSpeed(float walk,float run)
+    {
+        speed_multiply = walk;
+        speed_run_multiply = run;
+        move_speed = temp_move_speed + (temp_move_speed*(speed_multiply / 100)) ;
+        move_speed_run = temp_move_speed_run + (temp_move_speed_run * (speed_run_multiply / 100));
+    }
+
     void Dash() 
     {
+        if (!IsCanDash) { return; }
         if (!player_Attack_Control.IsDraw) { return; }
 
         anim.SetBool("IsRolling", IsDash);
@@ -133,6 +162,7 @@ public class Player_Move_Control : MonoBehaviour
             IsDash = true;
             if (temp_dash_cooldown == 0) 
             {
+                GetComponent<Player_Buff_Control>().When_Dash();
                 delay_iframe = (dash_time - iframe_time)/2;
             }
         }

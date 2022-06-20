@@ -14,8 +14,16 @@ public class Player_Stat : MonoBehaviour
     Player_Inventory player_Inventory;
     Player_Attack_Control player_Attack_Control;
     Player_Move_Control player_Move_Control;
+    public bool IsImu = false;
+
+    public bool IsBarrierOn = false;
+    public float BarrierMaxHP = 100;
+    public float BarrierHP = 0;
+    public GameObject BarrierOBJ;
 
     public string Player_Name;
+    public float Damage_Multiplay = 0;
+    public float Armour_Multiplay = 0;
 
     [Header("Player UI")]
     public TextMeshProUGUI PlayerNameUI;
@@ -69,9 +77,19 @@ public class Player_Stat : MonoBehaviour
         }
     }
 
+    public void Rpc_SetactiveBarrier() 
+    {
+        photonView.RPC("Rpc_SetactiveBarrier", RpcTarget.All, IsBarrierOn);
+    }
+
+    [PunRPC]
+    void Rpc_SetactiveBarrier(bool value) 
+    {
+        BarrierOBJ.SetActive(value);
+    }
+
     public void SetCurrentStat()
     {
-        Player_Attack_Control playerWeaponDamage = GetComponent<Player_Attack_Control>();
         Max_Current_HP = basePlayerStat.base_HP + player_Inventory.HP;
         Current_HP = Max_Current_HP;
         Current_Armour = basePlayerStat.base_Armor + player_Inventory.Armor;
@@ -85,8 +103,15 @@ public class Player_Stat : MonoBehaviour
             Friend_HealthBar.maxValue = Max_Current_HP;
             Friend_HealthBar.value = Current_HP;
         }
-        playerWeaponDamage.SetDamage(basePlayerStat.base_Damage + player_Inventory.Damage,basePlayerStat.base_Cri_Rate + player_Inventory.Cri_Rate, basePlayerStat.base_Cri_Damage + player_Inventory.Cri_Damage);
+        setDamage();
         UpdateHealthBarForOther();
+    }
+
+    public void setDamage() 
+    {
+        Player_Attack_Control playerWeaponDamage = GetComponent<Player_Attack_Control>();
+        playerWeaponDamage.SetDamage(basePlayerStat.base_Damage + player_Inventory.Damage, basePlayerStat.base_Cri_Rate + player_Inventory.Cri_Rate,
+    basePlayerStat.base_Cri_Damage + player_Inventory.Cri_Damage, Damage_Multiplay);
     }
 
     public void UpdateHealthBarForOther() 
@@ -138,9 +163,10 @@ public class Player_Stat : MonoBehaviour
 
     public void Player_Take_Damage(float damage) 
     {
+        if (IsImu) { return; }
         if (player_Move_Control.IsIframe) { return; }
         float totoal_damagee = 0;
-        totoal_damagee = damage * ((100 - Current_Armour) / 100);
+        totoal_damagee = damage * ((100 - (Current_Armour + Armour_Multiplay)) / 100);
         if (player_Attack_Control.IsBlock) 
         {
             if (player_Attack_Control.AnimConName == "Axe")
@@ -160,8 +186,29 @@ public class Player_Stat : MonoBehaviour
                 totoal_damagee = totoal_damagee * ((100 - ReduceDamage_Bow) / 100);
             }
         }
-        Current_HP -= totoal_damagee;
-        photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Player_Name);
+        if (BarrierHP - totoal_damagee > 0)
+        {
+            float temp_damage = totoal_damagee;
+            totoal_damagee -= BarrierHP;
+            BarrierHP -= temp_damage;
+        }
+        else if (BarrierHP - totoal_damagee <= 0) 
+        {
+            totoal_damagee -= BarrierHP;
+            BarrierHP = 0;
+            if (IsBarrierOn) 
+            {
+                BarrierExplosive();
+            }
+            Current_HP -= totoal_damagee;
+            photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Player_Name);
+        }
+    }
+
+    void BarrierExplosive() 
+    {
+        Debug.Log("BarrierExplosiv : " + BarrierMaxHP);
+        IsBarrierOn = false;
     }
 }
 
