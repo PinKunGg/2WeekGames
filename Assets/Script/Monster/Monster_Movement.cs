@@ -15,6 +15,7 @@ public class Monster_Movement : MonoBehaviour
     Rigidbody rb;
     Vector3 direc;
     Vector3 force;
+    Monster_Animation monsterAnima;
     #endregion
 
     #region SerializeField variable
@@ -36,6 +37,7 @@ public class Monster_Movement : MonoBehaviour
     private void Awake(){
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody>();
+        monsterAnima = GetComponent<Monster_Animation>();
     }
 
     //Prepare all setting
@@ -115,6 +117,10 @@ public class Monster_Movement : MonoBehaviour
     public void GoToPlayer(){
         if (disBetweenEnemyAndPlayer > StopDis){
             rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
+            monsterAnima.PlayBoolAnimator("IsRun",true);
+        }
+        else{
+            monsterAnima.PlayBoolAnimator("IsRun",false);
         }
     }
 
