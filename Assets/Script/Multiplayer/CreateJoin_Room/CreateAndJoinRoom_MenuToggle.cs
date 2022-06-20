@@ -21,15 +21,16 @@ public class CreateAndJoinRoom_MenuToggle : MonoBehaviourPunCallbacks
     public GameObject _roomListButton;
     public GameObject _roomListUI;
 
+    [Space]
+    public GameObject _mainMenuButton;
+
     private void Start() {
         CrateOrJoin_Toggle();
     }
 
     public void CrateOrJoin_Toggle(){
         LobbyType_tx.text = "";
-        _createButton.SetActive(true);
-        _joinButton.SetActive(true);
-        _roomListButton.SetActive(true);
+        ToggleAllButton(true);
 
         _createRoomUI.SetActive(false);
         _joinRoomUI.SetActive(false);
@@ -37,9 +38,7 @@ public class CreateAndJoinRoom_MenuToggle : MonoBehaviourPunCallbacks
     }
     public void CreateRoom_Toggle(){
         LobbyType_tx.text = "- Create room -";
-        _createButton.SetActive(false);
-        _joinButton.SetActive(false);
-        _roomListButton.SetActive(false);
+        ToggleAllButton(false);
 
         _createRoomUI.SetActive(true);
         _joinRoomUI.SetActive(false);
@@ -47,9 +46,7 @@ public class CreateAndJoinRoom_MenuToggle : MonoBehaviourPunCallbacks
     }
     public void JoinRoom_Toggle(){
         LobbyType_tx.text = "- Join room -";
-        _createButton.SetActive(false);
-        _joinButton.SetActive(false);
-        _roomListButton.SetActive(false);
+        ToggleAllButton(false);
 
         _createRoomUI.SetActive(false);
         _joinRoomUI.SetActive(true);
@@ -58,12 +55,17 @@ public class CreateAndJoinRoom_MenuToggle : MonoBehaviourPunCallbacks
 
     public void RoomList_Toggle(){
         LobbyType_tx.text = "- Room list -";
-        _createButton.SetActive(false);
-        _joinButton.SetActive(false);
-        _roomListButton.SetActive(false);
+        ToggleAllButton(false);
 
         _createRoomUI.SetActive(false);
         _joinRoomUI.SetActive(false);
         _roomListUI.SetActive(true);
+    }
+
+    public void ToggleAllButton(bool value){
+        _createButton.SetActive(value);
+        _joinButton.SetActive(value);
+        _roomListButton.SetActive(value);
+        _mainMenuButton.SetActive(value);
     }
 }

@@ -7,10 +7,12 @@ using Photon.Realtime;
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     public GameObject TitleUI;
+    public GameObject MainMenuUI;
     public GameObject LobbyUI;
 
     private void Start() {
         TitleUI.SetActive(true);
+        MainMenuUI.SetActive(false);
         LobbyUI.SetActive(false);
     }
 
@@ -27,6 +29,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         base.OnDisconnected(cause);
 
         TitleUI.SetActive(true);
+        MainMenuUI.SetActive(false);
         LobbyUI.SetActive(false);
         Debug.LogFormat("Disconnected to server: {0}",cause.ToString());
     }
@@ -35,7 +38,23 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
 
         TitleUI.SetActive(false);
+        MainMenuUI.SetActive(true);
+        LobbyUI.SetActive(false);
+    }
+
+    public void OnClick_StartGame(){
+        TitleUI.SetActive(false);
+        MainMenuUI.SetActive(false);
         LobbyUI.SetActive(true);
+    }
+    public void OnClick_MainMenu(){
+        TitleUI.SetActive(false);
+        MainMenuUI.SetActive(true);
+        LobbyUI.SetActive(false);
+    }
+    public void OnClick_ExitGame(){
+        PhotonNetwork.Disconnect();
+        Application.Quit();
     }
 
     public void Connect(){
