@@ -7,30 +7,22 @@ public class Monster_Movement : MonoBehaviour
 {
     #region private variable
     float nextWaypointDis = 3f;
-    float disBetweenEnemyAndPlayer;
-    public float speed = 5, StopDis = 7;
     int currentWaypoint;
-    bool startWalk;
     Seeker seeker;
-    Rigidbody rb;
+    public Rigidbody rb {get;private set;}
     Vector3 direc;
     Vector3 force;
     Monster_Animation monsterAnima;
     #endregion
 
     #region SerializeField variable
-
-    [SerializeField] Transform target;
     [SerializeField] Path path;
-    #endregion
-
-    #region Class Property
-
-    #region Set Property
-    public float SetSpeed{set{speed = value;}}
-    public float SetStopDis{set{StopDis = value;}}
-    #endregion
-
+    public bool startWalk;
+    public bool isStopWalk;
+    public float speed = 5f, StopDis = 7f;
+    public Transform goToTarget;
+    public Transform lookAtTarget;
+    public float disBetweenEnemyAndPlayer {get;private set;}
     #endregion
 
     //Get all component
@@ -43,7 +35,6 @@ public class Monster_Movement : MonoBehaviour
     //Prepare all setting
     void Start(){
         //Make path and update it
-        seeker.StartPath(rb.position, target.position, OnPathComplete);
         InvokeRepeating("UpdatePath", 0f, 0.1f);
 
         startWalk = true;
@@ -62,22 +53,22 @@ public class Monster_Movement : MonoBehaviour
         try{
             if (seeker.IsDone())
             {
-                seeker.StartPath(rb.position, target.position, OnPathComplete);
+                seeker.StartPath(rb.position, goToTarget.localPosition, OnPathComplete);
             }
         }
         catch{}
     }
-    private void Update()
-    {
-        if (!target.gameObject.activeInHierarchy){
+    private void Update(){
+        if(goToTarget == null){return;}
+
+        if (!goToTarget.gameObject.activeInHierarchy){
             this.enabled = false;
         }
         else{
-            disBetweenEnemyAndPlayer = Vector3.Distance(this.transform.position, target.transform.position);
+            disBetweenEnemyAndPlayer = Vector3.Distance(this.transform.position, goToTarget.transform.localPosition);
         }
     }
-    void FixedUpdate()
-    {
+    void FixedUpdate(){
         //I don't know what the fuck is this
         if (path == null){
             return;
@@ -101,23 +92,18 @@ public class Monster_Movement : MonoBehaviour
                 currentWaypoint++;
             }
 
-            //Rotate Graphic
-            // if (target.position.x > transform.position.x){
-            //     this.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            // }
-            // else if (target.position.x < transform.position.x){
-            //     this.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
-            // }
-
-            Vector3 tempLookAt = new Vector3(target.position.x,this.transform.position.y,target.transform.position.z);
+            Vector3 tempLookAt = new Vector3(lookAtTarget.localPosition.x,this.transform.localPosition.y,lookAtTarget.transform.localPosition.z);
 
             this.transform.LookAt(tempLookAt);
         }
     }
     public void GoToPlayer(){
         if (disBetweenEnemyAndPlayer > StopDis){
-            rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
             monsterAnima.PlayBoolAnimator("IsRun",true);
+
+            if(!isStopWalk){
+                rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
+            }
         }
         else{
             monsterAnima.PlayBoolAnimator("IsRun",false);

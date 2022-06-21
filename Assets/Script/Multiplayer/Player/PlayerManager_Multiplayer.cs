@@ -27,6 +27,11 @@ public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
         }
     }
 
+    public GameObject GetRandomPlayer(){
+        int tempIndex = Random.Range(0,_allPlayerInCurrentRoom.Count);
+        return _allPlayerInCurrentRoom[tempIndex];
+    }
+
     public void AddPlayer(GameObject obj){
         _allPlayerInCurrentRoom.Add(obj);
 
