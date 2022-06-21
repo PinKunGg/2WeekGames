@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Monster_Movement : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class Monster_Movement : MonoBehaviour
     [SerializeField] Path path;
     public bool startWalk;
     public bool isStopWalk;
+    public bool isPlayerInRange {get;private set;}
     public float speed = 5f, StopDis = 7f;
     public Transform goToTarget;
     public Transform lookAtTarget;
@@ -35,6 +38,12 @@ public class Monster_Movement : MonoBehaviour
     //Prepare all setting
     void Start(){
         //Make path and update it
+        if(PhotonNetwork.IsMasterClient){
+            InvokeRepeating("UpdatePath", 0f, 0.1f);
+
+            startWalk = true;
+        }
+
         InvokeRepeating("UpdatePath", 0f, 0.1f);
 
         startWalk = true;
@@ -92,21 +101,25 @@ public class Monster_Movement : MonoBehaviour
                 currentWaypoint++;
             }
 
+            if(!lookAtTarget){return;}
+
             Vector3 tempLookAt = new Vector3(lookAtTarget.localPosition.x,this.transform.localPosition.y,lookAtTarget.transform.localPosition.z);
 
             this.transform.LookAt(tempLookAt);
         }
     }
     public void GoToPlayer(){
+        if(isStopWalk){return;}
+
         if (disBetweenEnemyAndPlayer > StopDis){
             monsterAnima.PlayBoolAnimator("IsRun",true);
+            isPlayerInRange = false;
 
-            if(!isStopWalk){
-                rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
-            }
+            rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
         }
         else{
             monsterAnima.PlayBoolAnimator("IsRun",false);
+            isPlayerInRange = true;
         }
     }
 
