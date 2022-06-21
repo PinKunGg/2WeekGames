@@ -6,11 +6,15 @@ using Photon.Pun;
 
 public class Monster_Stat : MonoBehaviour
 {
+    public Player_Inventory Player_Inventory;
     PhotonView photonView;
     public BaseMonsterStat baseMonsterStat;
     [Header("Monster Setting")]
     public float Current_HP;
     public Slider Monster_HealthBar;
+
+    public Item itemDrop;
+    public int[] AmountRangeitemDrop = new int[2];
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +55,22 @@ public class Monster_Stat : MonoBehaviour
     [PunRPC]
     void TakeDamage(float Damage) 
     {
-        Monster_HealthBar.value = Damage;
+        if (Monster_HealthBar.value > 0)
+        {
+            Monster_HealthBar.value = Damage;
+        }
+        else 
+        {
+            if (photonView.IsMine) 
+            {
+                DropItem();
+            }
+        }
+    }
+
+    void DropItem() 
+    {
+        Player_Inventory.AddItem(itemDrop, Random.Range(AmountRangeitemDrop[0], AmountRangeitemDrop[1]));
     }
 }
 

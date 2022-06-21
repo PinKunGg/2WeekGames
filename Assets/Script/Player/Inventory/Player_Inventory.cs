@@ -26,12 +26,13 @@ public class Player_Inventory : MonoBehaviour
     public GameObject InvenUI,CameraPlayer;
     public Player_Move_Control player_Move_Control;
     public Inventory inventory;
+    public SaveInventory saveInventory;
     public GameObject prefab_invenSlot;
     public GameObject Inventory_zone;
     public Image[] ClothesSlot_pic = new Image[7];
     public Item[] ClothesSlot_Item = new Item[7];
+    public SaveClothes saveClothes;
     public int PotionSlot = 0;
-    public string[] ClothesSlot_Item_to_inven = new string[7];
     public List<Image> AllSlotPic;
     public List<Item> AllItem;
     bool IsFirstRun = false;
@@ -50,18 +51,17 @@ public class Player_Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (InvenUI.activeSelf == true && !IsFirstRun)
+        {
+            IsFirstRun = true;
+            CreateInventory();
+            LoadItem();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (InvenUI.activeSelf == true && !IsFirstRun) 
-        {
-            IsFirstRun = true;
-            CreateInventory();
-        }
-
         if (Input.GetKeyDown(KeyCode.I)) 
         {
             OpenInven();
@@ -72,7 +72,8 @@ public class Player_Inventory : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.L)) 
         {
-            RemoveItem(Test, 2);
+            SaveItem();
+            //RemoveItem(Test, 2);
         }
     }
 
@@ -86,19 +87,21 @@ public class Player_Inventory : MonoBehaviour
 
     void CreateInventory() 
     {
-        for(int x = 0; x < inventory.ItemNameArray.Length;x++) 
+        for (int x = 0; x < inventory.ItemNameArray.Length;x++) 
         {
             GameObject slot = Instantiate(prefab_invenSlot);
             slot.transform.parent = Inventory_zone.transform;
             slot.transform.localScale = Vector3.one;
             slot.GetComponent<ItemSlot>().NumberOfSlot = x;
+            slot.GetComponent<Image>().sprite = Defath_Sprite;
             inventory.ItemNameArray[x] = null;
+            inventory.ItemIndexArray[x] = 0;
             AllSlotPic.Add(slot.GetComponent<Image>());
         }
         InvenUI.SetActive(!InvenUI.activeSelf);
     }
 
-    void AddItem(Item _item,int amount) 
+    public void AddItem(Item _item,int amount) 
     {
         foreach (Item item in AllItem) 
         {
@@ -133,15 +136,33 @@ public class Player_Inventory : MonoBehaviour
         SortItem();
     }
 
-    void RemoveItem(Item _item, int amount)
+    public int GetAmountItemByItem(Item _item)
     {
+        int amount = 0;
+        if (_item == null) 
+        {
+            return 101;
+        }
+        for (int x = 0; x < inventory.ItemNameArray.Length ; x++) 
+        {
+            if (inventory.ItemNameArray[x] == _item.NameItem) 
+            {
+                amount += inventory.ItemIndexArray[x];
+            }
+        }
+        return amount;
+    }
+
+    public void RemoveItem(Item _item, int amount)
+    {
+        if (_item == null) { return; }
         int _amount = amount;
         int remove_count = 0;
         foreach (Item item in AllItem)
         {
             if (FindSlotByName(_item.NameItem) == 99)
             {
-                return;
+                break;
             }
             else 
             {
@@ -163,6 +184,7 @@ public class Player_Inventory : MonoBehaviour
 
             if (_amount == 0) { break; }
         }
+        Debug.Log("Remove : " + _amount);
         if (_amount > 0)
         {
             AddItem(_item, remove_count);
@@ -232,7 +254,7 @@ public class Player_Inventory : MonoBehaviour
             }
             else if(inventory.ItemNameArray[x] == null)
             {
-                AllSlotPic[x].sprite = AllItem[0].ItemPic;
+                AllSlotPic[x].sprite = Defath_Sprite;
             }
         }
     }
@@ -274,6 +296,7 @@ public class Player_Inventory : MonoBehaviour
                 }
             }
         }
+        player_Stat = player_Move_Control.gameObject.GetComponent<Player_Stat>();
         player_Stat.gameObject.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         player_Stat.SetCurrentStat();
     }
@@ -288,6 +311,8 @@ public class Player_Inventory : MonoBehaviour
                 if (item.type == Item.Type.Other) { return; }
                 else if (item.type == Item.Type.Potion)
                 {
+                    if (ClothesSlot_Item[6] != null) { return; }
+
                     ClothesSlot_pic[6].sprite = item.ItemPic;
                     ClothesSlot_Item[6] = item;
                     if (inventory.ItemIndexArray[slotnumber] - 5 > 0)
@@ -313,26 +338,31 @@ public class Player_Inventory : MonoBehaviour
                 }
                 else if (item.type == Item.Type.Clothes_Head)
                 {
+                    if (ClothesSlot_Item[0] != null) { return; }
                     ClothesSlot_pic[0].sprite = item.ItemPic;
                     ClothesSlot_Item[0] = item;
                 }
                 else if (item.type == Item.Type.Clothes_Body)
                 {
+                    if (ClothesSlot_Item[1] != null) { return; }
                     ClothesSlot_pic[1].sprite = item.ItemPic;
                     ClothesSlot_Item[1] = item;
                 }
                 else if (item.type == Item.Type.Clothes_Pant)
                 {
+                    if (ClothesSlot_Item[2] != null) { return; }
                     ClothesSlot_pic[2].sprite = item.ItemPic;
                     ClothesSlot_Item[2] = item;
                 }
                 else if (item.type == Item.Type.Clothes_Feet)
                 {
+                    if (ClothesSlot_Item[3] != null) { return; }
                     ClothesSlot_pic[3].sprite = item.ItemPic;
                     ClothesSlot_Item[3] = item;
                 }
                 else if (item.type == Item.Type.Veil)
                 {
+                    if (ClothesSlot_Item[4] != null) { return; }
                     ClothesSlot_pic[4].sprite = item.ItemPic;
                     ClothesSlot_Item[4] = item;
                     player_Stat.gameObject.GetComponent<Player_Buff_Control>().Veil_Buff_int = item.Veil_Skill;
@@ -342,6 +372,7 @@ public class Player_Inventory : MonoBehaviour
                 }
                 else if (item.type == Item.Type.Weapond)
                 {
+                    if (ClothesSlot_Item[5]!= null) { return; }
                     ClothesSlot_pic[5].sprite = item.ItemPic;
                     ClothesSlot_Item[5] = item;
                 }
@@ -362,7 +393,7 @@ public class Player_Inventory : MonoBehaviour
             AddItem(ClothesSlot_Item[slotNumber], 1);
             ClothesSlot_Item[slotNumber] = null;
             ClothesSlot_pic[slotNumber].sprite = Defath_Sprite;
-            if (slotNumber == 1)
+            if (slotNumber == 5)
             {
                 player_Stat.gameObject.GetComponent<Player_Attack_Control>().IsPlayerNoWeapond(true);
             }
@@ -382,20 +413,62 @@ public class Player_Inventory : MonoBehaviour
 
     void LoadItem()
     {
-        for (int x = 0; x < inventory.ItemIndexArray.Length; x++)
+        for (int x = 0; x < saveInventory.ItemNameArray.Length; x++)
         {
-            if (inventory.ItemNameArray[x] == "") { return; }
+            if (saveInventory.ItemNameArray[x] == "") { return; }
             foreach (Item item in AllItem)
             {
-                if (inventory.ItemNameArray[x] == item.NameItem)
+                if (saveInventory.ItemNameArray[x] == item.NameItem)
                 {
-                    AddItem(item, inventory.ItemIndexArray[x]);
+                    AddItem(item, saveInventory.ItemIndexArray[x]);
                     break;
                 }
             }
         }
+
+    }
+
+    public void LoadCloth() 
+    {
+        Debug.Log("Load : " + ClothesSlot_Item.Length);
+        for (int y = 0; y < ClothesSlot_Item.Length; y++)
+        {
+            if (saveClothes.SaveClothesSlot_Item[y] != null)
+            {
+                Debug.Log("Load : " + saveClothes.SaveClothesSlot_Item[y].NameItem);
+                ClothesSlot_Item[y] = saveClothes.SaveClothesSlot_Item[y];
+                ClothesSlot_pic[y].sprite = saveClothes.SaveClothesSlot_Item[y].ItemPic;
+            }
+        }
+        UpdateStat();
+    }
+
+    void SaveItem() 
+    {
+        for (int x = 0; x < inventory.ItemNameArray.Length; x++)
+        {
+            if (inventory.ItemNameArray[x] != null) 
+            {
+                saveInventory.ItemNameArray[x] = inventory.ItemNameArray[x];
+                saveInventory.ItemIndexArray[x] = inventory.ItemIndexArray[x];
+            }
+        }
     }
 }
+
+[System.Serializable]
+public class SaveClothes 
+{
+    public Item[] SaveClothesSlot_Item = new Item[8];
+}
+
+[System.Serializable]
+public class SaveInventory
+{
+    public string[] ItemNameArray = new string[40];
+    public int[] ItemIndexArray = new int[40];
+}
+
 [System.Serializable]
 public class Inventory 
 {

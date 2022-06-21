@@ -61,6 +61,7 @@ public class Player_Move_Control : MonoBehaviour
         {
             player_inventory.player_Move_Control = this;
             player_inventory.CameraPlayer = cam_player;
+            player_inventory.LoadCloth();
         }
         else
         {

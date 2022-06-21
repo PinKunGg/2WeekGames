@@ -25,24 +25,24 @@ public class Player_Attack_Control : MonoBehaviour
 
     [Header("Block Setting")]
     public bool IsBlock = false;
+    public GameObject Magic_Block_Obj;
 
     public GameObject WeaponIsUse;
     public string AnimConName = "";
     // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         photonView = GetComponent<PhotonView>();
         anim = GetComponentInChildren<Animator>();
-        player_Move_Control = GetComponent<Player_Move_Control>();
         player_inventory = Player_Inventory.player_Inventory;
-
+    }
+    void Start()
+    {
+        player_Move_Control = GetComponent<Player_Move_Control>();
         if (photonView.IsMine)
         {
-            for (int x = 0; x < AllWeaponObj.Length; x++)
-            {
-                AllWeaponObj[x].SetActive(false);
-            }
-            CheckWeaponUse();
+            //CheckWeaponUse();
             PlayerListMenu.playerListMenu.AddAttackControl(this);
         }
         else if(!IsFormOther)
@@ -93,6 +93,7 @@ public class Player_Attack_Control : MonoBehaviour
     [PunRPC]
     void RpcPlayerNoWeapond() 
     {
+        Debug.Log("No Weapond Run");
         for (int x = 0; x < AllWeaponObj.Length; x++)
         {
             AllWeaponObj[x].SetActive(false);
@@ -138,6 +139,15 @@ public class Player_Attack_Control : MonoBehaviour
 
     public void CheckWeaponUse() 
     {
+        for (int x = 0; x < AllWeaponObj.Length; x++)
+        {
+            AllWeaponObj[x].SetActive(false);
+        }
+        if (IsNoWeapon) 
+        {
+            photonView.RPC("Rpc_CheckWeaponUse", RpcTarget.All, "NoWeapond");
+            return; 
+        }
         if (anim.runtimeAnimatorController == player_inventory.animAxe) { AnimConName = "Axe"; }
         else if (anim.runtimeAnimatorController == player_inventory.animSwordAndShield) { AnimConName = "Sword&Shield"; }
         else if (anim.runtimeAnimatorController == player_inventory.animMagic) { AnimConName = "Stuff"; }
@@ -168,6 +178,11 @@ public class Player_Attack_Control : MonoBehaviour
         {
             AllWeaponObj[7].SetActive(true);
         }
+        else
+        {
+        
+        }
+        UpdateAnimForOther();
     }
 
     void KeepWeapon() 
@@ -283,9 +298,13 @@ public class Player_Attack_Control : MonoBehaviour
         if (Input.GetMouseButton(1)) 
         {
             IsBlock = true;
-            if (anim.runtimeAnimatorController == player_inventory.animBow) 
+            if (anim.runtimeAnimatorController == player_inventory.animBow)
             {
                 CameraAimBow.GetComponent<CinemachineFreeLook>().Priority = 12;
+            }
+            else if (anim.runtimeAnimatorController == player_inventory.animMagic) 
+            {
+                photonView.RPC("Rpc_SetactiveMagicBlock", RpcTarget.All, true);
             }
         }
         else 
@@ -295,12 +314,22 @@ public class Player_Attack_Control : MonoBehaviour
             {
                 CameraAimBow.GetComponent<CinemachineFreeLook>().Priority = 1;
             }
+            else if (anim.runtimeAnimatorController == player_inventory.animMagic)
+            {
+                photonView.RPC("Rpc_SetactiveMagicBlock", RpcTarget.All, false);
+            }
         }
 
         if (!this.anim.GetCurrentAnimatorStateInfo(1).IsName("Basic_Attack")) 
         {
             anim.SetBool("IsBlock", IsBlock);
         }
+    }
+
+    [PunRPC]
+    void Rpc_SetactiveMagicBlock(bool value) 
+    {
+        Magic_Block_Obj.SetActive(value);
     }
 
     public void SetDamage(float Damage , float CriRate , float CriDamage, float Damage_Multiply) 

@@ -42,12 +42,16 @@ public class Player_Stat : MonoBehaviour
     public float ReduceDamage_Bow = -10;
 
     public Slider Friend_HealthBar;
-    void Start()
+
+    private void Awake()
     {
         photonView = GetComponent<PhotonView>();
         playerListMenu = PlayerListMenu.playerListMenu;
         player_Attack_Control = GetComponent<Player_Attack_Control>();
         player_Move_Control = GetComponent<Player_Move_Control>();
+    }
+    void Start()
+    {
 
         if (photonView.IsMine)
         {
@@ -90,6 +94,7 @@ public class Player_Stat : MonoBehaviour
 
     public void SetCurrentStat()
     {
+        if (player_Inventory == null) { player_Inventory = FindObjectOfType<Player_Inventory>(); }
         Max_Current_HP = basePlayerStat.base_HP + player_Inventory.HP;
         Current_HP = Max_Current_HP;
         Current_Armour = basePlayerStat.base_Armor + player_Inventory.Armor;
@@ -119,6 +124,7 @@ public class Player_Stat : MonoBehaviour
         if (!photonView) { photonView = GetComponent<PhotonView>(); }
         if (photonView.IsMine) 
         {
+            Player_Name = photonView.Owner.NickName;
             photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP,Player_Name);
         }
     }
@@ -128,6 +134,7 @@ public class Player_Stat : MonoBehaviour
     void UpdateHealthBar(float value,string name) 
     {
         if (!photonView) { photonView = GetComponent<PhotonView>(); }
+        if (HealthBar == null) {HealthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Slider>(); }
         Current_HP = value;
         if (photonView.IsMine)
         {

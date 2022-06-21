@@ -32,4 +32,7 @@ public class Item : ScriptableObject
     public Type_Weapon type_Weapon;
     public Sprite ItemPic;
     public int HP, Armor, Damage, CriRate, CriDamage;
+
+    public Item[] ItemForCraft = new Item[2];
+    public int[] CountItemForCraft = new int[2];
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -11,11 +13,13 @@ public class Player_Spawn_Skill : MonoBehaviour
     public GameObject Magic_Normal_Attack;
     public GameObject Magic_Skill_1;
     public GameObject Magic_Skill_2;
+    public bool[] IsMagicSKill = new bool[3] { false, false, false };
 
     [Header("Bow Skill Prefab")]
     public GameObject Bow_Normal_Attack;
     public GameObject Bow_Skill_1;
     public GameObject Bow_Skill_2;
+    public bool[] IsBowSkill = new bool[3] { false, false, false };
 
     GameObject[][] all_weapond_skill_obj = new GameObject[2][];
     public string animconName;
@@ -48,21 +52,38 @@ public class Player_Spawn_Skill : MonoBehaviour
         {
             if (animconName == "Stuff")
             {
-                photonView.RPC("Rpc_Spawn", RpcTarget.All, 0, number_of_skill);
+                if (!IsMagicSKill[number_of_skill])
+                {
+                    IsMagicSKill[number_of_skill] = true;
+                    photonView.RPC("Rpc_Spawn", RpcTarget.All, 0, number_of_skill);
+                }
             }
             else if (animconName == "Bow")
             {
-                photonView.RPC("Rpc_Spawn", RpcTarget.All, 1, number_of_skill);
+                if (!IsBowSkill[number_of_skill])
+                {
+                    IsBowSkill[number_of_skill] = true;
+                    photonView.RPC("Rpc_Spawn", RpcTarget.All, 1, number_of_skill);
+                }
             }
         }
     }
 
     [PunRPC]
-    void Rpc_Spawn(int wepond,int number_of_skill) 
+    void Rpc_Spawn(int weapond,int number_of_skill) 
     {
         if (all_weapond_skill_obj[0][0] == null) { init(); }
-        GameObject skill_obj = Instantiate(all_weapond_skill_obj[wepond][number_of_skill], spawn_pos.transform);
+        GameObject skill_obj = Instantiate(all_weapond_skill_obj[weapond][number_of_skill], spawn_pos.transform);
         skill_obj.transform.parent = null;
+        Destroy(skill_obj, 5);
+        StartCoroutine(Delay(weapond, number_of_skill));
+    }
+
+    IEnumerator Delay(int weapond, int number_of_skill) 
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (weapond == 0) { IsMagicSKill[number_of_skill] = false; }
+        else if (weapond == 1) { IsBowSkill[number_of_skill] = false; }
     }
 
 
