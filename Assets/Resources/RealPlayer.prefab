@@ -867,6 +867,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!1 &1939675121851381400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1560,7 +1561,6 @@ GameObject:
   - component: {fileID: 6352675106044232972}
   - component: {fileID: 8037014631621605965}
   - component: {fileID: 3257811640584151394}
-  - component: {fileID: 592331523330117497}
   m_Layer: 0
   m_Name: Wepon_Stuff
   m_TagString: Weapon
@@ -1635,20 +1635,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &592331523330117497
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3153426263109773234}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &3527646054663594318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2817,13 +2803,16 @@ Animator:
   m_GameObject: {fileID: 6356559096340847396}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b5b18194f1fd96b4484998c8b80fb133, type: 3}
-  m_Controller: {fileID: 9100000, guid: 26dd52b5b518eaf4ba2d60f6fb796f42, type: 2}
+  m_Controller: {fileID: 22100000, guid: e8b4b8502fec8464791f887593069916, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:RightForeArm'\n\tTransform 'mixamorig:Spine2'\n\tFrom
+    animation clip 'Bow Skill1'\n\tFrom animation clip 'Bow Skill1'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -3119,13 +3108,15 @@ MonoBehaviour:
   Magic_Skill_2: {fileID: 1319013356609040367, guid: b657afb5bc38eb541891596e72046141,
     type: 3}
   IsMagicSKill: 000000
-  Bow_Normal_Attack: {fileID: 4727574978472863183, guid: a1a6a65cb19590c48992abc96291c58a,
+  stuff_weapondDamage: {fileID: 1942373313781700146}
+  Bow_Normal_Attack: {fileID: 6585709463443981107, guid: 9c5cfbe6c57ad6e4e84f36026f90e52b,
     type: 3}
-  Bow_Skill_1: {fileID: 6866582567336336322, guid: 12fc5e7f0a5f33c418272423007b3aab,
+  Bow_Skill_1: {fileID: 7280191157938949295, guid: 1a859e86ebbf63744870a7c43a379ec0,
     type: 3}
-  Bow_Skill_2: {fileID: 8523120797662853000, guid: b55b6908400237f4f81f519180d1306f,
+  Bow_Skill_2: {fileID: 5130489159828182456, guid: 4b398a8eaa942f74f87b3cbfc986360f,
     type: 3}
   IsBowSkill: 000000
+  bow_weapondDamage: {fileID: 4763404911443422190}
   animconName: 
 --- !u!114 &8345982190251802902
 MonoBehaviour:
@@ -3945,6 +3936,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!1001 &6019639212763538797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4076,6 +4068,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!4 &4157152423358767269 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7654749246322394568, guid: 0e41bd8101f12ec42b87c7afba9ceac9,
@@ -4218,6 +4211,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!1001 &6560465135712870705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4435,6 +4429,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!4 &6686958114738976482 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d8e4fd3602668764fafffb526d779346,
@@ -4552,6 +4547,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!4 &6410243831325810449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 663b9126d6921f94b96f3554cd6a6392,
@@ -4756,6 +4752,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!1001 &8767582891311998498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4862,6 +4859,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!4 &9089969745470210505 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cbca967378e48904bb1530ddcf99a320,
@@ -4979,6 +4977,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!4 &9056785863584224105 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d8e4fd3602668764fafffb526d779346,
@@ -5115,6 +5114,7 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
 --- !u!4 &8700304776605261785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 663b9126d6921f94b96f3554cd6a6392,

@@ -106,6 +106,12 @@ public class Player_Attack_Control : MonoBehaviour
         if (player_Move_Control.IsRun) { return; }
         if (Input.GetMouseButton(0))
         {
+            if (Cursor.visible == true)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                return;
+            }
             Attack();
         }
         else
@@ -308,7 +314,7 @@ public class Player_Attack_Control : MonoBehaviour
             {
                 CameraAimBow.GetComponent<CinemachineFreeLook>().Priority = 12;
             }
-            else if (anim.runtimeAnimatorController == player_inventory.animMagic) 
+            else if (anim.runtimeAnimatorController == player_inventory.animMagic && Input.GetMouseButtonDown(1)) 
             {
                 photonView.RPC("Rpc_SetactiveMagicBlock", RpcTarget.All, true);
             }
@@ -320,7 +326,7 @@ public class Player_Attack_Control : MonoBehaviour
             {
                 CameraAimBow.GetComponent<CinemachineFreeLook>().Priority = 1;
             }
-            else if (anim.runtimeAnimatorController == player_inventory.animMagic)
+            else if (anim.runtimeAnimatorController == player_inventory.animMagic && Input.GetMouseButtonUp(1))
             {
                 photonView.RPC("Rpc_SetactiveMagicBlock", RpcTarget.All, false);
             }
@@ -392,23 +398,23 @@ public class Player_Attack_Control : MonoBehaviour
 
     bool TutorialCheck(int stage) 
     {
-        if (stage > 0) 
+        if (tutorial_Control.IsTutorial)
         {
-            if (tutorial_Control.IsTutorial)
+            if (stage > 0)
             {
-                if (tutorial_Control.Stage[stage - 1]) 
-                { 
+                if (tutorial_Control.Stage[stage - 1])
+                {
                     tutorial_Control.CompleteStage(stage);
                     return true;
                 }
                 else { return false; }
             }
-            return true;
+            else
+            {
+                tutorial_Control.CompleteStage(stage);
+                return true;
+            }
         }
-        else 
-        { 
-            tutorial_Control.CompleteStage(stage);
-            return true;
-        }
+        else { return true; }
     }
 }

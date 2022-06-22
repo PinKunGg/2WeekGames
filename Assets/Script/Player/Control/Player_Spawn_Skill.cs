@@ -14,12 +14,14 @@ public class Player_Spawn_Skill : MonoBehaviour
     public GameObject Magic_Skill_1;
     public GameObject Magic_Skill_2;
     public bool[] IsMagicSKill = new bool[3] { false, false, false };
+    public PlayerWeaponDamage stuff_weapondDamage;
 
     [Header("Bow Skill Prefab")]
     public GameObject Bow_Normal_Attack;
     public GameObject Bow_Skill_1;
     public GameObject Bow_Skill_2;
     public bool[] IsBowSkill = new bool[3] { false, false, false };
+    public PlayerWeaponDamage bow_weapondDamage;
 
     GameObject[][] all_weapond_skill_obj = new GameObject[2][];
     public string animconName;
@@ -75,13 +77,56 @@ public class Player_Spawn_Skill : MonoBehaviour
         if (all_weapond_skill_obj[0][0] == null) { init(); }
         GameObject skill_obj = Instantiate(all_weapond_skill_obj[weapond][number_of_skill], spawn_pos.transform);
         skill_obj.transform.parent = null;
+        PlayerWeaponDamage skill_weapond = skill_obj.GetComponentInChildren<PlayerWeaponDamage>();
+        if (weapond == 0)
+        {
+            if (number_of_skill == 0)
+            {
+                skill_weapond.Damage = stuff_weapondDamage.Damage/3;
+            }
+            else if (number_of_skill == 1)
+            {
+                skill_weapond.Damage = stuff_weapondDamage.Damage/6;
+                skill_weapond.IsDotDamage = true;
+            }
+            else if (number_of_skill == 2)
+            {
+                skill_weapond.Damage = stuff_weapondDamage.Damage*0.1f;
+            }
+            skill_weapond.CriRate = stuff_weapondDamage.CriRate;
+            skill_weapond.CriDamage = stuff_weapondDamage.CriDamage;
+        }
+        else if(weapond == 1)
+        {
+            Debug.Log("Damage : " + bow_weapondDamage.Damage);
+            Debug.Log("Damage : "+skill_weapond.name);
+            if (number_of_skill == 0 )
+            {
+                skill_weapond.Damage = bow_weapondDamage.Damage;
+            }
+            else if(number_of_skill == 1)
+            {
+                skill_weapond.Damage = bow_weapondDamage.Damage / 50;
+            }
+            else if (number_of_skill == 2)
+            {
+                skill_weapond.Damage = bow_weapondDamage.Damage;
+            }
+            skill_weapond.CriRate = bow_weapondDamage.CriRate;
+            skill_weapond.CriDamage = bow_weapondDamage.CriDamage;
+        }
+
         Destroy(skill_obj, 5);
         StartCoroutine(Delay(weapond, number_of_skill));
     }
 
     IEnumerator Delay(int weapond, int number_of_skill) 
     {
-        yield return new WaitForSeconds(0.5f);
+        if (weapond == 1 && number_of_skill == 1)
+        {
+            yield return new WaitForSeconds(1);
+        }
+        else { yield return new WaitForSeconds(0.5f); }
         if (weapond == 0) { IsMagicSKill[number_of_skill] = false; }
         else if (weapond == 1) { IsBowSkill[number_of_skill] = false; }
     }

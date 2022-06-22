@@ -467,9 +467,9 @@ public class Player_Inventory : MonoBehaviour
 
     bool TutorialCheck(int stage)
     {
-        if (stage > 0)
+        if (tutorial_Control.IsTutorial)
         {
-            if (tutorial_Control.IsTutorial)
+            if (stage > 0)
             {
                 if (tutorial_Control.Stage[stage - 1])
                 {
@@ -478,13 +478,13 @@ public class Player_Inventory : MonoBehaviour
                 }
                 else { return false; }
             }
-            return true;
+            else
+            {
+                tutorial_Control.CompleteStage(stage);
+                return true;
+            }
         }
-        else
-        {
-            tutorial_Control.CompleteStage(stage);
-            return true;
-        }
+        else { return true; }
     }
 }
 

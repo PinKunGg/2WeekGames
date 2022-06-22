@@ -8,4 +8,5 @@ public class PlayerWeaponDamage : MonoBehaviour
     public float Damage_Multiply;
     public float CriRate;
     public float CriDamage;
+    public bool IsDotDamage;
 }

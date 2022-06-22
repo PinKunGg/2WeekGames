@@ -1582,7 +1582,7 @@ PrefabInstance:
     - target: {fileID: 4602434983701950263, guid: 64fe1137da84ff44aaea2f8aea67365e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7185887033701356015, guid: 64fe1137da84ff44aaea2f8aea67365e,
         type: 3}
@@ -3693,7 +3693,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &375470558
 MeshCollider:
@@ -3741,6 +3741,7 @@ GameObject:
   - component: {fileID: 381045622}
   - component: {fileID: 381045623}
   - component: {fileID: 381045624}
+  - component: {fileID: 381045625}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3827,7 +3828,7 @@ RectTransform:
   - {fileID: 959415982}
   - {fileID: 1291433826}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3960,6 +3961,8 @@ MonoBehaviour:
     ItemNameArray:
     - 1Mat
     - 1Axe
+    - 1Bow
+    - 1Sword&Shield
     - 
     - 
     - 
@@ -3996,9 +3999,7 @@ MonoBehaviour:
     - 
     - 
     - 
-    - 
-    - 
-    ItemIndexArray: 0a000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    ItemIndexArray: 0a000000010000000100000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   prefab_invenSlot: {fileID: 3331414242423919, guid: 366f109a7e69f8c469c8dacba90fcb2d,
     type: 3}
   Inventory_zone: {fileID: 861644231}
@@ -4020,12 +4021,12 @@ MonoBehaviour:
   - {fileID: 0}
   saveClothes:
     SaveClothesSlot_Item:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 11400000, guid: b14e6b2a7cc43d44daf2408c91800a1b, type: 2}
+    - {fileID: 11400000, guid: db1ddd4aea7afad40b8152e9f1402730, type: 2}
+    - {fileID: 11400000, guid: 86a6091433508e646879a73fcd25dd19, type: 2}
+    - {fileID: 11400000, guid: f2c7dc4295fe07d4e8904c063dc01353, type: 2}
+    - {fileID: 11400000, guid: 017188c1b79ab1442b25bf3bc58a6529, type: 2}
+    - {fileID: 11400000, guid: 51009f73c7d3d5041b68119fc3c0b9ee, type: 2}
+    - {fileID: 11400000, guid: cc8cb6a5aef7d3b448e38dd3f2308b69, type: 2}
     - {fileID: 0}
   PotionSlot: 0
   AllSlotPic: []
@@ -4108,6 +4109,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _allPlayerInCurrentRoom: []
+--- !u!114 &381045625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381045614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 759ee9ebb1ef9154cb88f977455df77b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsTutorial: 0
+  Stage: 
+  Stage_Obj: []
+  HP_Boss: {fileID: 0}
 --- !u!64 &392173629
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5272,7 +5289,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 677772452bfab4b41abd41039bd60b41,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.31
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 677772452bfab4b41abd41039bd60b41,
         type: 3}
@@ -5282,7 +5299,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 677772452bfab4b41abd41039bd60b41,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.3
+      value: 20.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 677772452bfab4b41abd41039bd60b41,
         type: 3}
@@ -5371,7 +5388,7 @@ MonoBehaviour:
   Player_Inventory: {fileID: 381045623}
   baseMonsterStat:
     Name_Monster: 
-    base_HP: 1000
+    base_HP: 4000
     base_Armor: 50
     base_Damage: 0
   Current_HP: 0
@@ -5417,6 +5434,22 @@ MonoBehaviour:
   sceneViewId: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!54 &538584498
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538584493}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &541393778
 GameObject:
   m_ObjectHideFlags: 0
@@ -5890,7 +5923,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -91.424, y: 0, z: 0}
 --- !u!114 &597978872
 MonoBehaviour:
@@ -7119,6 +7152,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776771231}
   m_CullTransparentMesh: 1
+--- !u!1 &780086018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 780086020}
+  - component: {fileID: 780086019}
+  m_Layer: 0
+  m_Name: PostProcessing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &780086019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780086018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 80342e4770e85cf44b387e78e3bed5bd, type: 2}
+--- !u!4 &780086020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780086018}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &788757262
 GameObject:
   m_ObjectHideFlags: 0
@@ -11893,7 +11975,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1410379594
 MonoBehaviour:
@@ -12260,7 +12342,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1493363843
 MeshCollider:
@@ -12778,6 +12860,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Map02_Spider Cave (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6848214846616084207, guid: 52a192668618cf041b24b095a73753b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8181417019522543008, guid: 52a192668618cf041b24b095a73753b6,
         type: 3}
@@ -13777,7 +13864,7 @@ Transform:
   - {fileID: 1562147932}
   - {fileID: 1776030448}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1683792018
 GameObject:
@@ -14072,7 +14159,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -15119,7 +15206,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1846601296
 MeshCollider:
@@ -17703,7 +17790,7 @@ PrefabInstance:
     - target: {fileID: 6015921234877661598, guid: aca632d6bc1d60e4daa4788e818784f8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6015921234877661598, guid: aca632d6bc1d60e4daa4788e818784f8,
         type: 3}
