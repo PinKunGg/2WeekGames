@@ -10,6 +10,7 @@ public class Player_Move_Control : MonoBehaviour
     Animator anim;
     Rigidbody rb;
     Player_Inventory player_inventory;
+    Tutorial_Control tutorial_Control;
 
     public GameObject cam_player, cam_player_inven;
     Player_Attack_Control player_Attack_Control;
@@ -52,6 +53,7 @@ public class Player_Move_Control : MonoBehaviour
         temp_move_speed = move_speed;
         temp_move_speed_run = move_speed_run;
         player_inventory = Player_Inventory.player_Inventory;
+        tutorial_Control = Tutorial_Control.tutorial_Control;
         SwitchCursor(false);
     }
 
@@ -113,6 +115,7 @@ public class Player_Move_Control : MonoBehaviour
 
         if (direction.magnitude >= 0.1f)
         {
+            if (!TutorialCheck(0)) { return; }
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam_main.transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref trunsmoothvelocity, trunsmoothtime);
             transform.rotation = Quaternion.Euler(0, angle, 0);
@@ -134,6 +137,7 @@ public class Player_Move_Control : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
+            if (!TutorialCheck(1)) { return; }
             move_speed = temp_move_speed_run + (temp_move_speed_run * (speed_run_multiply / 100));
             IsRun = true;
         }
@@ -160,6 +164,7 @@ public class Player_Move_Control : MonoBehaviour
         anim.SetBool("IsRolling", IsDash);
         if (Input.GetKeyDown(KeyCode.LeftShift)) 
         {
+            if (!TutorialCheck(5)) { return; }
             IsDash = true;
             if (temp_dash_cooldown == 0) 
             {
@@ -222,6 +227,28 @@ public class Player_Move_Control : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref trunsmoothvelocity, trunsmoothtime);
             transform.rotation = Quaternion.Euler(0, angle, 0);
 
+        }
+    }
+
+    bool TutorialCheck(int stage)
+    {
+        if (stage > 0)
+        {
+            if (tutorial_Control.IsTutorial)
+            {
+                if (tutorial_Control.Stage[stage - 1])
+                {
+                    tutorial_Control.CompleteStage(stage);
+                    return true;
+                }
+                else { return false; }
+            }
+            return true;
+        }
+        else
+        {
+            tutorial_Control.CompleteStage(stage);
+            return true;
         }
     }
 };

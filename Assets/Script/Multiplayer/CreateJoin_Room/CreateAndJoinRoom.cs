@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 {
     public TMP_InputField _playerName;
+    bool isTutorial = false;
 
     [Space]
     public TMP_InputField _createRoomName;
@@ -100,7 +102,14 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     }
 
     void PreparePlayerData(){
-        PhotonNetwork.NickName = _playerName.text;
+        if (!isTutorial)
+        {
+            PhotonNetwork.NickName = _playerName.text;
+        }
+        else if (isTutorial) 
+        {
+            PhotonNetwork.NickName = "Tutorial";
+        }
     }
 
     public override void OnCreatedRoom(){
@@ -118,7 +127,14 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom(){
         base.OnJoinedRoom();
 
-        PhotonNetwork.LoadLevel("Multiplayer_Game");
+        if (!isTutorial) 
+        {
+            PhotonNetwork.LoadLevel("Multiplayer_Game");
+        }
+        else if (isTutorial)
+        {
+            PhotonNetwork.LoadLevel("Multiplayer_Tutorial");
+        }
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message){
@@ -129,5 +145,23 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public void CloseJoinListUI(){
         _joinRoomList_ui.enabled = false;
+    }
+
+    public void TutorialMode() 
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            return;
+        }
+        isTutorial = true;
+        RoomOptions options = new RoomOptions()
+        {
+            MaxPlayers = 1,
+            IsVisible = false
+        };
+
+        PreparePlayerData();
+
+        PhotonNetwork.CreateRoom("Tutorial"+System.DateTime.Now, options, TypedLobby.Default);
     }
 }

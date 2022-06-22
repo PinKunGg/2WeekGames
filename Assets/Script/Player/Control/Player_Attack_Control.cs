@@ -12,6 +12,7 @@ public class Player_Attack_Control : MonoBehaviour
     Animator anim;
     Player_Move_Control player_Move_Control;
     Player_Inventory player_inventory;
+    Tutorial_Control tutorial_Control;
     bool IsFormOther = false;
     public bool IsNoWeapon = false;
 
@@ -33,6 +34,7 @@ public class Player_Attack_Control : MonoBehaviour
 
     private void Awake()
     {
+        tutorial_Control = Tutorial_Control.tutorial_Control;
         photonView = GetComponent<PhotonView>();
         anim = GetComponentInChildren<Animator>();
         player_inventory = Player_Inventory.player_Inventory;
@@ -124,11 +126,13 @@ public class Player_Attack_Control : MonoBehaviour
             }
             else
             {
+                if (!TutorialCheck(3)) { return; }
                 anim.SetBool("IsAttack", true);
             }
         }
         else
         {
+            if (!TutorialCheck(2)) { return; }
             IsDraw = true;
             IsDrawByOpenInven = true;
             anim.SetBool("Draw", true);
@@ -187,6 +191,7 @@ public class Player_Attack_Control : MonoBehaviour
 
     void KeepWeapon() 
     {
+        if (!TutorialCheck(6)) { return; }
         IsDraw = false;
         anim.SetBool("Draw", true);
         anim.SetBool("IsDraw", IsDraw);
@@ -297,6 +302,7 @@ public class Player_Attack_Control : MonoBehaviour
     {
         if (Input.GetMouseButton(1)) 
         {
+            if (!TutorialCheck(4)) { return; }
             IsBlock = true;
             if (anim.runtimeAnimatorController == player_inventory.animBow)
             {
@@ -381,6 +387,28 @@ public class Player_Attack_Control : MonoBehaviour
                 anim.SetBool("Draw", true);
                 anim.SetBool("IsDraw", true);
             }
+        }
+    }
+
+    bool TutorialCheck(int stage) 
+    {
+        if (stage > 0) 
+        {
+            if (tutorial_Control.IsTutorial)
+            {
+                if (tutorial_Control.Stage[stage - 1]) 
+                { 
+                    tutorial_Control.CompleteStage(stage);
+                    return true;
+                }
+                else { return false; }
+            }
+            return true;
+        }
+        else 
+        { 
+            tutorial_Control.CompleteStage(stage);
+            return true;
         }
     }
 }

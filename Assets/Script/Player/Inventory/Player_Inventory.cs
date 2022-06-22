@@ -13,6 +13,7 @@ public class Player_Inventory : MonoBehaviour
         player_Inventory = this;
     }
 
+    Tutorial_Control tutorial_Control;
     public Player_Stat player_Stat;
     public Sprite Defath_Sprite;
 
@@ -51,6 +52,7 @@ public class Player_Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tutorial_Control = Tutorial_Control.tutorial_Control;
         if (InvenUI.activeSelf == true && !IsFirstRun)
         {
             IsFirstRun = true;
@@ -79,6 +81,7 @@ public class Player_Inventory : MonoBehaviour
 
     public void OpenInven() 
     {
+        if (!TutorialCheck(10)) { return; }
         InvenUI.SetActive(!InvenUI.activeSelf);
         CameraPlayer.SetActive(!CameraPlayer.activeSelf);
         player_Move_Control.SwitchCursor(InvenUI.activeSelf);
@@ -438,6 +441,13 @@ public class Player_Inventory : MonoBehaviour
                 Debug.Log("Load : " + saveClothes.SaveClothesSlot_Item[y].NameItem);
                 ClothesSlot_Item[y] = saveClothes.SaveClothesSlot_Item[y];
                 ClothesSlot_pic[y].sprite = saveClothes.SaveClothesSlot_Item[y].ItemPic;
+                if (saveClothes.SaveClothesSlot_Item[y].type == Item.Type.Veil) 
+                {
+                    player_Move_Control.gameObject.GetComponent<Player_Buff_Control>().Veil_Buff_int = ClothesSlot_Item[y].Veil_Skill;
+                    player_Move_Control.dash_cooldown = ClothesSlot_Item[y].Veil_Dash_Cooldown;
+                    player_Move_Control.IsCanDash = true;
+                    player_Move_Control.gameObject.GetComponent<Player_Skill_Control>().init();
+                }
             }
         }
         UpdateStat();
@@ -452,6 +462,28 @@ public class Player_Inventory : MonoBehaviour
                 saveInventory.ItemNameArray[x] = inventory.ItemNameArray[x];
                 saveInventory.ItemIndexArray[x] = inventory.ItemIndexArray[x];
             }
+        }
+    }
+
+    bool TutorialCheck(int stage)
+    {
+        if (stage > 0)
+        {
+            if (tutorial_Control.IsTutorial)
+            {
+                if (tutorial_Control.Stage[stage - 1])
+                {
+                    tutorial_Control.CompleteStage(stage);
+                    return true;
+                }
+                else { return false; }
+            }
+            return true;
+        }
+        else
+        {
+            tutorial_Control.CompleteStage(stage);
+            return true;
         }
     }
 }

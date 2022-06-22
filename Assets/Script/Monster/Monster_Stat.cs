@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class Monster_Stat : MonoBehaviour
 {
+    Tutorial_Control tutorial_Control;
     public Player_Inventory Player_Inventory;
     PhotonView photonView;
     public BaseMonsterStat baseMonsterStat;
@@ -19,6 +20,7 @@ public class Monster_Stat : MonoBehaviour
     void Start()
     {
         photonView = GetComponent<PhotonView>();
+        tutorial_Control = Tutorial_Control.tutorial_Control;
         UpdateMonsterCurrentStat();
     }
 
@@ -70,7 +72,30 @@ public class Monster_Stat : MonoBehaviour
 
     void DropItem() 
     {
+        if (!TutorialCheck(9)) { return; }
         Player_Inventory.AddItem(itemDrop, Random.Range(AmountRangeitemDrop[0], AmountRangeitemDrop[1]));
+    }
+
+    bool TutorialCheck(int stage)
+    {
+        if (stage > 0)
+        {
+            if (tutorial_Control.IsTutorial)
+            {
+                if (tutorial_Control.Stage[stage - 1])
+                {
+                    tutorial_Control.CompleteStage(stage);
+                    return true;
+                }
+                else { return false; }
+            }
+            return true;
+        }
+        else
+        {
+            tutorial_Control.CompleteStage(stage);
+            return true;
+        }
     }
 }
 
