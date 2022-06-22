@@ -44,9 +44,9 @@ public class Monster_Movement : MonoBehaviour
             startWalk = true;
         }
 
-        InvokeRepeating("UpdatePath", 0f, 0.1f);
+        // InvokeRepeating("UpdatePath", 0f, 0.1f);
 
-        startWalk = true;
+        // startWalk = true;
     }
 
     void OnPathComplete(Path p){

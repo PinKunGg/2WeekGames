@@ -10,16 +10,33 @@ public class BoarAI : MonoBehaviourPunCallbacks
     Monster_Attacker _monsterAttack;
     Monster_Retreat _monsterRetreat;
 
+    PlayerManager_Multiplayer _playerManMulti;
+
+    bool isChargeAttackReady = true;
+
     private void Start() {
         _monsterMove = GetComponent<Monster_Movement>();
         _monsterAttack = GetComponent<Monster_Attacker>();
         _monsterRetreat = GetComponent<Monster_Retreat>();
+        _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         
         if(PhotonNetwork.IsMasterClient){
-            InvokeRepeating("CheckIsPlayerInRange",0f,1f);
+            Invoke("DelayStart",1f);
         }
 
-        InvokeRepeating("CheckIsPlayerInRange",0f,1f);
+        // InvokeRepeating("CheckIsPlayerInRange",0f,1f);
+    }
+
+    void DelayStart(){
+        GetPlayerTarget();
+        InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
+    }
+
+    void GetPlayerTarget(){
+        Transform targetPlayer = _playerManMulti.GetRandomPlayer().transform;
+        _monsterMove.goToTarget = targetPlayer;
+        _monsterMove.lookAtTarget = targetPlayer;
+        _monsterRetreat.target = targetPlayer;
     }
 
     private void Update() {
@@ -35,12 +52,20 @@ public class BoarAI : MonoBehaviourPunCallbacks
             _monsterAttack.Attack();
         }
         else{
-            float randChargeSkillAttack = Random.value;
+            // if(!isChargeAttackReady && !_monsterAttack.isCanAttack){return;}
 
-            if(randChargeSkillAttack >= 0.7f){
-                _monsterAttack.AttackSpecific(2);
-            }
+            // float randChargeSkillAttack = Random.value;
+
+            // if(randChargeSkillAttack >= 0.7f){
+            //     isChargeAttackReady = false;
+            //     _monsterAttack.AttackSpecific(2);
+            //     Invoke("DelayChargeAttack",10f);
+            // }
         }
+    }
+
+    void DelayChargeAttack(){
+        isChargeAttackReady = true;
     }
 }
 

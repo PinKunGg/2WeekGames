@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Monster_Attacker : MonoBehaviour
 {
     public int[] attackIndex;
     public float[] delayBetweenNextAttack;
     int attackIndexTemp;
-    bool isCanAttack = true;
+    public bool isCanAttack{get; private set;}
+    bool isChargeAttackDone;
 
     Monster_Animation _monsterAnima;
     Monster_Movement _monsterMove;
@@ -19,6 +22,12 @@ public class Monster_Attacker : MonoBehaviour
         _monsterAnima = GetComponent<Monster_Animation>();
         _monsterMove = GetComponent<Monster_Movement>();
         _monsterRetreat = GetComponent<Monster_Retreat>();
+
+        if(PhotonNetwork.IsMasterClient){
+            isCanAttack = true;
+        }
+
+        // isCanAttack = true;
     }
 
     private void Update() {
@@ -57,8 +66,14 @@ public class Monster_Attacker : MonoBehaviour
             Invoke("DelayAttacker",delayBetweenNextAttack[1]);
             break;
             case 2:
+            isChargeAttackDone = false;
             StartCoroutine(ChargeAttack());
-            Invoke("ChargeAttackFinish",4f);
+            Invoke("ChargeAttackFinish",delayBetweenNextAttack[2]);
+            break;
+            case 3:
+            _monsterMove.isStopWalk = true;
+            _monsterRetreat.enabled = true;
+            Invoke("DelayRetreat",delayBetweenNextAttack[3]);
             break;
         }
     }
@@ -71,6 +86,11 @@ public class Monster_Attacker : MonoBehaviour
     void DelayAttacker(){
         isCanAttack = true;
     }
+    void DelayRetreat(){
+        _monsterRetreat.enabled = false;
+        _monsterMove.isStopWalk = false;
+        Invoke("DelayAttacker",2f);
+    }
 
     IEnumerator ChargeAttack(){
         _monsterMove.isStopWalk = true;
@@ -82,7 +102,8 @@ public class Monster_Attacker : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _monsterAnima.PlayBoolAnimator("IsSkill2",false);
         _monsterMove.lookAtTarget = null;
-        while(!isCanAttack){
+
+        while(!isChargeAttackDone){
             _monsterMove.rb.drag = 20f;
             _monsterMove.rb.angularDrag = 20f;
             _monsterMove.rb.velocity = transform.forward * 50f;
@@ -91,10 +112,16 @@ public class Monster_Attacker : MonoBehaviour
     }
 
     void ChargeAttackFinish(){
+        isChargeAttackDone = true;
+        StopCoroutine(ChargeAttack());
+
+        _monsterMove.rb.velocity = Vector3.zero;
         _monsterMove.rb.drag = 1f;
         _monsterMove.rb.angularDrag = 1f;
+
         _monsterAnima.PlayBoolAnimator("IsSkill2",false);
         _monsterAnima.PlayBoolAnimator("IsAttackFinish",true);
+
         _monsterMove.lookAtTarget = _monsterMove.goToTarget;
         _monsterMove.isStopWalk = false;
         Invoke("DelayAttacker",2f);
