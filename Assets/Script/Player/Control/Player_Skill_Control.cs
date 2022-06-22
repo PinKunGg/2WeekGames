@@ -8,7 +8,10 @@ public class Player_Skill_Control : MonoBehaviour
 {
     PhotonView photonView;
     Player_Move_Control player_Move_Control;
+    Player_Attack_Control player_Attack_Control;
+    Player_Inventory player_Inventory;
     Animator anim;
+    Tutorial_Control tutorial_Control;
 
     [Header("Cooldown UI")]
     public Image Dash_cooldown_Ui,Skill1_cooldown_UI, Skill2_cooldown_UI;
@@ -32,20 +35,27 @@ public class Player_Skill_Control : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tutorial_Control = Tutorial_Control.tutorial_Control;
         photonView = GetComponent<PhotonView>();
         player_Move_Control = GetComponent<Player_Move_Control>();
+        player_Attack_Control = GetComponent<Player_Attack_Control>();
+        player_Inventory = Player_Inventory.player_Inventory;
         anim = GetComponent<Animator>();
         if (photonView.IsMine) 
         {
             Dash_cooldown_Ui = GameObject.FindGameObjectWithTag("DashUI").transform.GetChild(0).GetComponent<Image>();
             Skill1_cooldown_UI = GameObject.FindGameObjectWithTag("Skill1UI").transform.GetChild(0).GetComponent<Image>();
             Skill2_cooldown_UI = GameObject.FindGameObjectWithTag("Skill2UI").transform.GetChild(0).GetComponent<Image>();
-            dash_cooldown = player_Move_Control.dash_cooldown;
-            temp_dash_cooldown = 1 / dash_cooldown;
-            temp_skill1_cooldown = skill1_cooldown;
-
-            temp_skill2_cooldown = skill2_cooldown;
         }
+    }
+
+    public void init() 
+    {
+        player_Move_Control = GetComponent<Player_Move_Control>();
+        dash_cooldown = player_Move_Control.dash_cooldown;
+        temp_dash_cooldown = 1 / dash_cooldown;
+        temp_skill1_cooldown = skill1_cooldown;
+        temp_skill2_cooldown = skill2_cooldown;
     }
 
     // Update is called once per frame
@@ -55,12 +65,23 @@ public class Player_Skill_Control : MonoBehaviour
         {
             return;
         }
+        CountCooldown();
+        if (player_Attack_Control.IsBlock) { return; }
+        if (Input.GetKeyDown(KeyCode.Q) && anim.GetBool("IsDraw") == false) 
+        {
+            if (player_Inventory.PotionSlot >= 1) 
+            {
+                player_Inventory.PotionSlot--;
+            }
+        }
         if (Input.GetKeyDown(KeyCode.Q) && anim.GetBool("IsDraw") == true && temp_skill1_cooldown == skill1_cooldown && !anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2") && !anim.GetCurrentAnimatorStateInfo(1).IsName("Dash"))
         {
+            if (!TutorialCheck(7)) { return; }
             Skill1(true);
         }
         if (Input.GetKeyDown(KeyCode.E) && anim.GetBool("IsDraw") == true && temp_skill2_cooldown == skill2_cooldown && !anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1") && !anim.GetCurrentAnimatorStateInfo(1).IsName("Dash"))
         {
+            if (!TutorialCheck(8)) { return; }
             Skill2(true);
         }
         if (player_Move_Control.IsDash && !Isdash)
@@ -69,7 +90,6 @@ public class Player_Skill_Control : MonoBehaviour
             Dash_cooldown_Ui.fillAmount = 1;
         }
 
-        CountCooldown();
     }
 
     void CountCooldown()
@@ -139,5 +159,27 @@ public class Player_Skill_Control : MonoBehaviour
             IsSkill2_Cooldown = true;
         }
         anim.SetBool("IsSkill2", IsSkill2);
+    }
+
+    bool TutorialCheck(int stage)
+    {
+        if (tutorial_Control.IsTutorial)
+        {
+            if (stage > 0)
+            {
+                if (tutorial_Control.Stage[stage - 1])
+                {
+                    tutorial_Control.CompleteStage(stage);
+                    return true;
+                }
+                else { return false; }
+            }
+            else
+            {
+                tutorial_Control.CompleteStage(stage);
+                return true;
+            }
+        }
+        else { return true; }
     }
 }

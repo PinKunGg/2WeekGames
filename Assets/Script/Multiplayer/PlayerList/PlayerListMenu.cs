@@ -77,11 +77,12 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
 
     void TriggerWhenPlayerJoin() 
     {
+        Debug.Log("trigger : run ");
         foreach (Player_Stat player_Stat in allPlayerStat) 
         {
             player_Stat.UpdateHealthBarForOther();
         }
-        foreach (Player_Attack_Control player_Attack_Control in AllAttack_Controls) 
+        foreach (Player_Attack_Control player_Attack_Control in AllAttack_Controls)
         {
             player_Attack_Control.UpdateAnimForOther();
         }

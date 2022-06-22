@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Item : ScriptableObject
 {
     public string NameItem;
-    public enum Type 
+    public enum Type
     {
         Weapond,
         Clothes_Head,
@@ -15,9 +15,24 @@ public class Item : ScriptableObject
         Clothes_Pant,
         Clothes_Feet,
         Veil,
+        Potion,
         Other
     }
+    public enum Type_Weapon
+    {
+        Axe,
+        SwordAndShield,
+        Stuff,
+        Bow
+    }
+
+    public int Veil_Skill;
+    public float Veil_Dash_Cooldown;
     public Type type;
+    public Type_Weapon type_Weapon;
     public Sprite ItemPic;
     public int HP, Armor, Damage, CriRate, CriDamage;
+
+    public Item[] ItemForCraft = new Item[2];
+    public int[] CountItemForCraft = new int[2];
 }
