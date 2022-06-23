@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using DG.Tweening;
 
-public class Monster_Attacker : MonoBehaviour
+public class BoarAttacker : MonoBehaviour
 {
     public int[] attackIndex;
     int attackIndexTemp;
@@ -114,10 +114,6 @@ public class Monster_Attacker : MonoBehaviour
     void DelayAttacker(){
         isCanAttack = true;
         _monsterMove.isStopWalk = false;
-    }
-    void DelayRetreat(){
-        _monsterMove.isStopWalk = false;
-        Invoke("DelayAttacker",2f);
     }
 
     IEnumerator ChargeAttack(){
