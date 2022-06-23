@@ -22,6 +22,7 @@ public class Monster_Stat : MonoBehaviour
     {
         photonView = GetComponent<PhotonView>();
         tutorial_Control = Tutorial_Control.tutorial_Control;
+        Player_Inventory = Player_Inventory.player_Inventory;
         UpdateMonsterCurrentStat();
     }
 
@@ -112,11 +113,12 @@ public class Monster_Stat : MonoBehaviour
     }
 
     [PunRPC]
-    void TakeDamage(float Damage) 
+    void TakeDamage(float current_hp) 
     {
         if (Monster_HealthBar.value > 0)
         {
-            Monster_HealthBar.value = Damage;
+            Current_HP = current_hp;
+            Monster_HealthBar.value = current_hp;
         }
         else 
         {

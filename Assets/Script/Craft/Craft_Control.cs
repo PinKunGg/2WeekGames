@@ -100,7 +100,7 @@ public class Craft_Control : MonoBehaviour
         if (item.ItemForCraft[0] != null)
         {
             CraftItemamount1.gameObject.SetActive(true);
-            Craft_Pic1.gameObject.SetActive(true);
+            Craft_Pic1.transform.parent.gameObject.SetActive(true);
             Craft_Pic1.sprite = item.ItemForCraft[0].ItemPic;
             Craft_Item1 = item.ItemForCraft[0];
             Craft_amount1 = item.CountItemForCraft[0];
@@ -110,12 +110,12 @@ public class Craft_Control : MonoBehaviour
         {
             Craft_Item1 = null;
             CraftItemamount1.gameObject.SetActive(false);
-            Craft_Pic1.gameObject.SetActive(false);
+            Craft_Pic1.transform.parent.gameObject.SetActive(false);
         }
         if (item.ItemForCraft[1] != null)
         {
             CraftItemamount2.gameObject.SetActive(true);
-            Craft_Pic2.gameObject.SetActive(true);
+            Craft_Pic2.transform.parent.gameObject.SetActive(true);
             Craft_Pic2.sprite = item.ItemForCraft[1].ItemPic;
             Craft_Item2 = item.ItemForCraft[1];
             Craft_amount2 = item.CountItemForCraft[1];
@@ -125,7 +125,7 @@ public class Craft_Control : MonoBehaviour
         {
             Craft_Item2 = null;
             CraftItemamount2.gameObject.SetActive(false);
-            Craft_Pic2.gameObject.SetActive(false);
+            Craft_Pic2.transform.parent.gameObject.SetActive(false);
 
         }
     }
@@ -150,6 +150,7 @@ public class Craft_Control : MonoBehaviour
         player_inventory.RemoveItem(Craft_Item2, Craft_amount2);
         player_inventory.AddItem(item_selected, 1);
         Debug.Log("Crafted");
+        SelectFormCraftSlot(item_selected);
 
 
     }

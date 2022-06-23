@@ -14,14 +14,14 @@ public class PlayerManager_Local : MonoBehaviour
 
     private void Start() {
         isCursorEnable = false;
-        ToggleCursor(isCursorEnable);
+        //ToggleCursor(isCursorEnable);
     }
 
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.LeftAlt)){
-            isCursorEnable = !isCursorEnable;
-            ToggleCursor(isCursorEnable);
-        }
+        //if(Input.GetKeyDown(KeyCode.LeftAlt)){
+        //    isCursorEnable = !isCursorEnable;
+        //    ToggleCursor(isCursorEnable);
+        //}
     }
 
     void ToggleCursor(bool value){

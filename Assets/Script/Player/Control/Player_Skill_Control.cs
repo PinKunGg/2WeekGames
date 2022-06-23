@@ -17,7 +17,7 @@ public class Player_Skill_Control : MonoBehaviour
     public Image Dash_cooldown_Ui,Skill1_cooldown_UI, Skill2_cooldown_UI;
 
     [Header("DashSetting")]
-    [SerializeField] bool Isdash = false;
+    public bool Isdash = false;
     [SerializeField] float dash_cooldown;
     [SerializeField] float temp_dash_cooldown;
 

@@ -13,6 +13,7 @@ public class Tutorial_Control : MonoBehaviour
     }
 
     public bool IsTutorial = false;
+    public bool IsLobby = false;
     public bool[] Stage;
     public GameObject[] Stage_Obj;
     public GameObject HP_Boss;

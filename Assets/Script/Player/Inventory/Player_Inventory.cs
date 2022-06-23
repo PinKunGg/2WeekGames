@@ -16,6 +16,8 @@ public class Player_Inventory : MonoBehaviour
     Tutorial_Control tutorial_Control;
     public Player_Stat player_Stat;
     public Sprite Defath_Sprite;
+    public TextMeshProUGUI PotionText;
+    ItemSlot[] allItemSlot = new ItemSlot[40];
 
     [Header("Animator For Change")]
     public RuntimeAnimatorController animAxe;
@@ -64,6 +66,7 @@ public class Player_Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PotionText.text = PotionSlot.ToString();
         if (Input.GetKeyDown(KeyCode.I)) 
         {
             OpenInven();
@@ -83,8 +86,11 @@ public class Player_Inventory : MonoBehaviour
     {
         if (!TutorialCheck(10)) { return; }
         InvenUI.SetActive(!InvenUI.activeSelf);
-        CameraPlayer.SetActive(!CameraPlayer.activeSelf);
-        player_Move_Control.SwitchCursor(InvenUI.activeSelf);
+        if (tutorial_Control.IsLobby == false) 
+        {
+            CameraPlayer.SetActive(!CameraPlayer.activeSelf);
+            player_Move_Control.SwitchCursor(InvenUI.activeSelf);
+        }
         UpdateSlot();
     }
 
@@ -97,6 +103,7 @@ public class Player_Inventory : MonoBehaviour
             slot.transform.localScale = Vector3.one;
             slot.GetComponent<ItemSlot>().NumberOfSlot = x;
             slot.GetComponent<Image>().sprite = Defath_Sprite;
+            allItemSlot[x] = slot.GetComponent<ItemSlot>();
             inventory.ItemNameArray[x] = null;
             inventory.ItemIndexArray[x] = 0;
             AllSlotPic.Add(slot.GetComponent<Image>());
@@ -106,6 +113,7 @@ public class Player_Inventory : MonoBehaviour
 
     public void AddItem(Item _item,int amount) 
     {
+        if (_item == null) { return; }
         foreach (Item item in AllItem) 
         {
             if (_item.NameItem == item.NameItem) 
@@ -240,7 +248,7 @@ public class Player_Inventory : MonoBehaviour
         return 99;
     }
 
-    void UpdateSlot() 
+    public void UpdateSlot() 
     {
         for (int x = 0; x < inventory.ItemNameArray.Length; x++) 
         {
@@ -251,6 +259,7 @@ public class Player_Inventory : MonoBehaviour
                     if (inventory.ItemNameArray[x] == AllItem[y].NameItem)
                     {
                         AllSlotPic[x].sprite = AllItem[y].ItemPic;
+                        allItemSlot[x].UpdateText(inventory.ItemIndexArray[x]);
                         break;
                     }
                 }
@@ -411,6 +420,7 @@ public class Player_Inventory : MonoBehaviour
             AddItem(ClothesSlot_Item[slotNumber], PotionSlot);
             ClothesSlot_Item[slotNumber] = null;
             ClothesSlot_pic[slotNumber].sprite = Defath_Sprite;
+            PotionSlot = 0;
         }
     }
 
