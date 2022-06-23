@@ -25,10 +25,10 @@ public class MonsterAttackDamage : MonoBehaviour
             _playerMoveCon.enabled = false;
 
             Vector3 tempKnockback = this.transform.forward;
-            knockBackPos = new Vector3(tempKnockback.x,other.transform.position.y * 5f,tempKnockback.z);
+            knockBackPos = new Vector3(tempKnockback.x,other.transform.position.y * 3f,tempKnockback.z);
             other.gameObject.GetComponent<Rigidbody>().AddForce(knockBackPos * 10f,ForceMode.Impulse);
 
-            Invoke("DelayKnockBack",1f);
+            Invoke("DelayKnockBack",0.5f);
         }
     }
 

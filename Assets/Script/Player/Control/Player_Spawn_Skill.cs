@@ -57,7 +57,7 @@ public class Player_Spawn_Skill : MonoBehaviour
                 if (!IsMagicSKill[number_of_skill])
                 {
                     IsMagicSKill[number_of_skill] = true;
-                    photonView.RPC("Rpc_Spawn", RpcTarget.All, 0, number_of_skill);
+                    SpawnNetworkSkill(0,number_of_skill);
                 }
             }
             else if (animconName == "Bow")
@@ -65,17 +65,15 @@ public class Player_Spawn_Skill : MonoBehaviour
                 if (!IsBowSkill[number_of_skill])
                 {
                     IsBowSkill[number_of_skill] = true;
-                    photonView.RPC("Rpc_Spawn", RpcTarget.All, 1, number_of_skill);
+                    SpawnNetworkSkill(1,number_of_skill);
                 }
             }
         }
     }
 
-    [PunRPC]
-    void Rpc_Spawn(int weapond,int number_of_skill) 
-    {
+    void SpawnNetworkSkill(int weapond,int number_of_skill){
         if (all_weapond_skill_obj[0][0] == null) { init(); }
-        GameObject skill_obj = Instantiate(all_weapond_skill_obj[weapond][number_of_skill], spawn_pos.transform);
+        GameObject skill_obj = PhotonNetwork.Instantiate(all_weapond_skill_obj[weapond][number_of_skill].name, spawn_pos.transform.position,spawn_pos.transform.rotation);
         skill_obj.transform.parent = null;
         PlayerWeaponDamage skill_weapond = skill_obj.GetComponentInChildren<PlayerWeaponDamage>();
         if (weapond == 0)

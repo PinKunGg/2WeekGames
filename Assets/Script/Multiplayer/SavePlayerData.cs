@@ -28,7 +28,7 @@ public class SavePlayerData : MonoBehaviourPunCallbacks
         int userIndex = _playerManMulti.GetPlayer(player.ActorNumber);
 
         SaveClass_PlayerData saveData = new SaveClass_PlayerData();
-        saveData = _playerManMulti._allPlayerInCurrentRoom[userIndex].GetComponent<PlayerData>().sc;
+        saveData = _playerManMulti._allPlayerInCurrentRoom[userIndex]._playerGameObject.GetComponent<PlayerData>().sc;
 
         string data = JsonUtility.ToJson(saveData,true);
         js.SaveJson(Application.persistentDataPath,player.NickName, data);
@@ -56,6 +56,6 @@ public class SavePlayerData : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_SendSaveDataToPlayer(int playerID, string data){
         int userIndex = _playerManMulti.GetPlayer(playerID);
-        _playerManMulti._allPlayerInCurrentRoom[userIndex].GetComponent<PlayerData>().ReciveSaveData(data);
+        _playerManMulti._allPlayerInCurrentRoom[userIndex]._playerGameObject.GetComponent<PlayerData>().ReciveSaveData(data);
     }
 }
