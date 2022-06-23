@@ -45,7 +45,6 @@ public class Monster_Movement : MonoBehaviour
         }
 
         // InvokeRepeating("UpdatePath", 0f, 0.1f);
-
         // startWalk = true;
     }
 
@@ -103,9 +102,11 @@ public class Monster_Movement : MonoBehaviour
 
             if(!lookAtTarget){return;}
 
-            Vector3 tempLookAt = new Vector3(lookAtTarget.localPosition.x,this.transform.localPosition.y,lookAtTarget.transform.localPosition.z);
+            Vector3 targetPos = new Vector3(lookAtTarget.localPosition.x,this.transform.localPosition.y,lookAtTarget.transform.localPosition.z);
 
-            this.transform.LookAt(tempLookAt);
+            Quaternion lookAt = Quaternion.LookRotation(targetPos - transform.position);
+
+            this.transform.rotation = Quaternion.Slerp(transform.rotation,lookAt, 2f * Time.deltaTime);
         }
     }
     public void GoToPlayer(){

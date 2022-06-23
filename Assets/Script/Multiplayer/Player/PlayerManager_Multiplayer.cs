@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
 {
-    public List<GameObject> _allPlayerInCurrentRoom = new List<GameObject>();
+    public List<AllPlayerInRoom> _allPlayerInCurrentRoom = new List<AllPlayerInRoom>();
 
     SavePlayerData _savePlayerData;
 
@@ -18,7 +18,7 @@ public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
 
     public int GetPlayer(int ActorID){
         try{
-            int userIndex = _allPlayerInCurrentRoom.FindIndex(x => x.GetComponent<PhotonView>().OwnerActorNr == ActorID);
+            int userIndex = _allPlayerInCurrentRoom.FindIndex(x => x._playerGameObject.GetComponent<PhotonView>().OwnerActorNr == ActorID);
             return userIndex;
         }catch{
             _allPlayerInCurrentRoom.RemoveAll(item => item == null);
@@ -29,14 +29,16 @@ public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
 
     public GameObject GetRandomPlayer(){
         int tempIndex = Random.Range(0,_allPlayerInCurrentRoom.Count);
-        return _allPlayerInCurrentRoom[tempIndex];
+        return _allPlayerInCurrentRoom[tempIndex]._playerGameObject;
     }
 
     public void AddPlayer(GameObject obj){
-        _allPlayerInCurrentRoom.Add(obj);
+        AllPlayerInRoom a = new AllPlayerInRoom();
+        a._playerGameObject = obj;
+        _allPlayerInCurrentRoom.Add(a);
 
         if(PhotonNetwork.IsMasterClient){
-            _savePlayerData.LoadData(obj.GetComponent<PhotonView>());
+            _savePlayerData.LoadData(a._playerGameObject.GetComponent<PhotonView>());
         }
     }
 
@@ -47,4 +49,14 @@ public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
            _allPlayerInCurrentRoom.RemoveAt(indexPlayerListManager);
         }
     }
+
+    public void AddPlayerDamage(int ActorID, float Damage){
+        _allPlayerInCurrentRoom[GetPlayer(ActorID)]._playerDamageDealToBoss += Damage;
+    }
+}
+
+[System.Serializable]
+public class AllPlayerInRoom{
+    public GameObject _playerGameObject;
+    public float _playerDamageDealToBoss;
 }

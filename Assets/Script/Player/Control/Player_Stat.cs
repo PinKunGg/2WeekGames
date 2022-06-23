@@ -162,7 +162,7 @@ public class Player_Stat : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("MonsterAttack")) 
+        if (other.gameObject.CompareTag("BossAttack")) 
         {
             Player_Take_Damage(10);
         }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7280191157938949292}
   - component: {fileID: 7280191157938949293}
   - component: {fileID: 7280191157938949294}
+  - component: {fileID: -7428090411057441626}
   m_Layer: 0
   m_Name: Arrow_Rain
   m_TagString: Untagged
@@ -4814,6 +4815,28 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-7428090411057441626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7280191157938949295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7280191158208146388
 GameObject:
   m_ObjectHideFlags: 0
@@ -9781,6 +9804,7 @@ GameObject:
   - component: {fileID: 7280191158303919921}
   - component: {fileID: 7280191158303919922}
   - component: {fileID: 1635433409796737006}
+  - component: {fileID: 2755834400288750483}
   m_Layer: 0
   m_Name: Arrow_Rain_Bullet
   m_TagString: Weapon
@@ -14658,3 +14682,26 @@ MonoBehaviour:
   Damage_Multiply: 0
   CriRate: 0
   CriDamage: 0
+  IsDotDamage: 0
+--- !u!114 &2755834400288750483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7280191158303919923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

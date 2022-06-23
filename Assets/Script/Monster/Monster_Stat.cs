@@ -17,12 +17,20 @@ public class Monster_Stat : MonoBehaviour
     public Item itemDrop;
     public int[] AmountRangeitemDrop = new int[2];
     PlayerWeaponDamage forDot;
+    PlayerManager_Multiplayer _playerManMulti;
+
+    int playerDamageID;
+
     // Start is called before the first frame update
     void Start()
     {
         photonView = GetComponent<PhotonView>();
         tutorial_Control = Tutorial_Control.tutorial_Control;
         UpdateMonsterCurrentStat();
+
+        if(PhotonNetwork.IsMasterClient){
+            _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        }
     }
 
     // Update is called once per frame
@@ -57,11 +65,13 @@ public class Monster_Stat : MonoBehaviour
                 }
                 else { totoal_damage = playerWeaponDamage.Damage; }
                 Current_HP -= totoal_damage;
+                photonView.RPC("RPC_SendDamageToPlayerManagerMultiplayer",RpcTarget.MasterClient,other.GetComponent<PhotonView>().OwnerActorNr,totoal_damage);
                 photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
             }
             else 
             {
                 forDot = playerWeaponDamage;
+                playerDamageID = other.GetComponent<PhotonView>().OwnerActorNr;
                 InvokeRepeating("Dotdamage", 0.5f, 0.5f);
             }
         }
@@ -81,6 +91,7 @@ public class Monster_Stat : MonoBehaviour
                 }
                 else { totoal_damage = playerWeaponDamage.Damage; }
                 Current_HP -= totoal_damage;
+                photonView.RPC("RPC_SendDamageToPlayerManagerMultiplayer",RpcTarget.MasterClient,other.GetComponent<PhotonView>().OwnerActorNr,totoal_damage);
                 photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
             }
         }
@@ -107,6 +118,7 @@ public class Monster_Stat : MonoBehaviour
         }
         else { totoal_damage = forDot.Damage; }
         Current_HP -= totoal_damage;
+        photonView.RPC("RPC_SendDamageToPlayerManagerMultiplayer",RpcTarget.MasterClient,playerDamageID,totoal_damage);
         photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
 
     }
@@ -125,6 +137,11 @@ public class Monster_Stat : MonoBehaviour
                 DropItem();
             }
         }
+    }
+
+    [PunRPC]
+    void RPC_SendDamageToPlayerManagerMultiplayer(int playerID, float damage){
+        _playerManMulti.AddPlayerDamage(playerID,damage);
     }
 
     void DropItem() 
