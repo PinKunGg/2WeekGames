@@ -91,6 +91,7 @@ public class Player_Attack_Control : MonoBehaviour
     }
     public void IsPlayerNoWeapond(bool value) 
     {
+        Debug.Log("No Weapond");
         IsNoWeapon = value;
         if (value) { photonView.RPC("RpcPlayerNoWeapond", RpcTarget.All); }
 
@@ -161,6 +162,7 @@ public class Player_Attack_Control : MonoBehaviour
         }
         if (IsNoWeapon) 
         {
+            Debug.Log("No Weapond");
             photonView.RPC("Rpc_CheckWeaponUse", RpcTarget.All, "NoWeapond");
             return; 
         }
@@ -196,7 +198,8 @@ public class Player_Attack_Control : MonoBehaviour
         }
         else
         {
-        
+            Debug.Log("No Weapond");
+            IsPlayerNoWeapond(true);
         }
         UpdateAnimForOther();
     }

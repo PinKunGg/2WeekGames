@@ -13,11 +13,13 @@ public class Player_Inventory : MonoBehaviour
         player_Inventory = this;
     }
 
+    JsonSaveSystem js;
     Tutorial_Control tutorial_Control;
     public Player_Stat player_Stat;
     public Sprite Defath_Sprite;
     public TextMeshProUGUI PotionText;
     ItemSlot[] allItemSlot = new ItemSlot[40];
+    public string player_name;
 
     [Header("Animator For Change")]
     public RuntimeAnimatorController animAxe;
@@ -50,17 +52,31 @@ public class Player_Inventory : MonoBehaviour
     public float Cri_Rate = 0;
     public float Cri_Damage = 0;
 
+    [Header("SkillPic")]
+    public Image[] SkillShow = new Image[3];
+    public Sprite[] AxeSkillPic;
+    public Sprite[] SwordAndShieldSkillPic;
+    public Sprite[] BowSkillPic;
+    public Sprite[] StuffSkillPic;
+    public Sprite[] DashSkillPic;
+
     public Item Test;
     // Start is called before the first frame update
     void Start()
     {
+        js = GetComponent<JsonSaveSystem>();
         tutorial_Control = Tutorial_Control.tutorial_Control;
         if (InvenUI.activeSelf == true && !IsFirstRun)
         {
             IsFirstRun = true;
             CreateInventory();
-            LoadItem();
         }
+    }
+
+    public void LoadSave() 
+    {
+        LoadItem();
+        LoadCloth();
     }
 
     // Update is called once per frame
@@ -268,6 +284,7 @@ public class Player_Inventory : MonoBehaviour
             else if(inventory.ItemNameArray[x] == null)
             {
                 AllSlotPic[x].sprite = Defath_Sprite;
+                AllSlotPic[x].GetComponentInChildren<TextMeshProUGUI>().text = "";
             }
         }
     }
@@ -279,6 +296,7 @@ public class Player_Inventory : MonoBehaviour
         Damage = 0;
         Cri_Damage = 0;
         Cri_Rate = 0;
+        bool is_player_has_weapond = false;
         for (int x = 0; x < ClothesSlot_Item.Length; x++) 
         {
             if (ClothesSlot_Item[x] != null) 
@@ -293,23 +311,37 @@ public class Player_Inventory : MonoBehaviour
                     if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.Axe)
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animAxe;
+                        SkillShow[1].sprite = AxeSkillPic[0];
+                        SkillShow[2].sprite = AxeSkillPic[1];
                     }
                     else if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.SwordAndShield)
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animSwordAndShield;
+                        SkillShow[1].sprite = SwordAndShieldSkillPic[0];
+                        SkillShow[2].sprite = SwordAndShieldSkillPic[1];
                     }
-                    else if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.Stuff) 
+                    else if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.Stuff)
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animMagic;
+                        SkillShow[1].sprite = StuffSkillPic[0];
+                        SkillShow[2].sprite = StuffSkillPic[1];
                     }
                     else if (ClothesSlot_Item[x].type_Weapon == Item.Type_Weapon.Bow)
                     {
                         player_Move_Control.gameObject.GetComponent<Animator>().runtimeAnimatorController = animBow;
+                        SkillShow[1].sprite = BowSkillPic[0];
+                        SkillShow[2].sprite = BowSkillPic[1];
                     }
+                    is_player_has_weapond = true;
+                }
+                else if (ClothesSlot_Item[x].type == Item.Type.Veil) 
+                {
+                    SkillShow[0].sprite = ClothesSlot_Item[x].ItemPic;
                 }
             }
         }
         player_Stat = player_Move_Control.gameObject.GetComponent<Player_Stat>();
+        if (!is_player_has_weapond) { player_Stat.gameObject.GetComponent<Player_Attack_Control>().IsPlayerNoWeapond(true); }
         player_Stat.gameObject.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         player_Stat.SetCurrentStat();
     }
@@ -409,6 +441,8 @@ public class Player_Inventory : MonoBehaviour
             if (slotNumber == 5)
             {
                 player_Stat.gameObject.GetComponent<Player_Attack_Control>().IsPlayerNoWeapond(true);
+                SkillShow[1].sprite = Defath_Sprite;
+                SkillShow[2].sprite = Defath_Sprite;
             }
             else if (slotNumber == 4) 
             {
@@ -427,6 +461,8 @@ public class Player_Inventory : MonoBehaviour
 
     void LoadItem()
     {
+        string data = js.LoadJson(Application.persistentDataPath, "Saveinventory" + player_name);
+        JsonUtility.FromJsonOverwrite(data, saveInventory);
         for (int x = 0; x < saveInventory.ItemNameArray.Length; x++)
         {
             if (saveInventory.ItemNameArray[x] == "") { return; }
@@ -444,12 +480,13 @@ public class Player_Inventory : MonoBehaviour
 
     public void LoadCloth() 
     {
-        Debug.Log("Load : " + ClothesSlot_Item.Length);
+        Debug.Log("SaveCloth" + player_name);
+        string data = js.LoadJson(Application.persistentDataPath, "SaveCloth" + player_name);
+        JsonUtility.FromJsonOverwrite(data, saveClothes);
         for (int y = 0; y < ClothesSlot_Item.Length; y++)
         {
             if (saveClothes.SaveClothesSlot_Item[y] != null)
             {
-                Debug.Log("Load : " + saveClothes.SaveClothesSlot_Item[y].NameItem);
                 ClothesSlot_Item[y] = saveClothes.SaveClothesSlot_Item[y];
                 ClothesSlot_pic[y].sprite = saveClothes.SaveClothesSlot_Item[y].ItemPic;
                 if (saveClothes.SaveClothesSlot_Item[y].type == Item.Type.Veil) 
@@ -464,7 +501,7 @@ public class Player_Inventory : MonoBehaviour
         UpdateStat();
     }
 
-    void SaveItem() 
+    public void SaveItem() 
     {
         for (int x = 0; x < inventory.ItemNameArray.Length; x++)
         {
@@ -474,15 +511,19 @@ public class Player_Inventory : MonoBehaviour
                 saveInventory.ItemIndexArray[x] = inventory.ItemIndexArray[x];
             }
         }
+        string savedata = JsonUtility.ToJson(saveInventory);
+        js.SaveJson(Application.persistentDataPath, "Saveinventory" + player_name, savedata);
     }
 
-    void SaveCloth() 
+    public void SaveCloth() 
     {
         for (int y = 0; y < ClothesSlot_Item.Length; y++)
         {
             if (ClothesSlot_Item[y] != null) { saveClothes.SaveClothesSlot_Item[y] = ClothesSlot_Item[y]; }
             else { saveClothes.SaveClothesSlot_Item[y] = null; }
         }
+        string savedata = JsonUtility.ToJson(saveClothes);
+        js.SaveJson(Application.persistentDataPath, "SaveCloth" + player_name, savedata);
     }
 
     bool TutorialCheck(int stage)

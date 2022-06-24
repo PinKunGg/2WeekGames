@@ -21,12 +21,14 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
     public GameObject SelectStage;
     public TextMeshProUGUI SelectStage_output;
 
+    PhotonView photonView;
     public void Awake() 
     {
         playerListMenu = this;
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
         DontDestroyOnLoad(this);
+        photonView = GetComponent<PhotonView>();
         if (PhotonNetwork.IsMasterClient)
         {
             SelectStage.gameObject.SetActive(true);
@@ -105,6 +107,8 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
+            if (photonView == null) { photonView = GetComponent<PhotonView>(); }
+            photonView.RPC("Rpc_SaveGame", RpcTarget.All);
             string name_scene = "";
             if (SelectStage_output.text == "Stage 1") 
             {
@@ -128,5 +132,12 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
             }
             PhotonNetwork.LoadLevel(name_scene);
         }
+    }
+
+    [PunRPC]
+    void Rpc_SaveGame() 
+    {
+        Player_Inventory.player_Inventory.SaveItem();
+        Player_Inventory.player_Inventory.SaveCloth();
     }
 }

@@ -118,6 +118,7 @@ public class LobbyControl : MonoBehaviour
 
     void Check() 
     {
+        if (!Tutorial_Control.tutorial_Control.IsLobby) { return; }
         if (!PhotonNetwork.IsMasterClient) { return; }
         if (IsotherReady_count == PlayerCount - 1)
         {
