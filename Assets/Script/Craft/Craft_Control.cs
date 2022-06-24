@@ -32,11 +32,6 @@ public class Craft_Control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C)) 
-        {
-            Main_Craft_UI.SetActive(!Main_Craft_UI.activeSelf);
-        }
-
         if (Main_Craft_UI.activeSelf && !Isopen)
         {
             Isopen = true;
@@ -47,6 +42,12 @@ public class Craft_Control : MonoBehaviour
         {
             Isopen = false;
         }
+    }
+
+    public void OpenCraft() 
+    {
+        Main_Craft_UI.SetActive(!Main_Craft_UI.activeSelf);
+        player_inventory.InvenUI.SetActive(false);
     }
 
     void UpdateSet() 

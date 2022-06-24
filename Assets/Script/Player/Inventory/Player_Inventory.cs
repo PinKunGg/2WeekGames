@@ -67,19 +67,19 @@ public class Player_Inventory : MonoBehaviour
     void Update()
     {
         PotionText.text = PotionSlot.ToString();
-        if (Input.GetKeyDown(KeyCode.I)) 
-        {
-            OpenInven();
-        }
-        if (Input.GetKeyDown(KeyCode.K)) 
-        {
-            AddItem(Test, 1);
-        }
-        if (Input.GetKeyDown(KeyCode.L)) 
-        {
-            SaveItem();
-            //RemoveItem(Test, 2);
-        }
+        //if (Input.GetKeyDown(KeyCode.I)) 
+        //{
+        //    OpenInven();
+        //}
+        //if (Input.GetKeyDown(KeyCode.K)) 
+        //{
+        //    AddItem(Test, 1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.L)) 
+        //{
+        //    SaveItem();
+        //    //RemoveItem(Test, 2);
+        //}
     }
 
     public void OpenInven() 
@@ -91,6 +91,7 @@ public class Player_Inventory : MonoBehaviour
             CameraPlayer.SetActive(!CameraPlayer.activeSelf);
             player_Move_Control.SwitchCursor(InvenUI.activeSelf);
         }
+        FindObjectOfType<Craft_Control>().Main_Craft_UI.SetActive(false);
         UpdateSlot();
     }
 
@@ -472,6 +473,15 @@ public class Player_Inventory : MonoBehaviour
                 saveInventory.ItemNameArray[x] = inventory.ItemNameArray[x];
                 saveInventory.ItemIndexArray[x] = inventory.ItemIndexArray[x];
             }
+        }
+    }
+
+    void SaveCloth() 
+    {
+        for (int y = 0; y < ClothesSlot_Item.Length; y++)
+        {
+            if (ClothesSlot_Item[y] != null) { saveClothes.SaveClothesSlot_Item[y] = ClothesSlot_Item[y]; }
+            else { saveClothes.SaveClothesSlot_Item[y] = null; }
         }
     }
 

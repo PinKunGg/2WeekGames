@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
 {
     public List<AllPlayerInRoom> _allPlayerInCurrentRoom = new List<AllPlayerInRoom>();
+    public LobbyControl lobbyControl;
 
     SavePlayerData _savePlayerData;
 
@@ -36,8 +37,10 @@ public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
         AllPlayerInRoom a = new AllPlayerInRoom();
         a._playerGameObject = obj;
         _allPlayerInCurrentRoom.Add(a);
-
-        if(PhotonNetwork.IsMasterClient){
+        Debug.Log("WTF : " + obj.name);
+        lobbyControl = GetComponent<LobbyControl>();
+        lobbyControl.addPlayer(obj);
+        if (PhotonNetwork.IsMasterClient){
             _savePlayerData.LoadData(a._playerGameObject.GetComponent<PhotonView>());
         }
     }

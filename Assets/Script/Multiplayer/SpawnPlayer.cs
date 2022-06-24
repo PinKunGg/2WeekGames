@@ -20,7 +20,5 @@ public class SpawnPlayer : MonoBehaviour
     public void SpawnNewPlayer(){
         GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabs.name,spawnPoint.position,Quaternion.identity);
         playerObj.name = PhotonNetwork.NickName;
-        Debug.Log("WTF : EIEI");
-        lobbyControl.addPlayer(playerObj);
     }
 }
