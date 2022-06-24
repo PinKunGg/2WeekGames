@@ -10899,7 +10899,7 @@ GameObject:
   - component: {fileID: 1208175144}
   m_Layer: 6
   m_Name: Ground-AI
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15831,6 +15831,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arachne_Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385873379763382685, guid: ee8a2f23fd6d7e54583feac142a78957,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8a2f23fd6d7e54583feac142a78957, type: 3}

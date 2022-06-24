@@ -10,10 +10,11 @@ public class Arachne_SpawnSpider : MonoBehaviour
     public GameObject SpiderMinion;
 
     public void SpawnSpiderMinion(){
-        // if(!PhotonNetwork.IsMasterClient){return;}
+        if(!PhotonNetwork.IsMasterClient){return;}
+        
         for(int i = 0; i < spawnPos.Length; i++){
-            // PhotonNetwork.Instantiate(SpiderMinion.name,spawnPos[i].position,spawnPos[i].rotation);
-            Instantiate(SpiderMinion,spawnPos[i].position,spawnPos[i].rotation);
+            PhotonNetwork.Instantiate(SpiderMinion.name,spawnPos[i].position,spawnPos[i].rotation);
+            // Instantiate(SpiderMinion,spawnPos[i].position,spawnPos[i].rotation);
         }
     }
 }

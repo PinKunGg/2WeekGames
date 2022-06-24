@@ -39,7 +39,7 @@ public class BoarAI : MonoBehaviourPunCallbacks
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.O)){
-            boarAttack.AttackSpecific(2);
+            // boarAttack.AttackSpecific(2);
         }
     }
 

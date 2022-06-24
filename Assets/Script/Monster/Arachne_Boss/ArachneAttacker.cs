@@ -29,13 +29,15 @@ public class ArachneAttacker : MonoBehaviour
             isCanAttack = true;
         }
 
-        isCanAttack = true;
+        // isCanAttack = true;
     }
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.O)){
             // Attack();
         }
+
+        if(!monsterHopping.goToTarget){return;}
 
         disBetweenEnemyAndPlayer = Vector3.Distance(this.transform.position, monsterHopping.goToTarget.transform.localPosition);
     }

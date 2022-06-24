@@ -23,7 +23,7 @@ public class ArachneAI : MonoBehaviourPunCallbacks
             Invoke("DelayStart",1f);
         }
 
-        InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
+        // InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
     }
 
     void DelayStart(){
@@ -41,7 +41,7 @@ public class ArachneAI : MonoBehaviourPunCallbacks
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.O)){
-            arachneAttack.AttackSpecific(3);
+            arachneAttack.AttackSpecific(2);
         }
     }
 
@@ -49,10 +49,10 @@ public class ArachneAI : MonoBehaviourPunCallbacks
         if(!monsterHopping.goToTarget){return;}
 
         if(monsterHopping.isPlayerInRange){
-            arachneAttack.Attack();
+            // arachneAttack.Attack();
         }
         else{
-            arachneAttack.AttackSpecific(3);
+            // arachneAttack.AttackSpecific(3);
         }
     }
 
