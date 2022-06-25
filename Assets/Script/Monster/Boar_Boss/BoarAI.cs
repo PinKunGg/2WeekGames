@@ -7,7 +7,7 @@ using Photon.Realtime;
 public class BoarAI : MonoBehaviourPunCallbacks
 {
     Monster_Movement _monsterMove;
-    Monster_Attacker _monsterAttack;
+    BoarAttacker boarAttack;
 
     PlayerManager_Multiplayer _playerManMulti;
 
@@ -15,7 +15,7 @@ public class BoarAI : MonoBehaviourPunCallbacks
 
     private void Start() {
         _monsterMove = GetComponent<Monster_Movement>();
-        _monsterAttack = GetComponent<Monster_Attacker>();
+        boarAttack = GetComponent<BoarAttacker>();
         _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         
         if(PhotonNetwork.IsMasterClient){
@@ -39,7 +39,7 @@ public class BoarAI : MonoBehaviourPunCallbacks
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.O)){
-            _monsterAttack.AttackSpecific(2);
+            // boarAttack.AttackSpecific(2);
         }
     }
 
@@ -47,7 +47,7 @@ public class BoarAI : MonoBehaviourPunCallbacks
         if(!_monsterMove.goToTarget){return;}
 
         if(_monsterMove.isPlayerInRange){
-            _monsterAttack.Attack();
+            boarAttack.Attack();
         }
     }
 

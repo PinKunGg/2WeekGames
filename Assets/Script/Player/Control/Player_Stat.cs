@@ -198,6 +198,13 @@ public class Player_Stat : MonoBehaviour
         }
     }
 
+    private void OnParticleCollision(GameObject other) {
+        if (other.gameObject.CompareTag("BossAttack")) 
+        {
+            Player_Take_Damage(10);
+        }
+    }
+
     public void Player_Take_Damage(float damage) 
     {
         if (IsImu) { return; }

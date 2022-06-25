@@ -40,12 +40,9 @@ public class Monster_Movement : MonoBehaviour
         //Make path and update it
         if(PhotonNetwork.IsMasterClient){
             InvokeRepeating("UpdatePath", 0f, 0.1f);
-
-            startWalk = true;
         }
 
         // InvokeRepeating("UpdatePath", 0f, 0.1f);
-        // startWalk = true;
     }
 
     void OnPathComplete(Path p){
@@ -110,7 +107,10 @@ public class Monster_Movement : MonoBehaviour
         }
     }
     public void GoToPlayer(){
-        if(isStopWalk){return;}
+        if(isStopWalk){
+            monsterAnima.PlayBoolAnimator("IsRun",false);
+            return;
+        }
 
         if (disBetweenEnemyAndPlayer > StopDis){
             monsterAnima.PlayBoolAnimator("IsRun",true);
@@ -121,6 +121,24 @@ public class Monster_Movement : MonoBehaviour
         else{
             monsterAnima.PlayBoolAnimator("IsRun",false);
             isPlayerInRange = true;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if(other.gameObject.CompareTag("Ground")){
+            if(PhotonNetwork.IsMasterClient){
+                startWalk = true;
+            }
+            startWalk = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision other) {
+        if(other.gameObject.CompareTag("Ground")){
+            if(PhotonNetwork.IsMasterClient){
+                startWalk = false;
+            }
+            startWalk = false;
         }
     }
 
