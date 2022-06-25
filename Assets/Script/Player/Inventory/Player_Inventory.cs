@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
 public class Player_Inventory : MonoBehaviour
 {
@@ -461,7 +462,7 @@ public class Player_Inventory : MonoBehaviour
 
     void LoadItem()
     {
-        string data = js.LoadJson(Application.persistentDataPath, "Saveinventory" + player_name);
+        string data = js.LoadJson(Application.persistentDataPath, "Saveinventory" + PhotonNetwork.MasterClient.NickName + player_name);
         JsonUtility.FromJsonOverwrite(data, saveInventory);
         for (int x = 0; x < saveInventory.ItemNameArray.Length; x++)
         {
@@ -481,7 +482,7 @@ public class Player_Inventory : MonoBehaviour
     public void LoadCloth() 
     {
         Debug.Log("SaveCloth" + player_name);
-        string data = js.LoadJson(Application.persistentDataPath, "SaveCloth" + player_name);
+        string data = js.LoadJson(Application.persistentDataPath, "SaveCloth" + PhotonNetwork.MasterClient.NickName + player_name);
         JsonUtility.FromJsonOverwrite(data, saveClothes);
         for (int y = 0; y < ClothesSlot_Item.Length; y++)
         {
@@ -512,7 +513,7 @@ public class Player_Inventory : MonoBehaviour
             }
         }
         string savedata = JsonUtility.ToJson(saveInventory);
-        js.SaveJson(Application.persistentDataPath, "Saveinventory" + player_name, savedata);
+        js.SaveJson(Application.persistentDataPath, "Saveinventory" + PhotonNetwork.MasterClient.NickName + player_name, savedata);
     }
 
     public void SaveCloth() 
@@ -523,7 +524,7 @@ public class Player_Inventory : MonoBehaviour
             else { saveClothes.SaveClothesSlot_Item[y] = null; }
         }
         string savedata = JsonUtility.ToJson(saveClothes);
-        js.SaveJson(Application.persistentDataPath, "SaveCloth" + player_name, savedata);
+        js.SaveJson(Application.persistentDataPath, "SaveCloth" + PhotonNetwork.MasterClient.NickName + player_name, savedata);
     }
 
     bool TutorialCheck(int stage)
