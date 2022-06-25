@@ -5,10 +5,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using DG.Tweening;
 
-public class ArachneAttacker : MonoBehaviour
+public class Assasin_Attacker : MonoBehaviour
 {
     public int[] attackIndex;
-    int attackIndexTemp;
     public bool isCanAttack{get; private set;}
     bool isAttackSpecificInUse;
     bool isChargeAttackDone;
@@ -29,7 +28,7 @@ public class ArachneAttacker : MonoBehaviour
             isCanAttack = true;
         }
 
-        // isCanAttack = true;
+        isCanAttack = true;
     }
 
     private void Update() {
@@ -47,20 +46,16 @@ public class ArachneAttacker : MonoBehaviour
 
         isCanAttack = false;
 
-        attackIndexTemp = Random.Range(0,attackIndex.Length);
-
         monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
         CancelInvoke();
 
-        AttackSpecific(attackIndexTemp);
+        AttackSpecific(Random.Range(0,attackIndex.Length));
     }
 
     public void AttackSpecific(int value){
         if(isAttackSpecificInUse){return;}
         isAttackSpecificInUse = true;
         isCanAttack = false;
-
-        attackIndexTemp = value;
 
         AttackSqeuence = DOTween.Sequence();
 
@@ -69,7 +64,12 @@ public class ArachneAttacker : MonoBehaviour
         switch(value){
             case 0:
             if(disBetweenEnemyAndPlayer > NormalAttackRange){
-                DelayAttacker();
+                monsterAnima.PlayBoolAnimator("IsSkill1",true);
+
+                AnimationName = "IsSkill1";
+                AttackSqeuence.AppendInterval(0.3f);
+                AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+                DelayCaculate();
                 break;
             }
 
@@ -122,9 +122,9 @@ public class ArachneAttacker : MonoBehaviour
 
     void DelayCaculate(){
         monsterHopping.rb.isKinematic = false;
-        Debug.Log(monsterAnima.anima.GetCurrentAnimatorStateInfo(0).length);
+        Debug.Log(monsterAnima.GetCurrentAnimationTime() * 0.9f);
         AttackSqeuence = DOTween.Sequence();
-        AttackSqeuence.AppendInterval(monsterAnima.anima.GetCurrentAnimatorStateInfo(0).length / 0.5f);
+        AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 0.9f);
         AttackSqeuence.AppendCallback(DelayAttacker);
     }
 

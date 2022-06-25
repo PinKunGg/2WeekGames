@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterAttackDamage : MonoBehaviour
+public class MonsterAttackKnockback : MonoBehaviour
 {
     Vector3 knockBackPos;
 
