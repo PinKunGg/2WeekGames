@@ -30,7 +30,15 @@ public class LobbyControl : MonoBehaviour
     void Start()
     {
         photonView = GetComponent<PhotonView>();
-        if (!Tutorial_Control.tutorial_Control.IsLobby) { return; }
+        if (!Tutorial_Control.tutorial_Control.IsLobby)
+        {
+            return;
+        }
+        else 
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
         if (PhotonNetwork.IsMasterClient)
         {
             StartGameButton.SetActive(false);

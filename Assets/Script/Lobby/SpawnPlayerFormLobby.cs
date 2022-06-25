@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class SpawnPlayerFormLobby : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class SpawnPlayerFormLobby : MonoBehaviour
     public GameObject playerPrefabs;
     public Transform spawnPoint;
     GameObject playerObj;
+    static bool IsFistRun = false;
     void Start()
     {
         playerListMenu = FindObjectOfType<PlayerListMenu>();
@@ -23,14 +25,19 @@ public class SpawnPlayerFormLobby : MonoBehaviour
         
     }
 
+    public void ChangeIsFirstRun() 
+    {
+        IsFistRun = true;
+    }
+
     void SpawnPlayer() 
     {
-        Debug.Log("y : run");
+        Debug.Log("IsFistRun : " + IsFistRun);
+        if (SceneManager.GetActiveScene().name == "Multiplayer_Lobby") { return; }
         playerObj = PhotonNetwork.Instantiate(playerPrefabs.name, spawnPoint.position, Quaternion.identity);
         foreach (PlayerListInfo value in playerListMenu._playerListingInfos) 
         {        
             playerObj.GetComponent<PhotonView>().TransferOwnership(value.info);
-            Debug.Log("y : " + playerObj.name);
         }
     }
 }

@@ -27,7 +27,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         playerListMenu = this;
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         photonView = GetComponent<PhotonView>();
         if (PhotonNetwork.IsMasterClient)
         {
@@ -105,6 +105,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient) 
         {
+            FindObjectOfType<SpawnPlayerFormLobby>().ChangeIsFirstRun();
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
             if (photonView == null) { photonView = GetComponent<PhotonView>(); }

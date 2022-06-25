@@ -26,7 +26,6 @@ public class ItemSlot : MonoBehaviour ,IPointerClickHandler
     public void UpdateText(int value) 
     {
         if (amount_text == null) { amount_text = GetComponentInChildren<TextMeshProUGUI>(); }
-        Debug.Log("Slot : "+gameObject.name);
         amount_text.text = value.ToString();
     }
 
