@@ -52,8 +52,13 @@ public class Assasin_Attacker : MonoBehaviour
         AttackSpecific(Random.Range(0,attackIndex.Length));
     }
 
+    int AttackSpecificIndex;
+
     public void AttackSpecific(int value){
         if(isAttackSpecificInUse){return;}
+
+        AttackSpecificIndex = value;
+
         isAttackSpecificInUse = true;
         isCanAttack = false;
 
@@ -64,21 +69,11 @@ public class Assasin_Attacker : MonoBehaviour
         switch(value){
             case 0:
             if(disBetweenEnemyAndPlayer > NormalAttackRange){
-                monsterAnima.PlayBoolAnimator("IsSkill1",true);
-
-                AnimationName = "IsSkill1";
-                AttackSqeuence.AppendInterval(0.3f);
-                AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-                DelayCaculate();
+                TeleportToPlayer();
                 break;
             }
 
-            monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
-            
-            AnimationName = "IsNormalAttack";
-            AttackSqeuence.AppendInterval(0.5f);
-            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            NormalAttack();
             break;
 
             case 1:
@@ -87,7 +82,8 @@ public class Assasin_Attacker : MonoBehaviour
             AnimationName = "IsSkill1";
             AttackSqeuence.AppendInterval(0.3f);
             AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            AttackSqeuence.AppendInterval(0.5f);
+            AttackSqeuence.AppendCallback(DelayCaculate);
             break;
 
             case 2:
@@ -96,17 +92,16 @@ public class Assasin_Attacker : MonoBehaviour
             AnimationName = "IsSkill2";
             AttackSqeuence.AppendInterval(0.3f);
             AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            AttackSqeuence.AppendInterval(1f);
+            AttackSqeuence.AppendCallback(DelayCaculate);
             break;
 
             case 3:
-            monsterAnima.PlayBoolAnimator("IsJumpUp",true);
-
-            monsterHopping.SpawnShadowHopping();
-            AnimationName = "IsJumpUp";
-            AttackSqeuence.AppendInterval(0.3f);
-            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            StartCoroutine(Jumping());
+            if(disBetweenEnemyAndPlayer <= NormalAttackRange){
+                NormalAttack();
+                break;
+            }
+            TeleportToPlayer();
             break;
 
             default:
@@ -115,16 +110,41 @@ public class Assasin_Attacker : MonoBehaviour
             AnimationName = "IsNormalAttack";
             AttackSqeuence.AppendInterval(0.3f);
             AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            AttackSqeuence.AppendInterval(0.5f);
+            AttackSqeuence.AppendCallback(DelayCaculate);
             break;
         }
     }
 
+    void TeleportToPlayer(){
+        monsterHopping.rb.Sleep();
+        monsterAnima.PlayBoolAnimator("IsTeleportUp",true);
+
+        monsterHopping.SpawnShadowHopping();
+        AnimationName = "IsTeleportUp";
+
+        AttackSqeuence = DOTween.Sequence();
+        AttackSqeuence.AppendInterval(0.3f);
+        AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+        StartCoroutine(Jumping());
+    }
+    void NormalAttack(){
+        monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
+            
+        AnimationName = "IsNormalAttack";
+
+        AttackSqeuence = DOTween.Sequence();
+        AttackSqeuence.AppendInterval(0.5f);
+        AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+        AttackSqeuence.AppendInterval(0.5f);
+        AttackSqeuence.AppendCallback(DelayCaculate);
+    }
+
     void DelayCaculate(){
         monsterHopping.rb.isKinematic = false;
-        Debug.Log(monsterAnima.GetCurrentAnimationTime() * 0.9f);
+        Debug.Log(monsterAnima.GetCurrentAnimationTime() * 1.5f);
         AttackSqeuence = DOTween.Sequence();
-        AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 0.9f);
+        AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 1.5f);
         AttackSqeuence.AppendCallback(DelayAttacker);
     }
 
@@ -140,18 +160,26 @@ public class Assasin_Attacker : MonoBehaviour
 
     IEnumerator Jumping(){
         monsterHopping.rb.isKinematic = true;
-        yield return new WaitForSeconds(0.7f);
-        transform.DOMoveY(this.transform.position.y + 5f,0.5f);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(7.5f);
+
         monsterHopping.FindDropPoint();
         yield return new WaitForSeconds(1f);
 
-        transform.DOMoveY(this.transform.position.y - 5f,0.5f);
-        yield return new WaitForSeconds(0.2f);
-        monsterAnima.PlayBoolAnimator("IsJumpDown",true);
-        DelayCaculate();
+        monsterAnima.PlayBoolAnimator("IsTeleportDown",true);
         yield return new WaitForSeconds(0.3f);
-        monsterAnima.PlayBoolAnimator("IsJumpDown",false);
+
+        monsterAnima.PlayBoolAnimator("IsTeleportDown",false);
+        yield return new WaitForSeconds(2.5f);
+        monsterHopping.rb.WakeUp();
+
+        monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
+        
+        AnimationName = "IsNormalAttack";
+
+        yield return new WaitForSeconds(0.5f);
+        StopAttackerAnimationTween();
+        yield return new WaitForSeconds(0.5f);
+        DelayCaculate();
     }
 
     private void OnDrawGizmosSelected(){
