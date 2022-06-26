@@ -17,7 +17,7 @@ public class Monster_Stat : MonoBehaviour
     public Item itemDrop;
     public int[] AmountRangeitemDrop = new int[2];
     PlayerWeaponDamage forDot;
-    PlayerManager_Multiplayer _playerManMulti;
+    PlayerManager_Multiplayer playerManMulti;
 
     bool IsDie = false;
     int playerDamageID;
@@ -31,7 +31,7 @@ public class Monster_Stat : MonoBehaviour
         UpdateMonsterCurrentStat();
 
         if(PhotonNetwork.IsMasterClient){
-            _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+            playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         }
     }
 
@@ -146,7 +146,7 @@ public class Monster_Stat : MonoBehaviour
 
     [PunRPC]
     void RPC_SendDamageToPlayerManagerMultiplayer(int playerID, float damage){
-        _playerManMulti.AddPlayerDamage(playerID,damage);
+        playerManMulti.AddPlayerDamage(playerID,damage);
     }
 
     void DropItem() 

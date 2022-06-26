@@ -9,30 +9,28 @@ using System;
 
 public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 {
-    public TMP_InputField _playerName;
+    public TMP_InputField playerName;
     bool isTutorial = false;
 
     [Space]
-    public TMP_InputField _createRoomName;
-    public Button _PrivateRoom;
-    public Button _PublicRoom;
+    public TMP_InputField createRoomName;
+    public Button PrivateRoom;
+    public Button PublicRoom;
     
-    public Slider _createMaxPlayer;
-    public TMP_InputField _createMaxPlayer_InputField;
+    public Slider createMaxPlayer;
+    public TMP_InputField createMaxPlayer_InputField;
 
-    [Space]
-    public Canvas _joinRoomList_ui;
-    public TMP_InputField _joinRoomName;
+    public TMP_InputField joinRoomName;
 
-    bool _isRoomVisible;
-    float _maxPlayer = 2;
+    bool isRoomVisible;
+    float maxPlayer = 2;
 
     private void Start() {
         OnClick_PublicRoom();
     }
 
     public void CreateRoom(){
-        if(string.IsNullOrEmpty(_playerName.text) && string.IsNullOrEmpty(_createRoomName.text)){
+        if(string.IsNullOrEmpty(playerName.text) && string.IsNullOrEmpty(createRoomName.text)){
             return;
         }
         
@@ -41,43 +39,43 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         }
 
         RoomOptions options = new RoomOptions(){
-            MaxPlayers = byte.Parse(_createMaxPlayer_InputField.text.ToString()),
-            IsVisible = _isRoomVisible
+            MaxPlayers = byte.Parse(createMaxPlayer_InputField.text.ToString()),
+            IsVisible = isRoomVisible
         };
 
         PreparePlayerData();
 
-        PhotonNetwork.CreateRoom(_createRoomName.text,options,TypedLobby.Default);
+        PhotonNetwork.CreateRoom(createRoomName.text,options,TypedLobby.Default);
     }
 
     public void OnClick_PrivateRoom(){
-        _PrivateRoom.interactable = false;
-        _PublicRoom.interactable = true;
+        PrivateRoom.interactable = false;
+        PublicRoom.interactable = true;
 
-        _isRoomVisible = false;
+        isRoomVisible = false;
     }
     public void OnClick_PublicRoom(){
-        _PrivateRoom.interactable = true;
-        _PublicRoom.interactable = false;
+        PrivateRoom.interactable = true;
+        PublicRoom.interactable = false;
 
-        _isRoomVisible = true;
+        isRoomVisible = true;
     }
 
     public void OnMaxPlayerValueChange(){
-        _maxPlayer = _createMaxPlayer.value;
-        _createMaxPlayer_InputField.text = _maxPlayer.ToString();
+        maxPlayer = createMaxPlayer.value;
+        createMaxPlayer_InputField.text = maxPlayer.ToString();
     }
 
     public void OnMaxPlayerValueChange_InputField(){
-        if(float.Parse(_createMaxPlayer_InputField.text) > 4f){
-            _maxPlayer = 4f;
-            _createMaxPlayer_InputField.text = _maxPlayer.ToString();
+        if(float.Parse(createMaxPlayer_InputField.text) > 4f){
+            maxPlayer = 4f;
+            createMaxPlayer_InputField.text = maxPlayer.ToString();
         }
         else{
-            _maxPlayer = float.Parse(_createMaxPlayer_InputField.text);
+            maxPlayer = float.Parse(createMaxPlayer_InputField.text);
         }
 
-        _createMaxPlayer.value = _maxPlayer;
+        createMaxPlayer.value = maxPlayer;
     }
 
     List<RoomInfo> infos = new List<RoomInfo>();
@@ -88,7 +86,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     }
 
     public void JoinRoom(){
-        if(string.IsNullOrEmpty(_playerName.text) && string.IsNullOrEmpty(_joinRoomName.text)){
+        if(string.IsNullOrEmpty(playerName.text) && string.IsNullOrEmpty(joinRoomName.text)){
             return;
         }
 
@@ -98,13 +96,13 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
         PreparePlayerData();
 
-        PhotonNetwork.JoinRoom(_joinRoomName.text);
+        PhotonNetwork.JoinRoom(joinRoomName.text);
     }
 
     void PreparePlayerData(){
         if (!isTutorial)
         {
-            PhotonNetwork.NickName = _playerName.text;
+            PhotonNetwork.NickName = playerName.text;
         }
         else if (isTutorial) 
         {
@@ -115,13 +113,13 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom(){
         base.OnCreatedRoom();
 
-        Debug.LogFormat("Crated '{0}' room success",_createRoomName.text);
+        Debug.LogFormat("Crated '{0}' room success",createRoomName.text);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message){
         base.OnCreateRoomFailed(returnCode, message);
 
-        Debug.LogFormat("Fail to crated '{0}' room: {1}",_createRoomName.text,message);
+        Debug.LogFormat("Fail to crated '{0}' room: {1}",createRoomName.text,message);
     }
 
     public override void OnJoinedRoom(){
@@ -141,11 +139,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message){
         base.OnJoinRoomFailed(returnCode, message);
 
-        Debug.LogFormat("Can't join room '{0}': {1}",_joinRoomName.text,message);
-    }
-
-    public void CloseJoinListUI(){
-        _joinRoomList_ui.enabled = false;
+        Debug.LogFormat("Can't join room '{0}': {1}",joinRoomName.text,message);
     }
 
     public void TutorialMode() 

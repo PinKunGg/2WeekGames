@@ -6598,10 +6598,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameControl: {fileID: 381045622}
-  _content: {fileID: 614463568}
-  _playerListInfo: {fileID: 6567762548724360074, guid: c531ee590b0c3fe47b78f3bbcd2816cd,
+  content: {fileID: 614463568}
+  playerListInfo: {fileID: 6567762548724360074, guid: c531ee590b0c3fe47b78f3bbcd2816cd,
     type: 3}
-  _playerListingInfos: []
+  playerListingInfos: []
   allPlayerStat: []
   AllAttack_Controls: []
   SelectStage: {fileID: 390100736}
@@ -16761,8 +16761,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083782553824e0246bbeec66a7cef9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSaveDone: 0
-  _isLoadDone: 0
+  isSaveDone: 0
+  isLoadDone: 0
 --- !u!114 &1845650364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17842,8 +17842,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 318560047}
   m_HandleRect: {fileID: 318560045}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.338843
+  m_Value: 0.99999994
+  m_Size: 0.33884293
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

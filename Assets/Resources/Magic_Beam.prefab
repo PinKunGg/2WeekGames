@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1319013355778794471}
   - component: {fileID: 1319013355778794489}
   - component: {fileID: 1319013355778794488}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam_Ring1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4832,7 +4832,7 @@ GameObject:
   - component: {fileID: 1319013356053498431}
   - component: {fileID: 1319013356053498417}
   - component: {fileID: 1319013356053498416}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam_Ring0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9668,7 +9668,7 @@ GameObject:
   - component: {fileID: 1319013356262376225}
   - component: {fileID: 1319013356262376227}
   - component: {fileID: 1319013356262376226}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam_Ring2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14490,7 +14490,7 @@ GameObject:
   - component: {fileID: 1319013356609040353}
   - component: {fileID: 1319013356609040352}
   - component: {fileID: 2426099101360346809}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19393,7 +19393,7 @@ GameObject:
   - component: {fileID: 1319013356771769377}
   - component: {fileID: 1319013356771769379}
   - component: {fileID: 1319013356771769378}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam_Ring4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24214,7 +24214,7 @@ GameObject:
   - component: {fileID: 1319013356952026104}
   - component: {fileID: 1319013356952026106}
   - component: {fileID: 1319013356952026105}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam_Ring3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29037,7 +29037,7 @@ GameObject:
   - component: {fileID: 1319013357103947250}
   - component: {fileID: 1975085068294184346}
   - component: {fileID: 6257916108241186998}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam_Core
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -32829,7 +32829,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 449
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -33906,7 +33906,7 @@ GameObject:
   - component: {fileID: 1319013357384800514}
   - component: {fileID: 1319013357384800516}
   - component: {fileID: 1319013357384800515}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Beam_Core_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

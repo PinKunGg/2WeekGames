@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3792207504331885339}
   - component: {fileID: 3792207504331885336}
   - component: {fileID: 3792207504331885337}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Tonado_Outer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4833,7 +4833,7 @@ GameObject:
   - component: {fileID: 3792207504516353699}
   - component: {fileID: 3792207504516353696}
   - component: {fileID: 3792207504516353697}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Tonado_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9657,7 +9657,7 @@ GameObject:
   - component: {fileID: 3792207504536780578}
   - component: {fileID: 3792207504536780576}
   - component: {fileID: 3792207504536780579}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9771,7 +9771,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3792207504741657079}
   - component: {fileID: 1723548707765837255}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Magic_Tonado
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -9830,7 +9830,7 @@ GameObject:
   - component: {fileID: 5134221237889556859}
   - component: {fileID: 5449338778220722831}
   - component: {fileID: 7432041426220701989}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Weapon
   m_Icon: {fileID: 0}

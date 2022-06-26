@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using DG.Tweening;
 
 public class Player_Spawn_Skill : MonoBehaviour
 {
@@ -114,8 +115,14 @@ public class Player_Spawn_Skill : MonoBehaviour
             skill_weapond.CriDamage = bow_weapondDamage.CriDamage;
         }
 
-        Destroy(skill_obj, 5);
+        StartCoroutine(DelayDestroy(skill_obj.GetPhotonView()));
+
         StartCoroutine(Delay(weapond, number_of_skill));
+    }
+
+    IEnumerator DelayDestroy(PhotonView phView){
+        yield return new WaitForSeconds(5f);
+        PhotonNetwork.Destroy(phView);
     }
 
     IEnumerator Delay(int weapond, int number_of_skill) 
