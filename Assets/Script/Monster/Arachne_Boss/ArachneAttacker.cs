@@ -5,10 +5,10 @@ using Photon.Pun;
 using Photon.Realtime;
 using DG.Tweening;
 
-public class Arachne_Attacker : MonoBehaviour
+public class ArachneAttacker : MonoBehaviour
 {
     public int[] attackIndex;
-    int attackIndexTemp, previousAttackIndex;
+    int attackIndexTemp;
     public bool isCanAttack{get; private set;}
     bool isAttackSpecificInUse;
     bool isChargeAttackDone;
@@ -49,13 +49,6 @@ public class Arachne_Attacker : MonoBehaviour
 
         attackIndexTemp = Random.Range(0,attackIndex.Length);
 
-        if(attackIndexTemp == previousAttackIndex){
-            attackIndexTemp++;
-            previousAttackIndex = attackIndexTemp;
-        }else{
-            previousAttackIndex = attackIndexTemp;
-        }
-
         monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
         CancelInvoke();
 
@@ -66,6 +59,8 @@ public class Arachne_Attacker : MonoBehaviour
         if(isAttackSpecificInUse){return;}
         isAttackSpecificInUse = true;
         isCanAttack = false;
+
+        attackIndexTemp = value;
 
         AttackSqeuence = DOTween.Sequence();
 
@@ -78,7 +73,12 @@ public class Arachne_Attacker : MonoBehaviour
                 break;
             }
 
-            NormalAttack();
+            monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
+            
+            AnimationName = "IsNormalAttack";
+            AttackSqeuence.AppendInterval(0.5f);
+            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+            DelayCaculate();
             break;
 
             case 1:
@@ -110,18 +110,14 @@ public class Arachne_Attacker : MonoBehaviour
             break;
 
             default:
-            NormalAttack();
+            monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
+            
+            AnimationName = "IsNormalAttack";
+            AttackSqeuence.AppendInterval(0.3f);
+            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+            DelayCaculate();
             break;
         }
-    }
-    
-    void NormalAttack(){
-        monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
-            
-        AnimationName = "IsNormalAttack";
-        AttackSqeuence.AppendInterval(0.3f);
-        AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-        DelayCaculate();
     }
 
     void DelayCaculate(){
@@ -147,7 +143,7 @@ public class Arachne_Attacker : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         transform.DOMoveY(this.transform.position.y + 5f,0.5f);
         yield return new WaitForSeconds(2f);
-        monsterHopping.FindDropPoint(-1f,2f);
+        monsterHopping.FindDropPoint();
         yield return new WaitForSeconds(1f);
 
         transform.DOMoveY(this.transform.position.y - 5f,0.5f);

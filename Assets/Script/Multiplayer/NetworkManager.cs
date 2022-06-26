@@ -4,25 +4,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using ExitGames.Client.Photon;
 
 public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 {
-    PlayerListMenu playerListMenu;
-    SavePlayerData savePlayerData;
-    PlayerManager_Multiplayer playerManMulti;
-    SpawnPlayer spawnPlayer;
+    PlayerListMenu _playerListMenu;
+    SavePlayerData _savePlayerData;
+    PlayerManager_Multiplayer _playerManMulti;
+    SpawnPlayer _spawnPlayer;
 
-    bool isNotSaveThisPlayerData;
-    bool isCheckNameDone;
+    bool _isNotSaveThisPlayerData;
+    bool _isCheckNameDone;
 
     public override void OnEnable(){
         base.OnEnable();
 
-        playerListMenu = FindObjectOfType<PlayerListMenu>();
-        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
-        spawnPlayer = FindObjectOfType<SpawnPlayer>();
-        savePlayerData = GetComponent<SavePlayerData>();
+        _playerListMenu = FindObjectOfType<PlayerListMenu>();
+        _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        _spawnPlayer = FindObjectOfType<SpawnPlayer>();
+        _savePlayerData = GetComponent<SavePlayerData>();
 
         PhotonNetwork.AddCallbackTarget(this);
     }
@@ -43,7 +44,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
         Debug.LogFormat("Player '{0}' join the game",newPlayer.NickName);
 
         if(PhotonNetwork.IsMasterClient){
-            isCheckNameDone = false;
+            _isCheckNameDone = false;
             CheckPlayerName(newPlayer);
 
             StartCoroutine(WaitForCheckPlayerNameIsDone(newPlayer));
@@ -51,13 +52,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
     }
 
     IEnumerator WaitForCheckPlayerNameIsDone(Player newPlayer){
-        while(!isCheckNameDone){
+        while(!_isCheckNameDone){
             yield return null;
         }
 
         Debug.Log("CheckPlayerName Done!");
 
-        if(isNotSaveThisPlayerData){
+        if(_isNotSaveThisPlayerData){
             yield break;
         }
 
@@ -67,12 +68,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     [PunRPC]
     void RPC_AddPlayerToPlayerListMenu(Player newPlayer){
-        playerListMenu.AddPlayerListMenu(newPlayer);
+        _playerListMenu.AddPlayerListMenu(newPlayer);
     }
 
     [PunRPC]
     void RPC_SpawnNewPlayer(){
-        spawnPlayer.SpawnNewPlayer();
+        _spawnPlayer.SpawnNewPlayer();
     }
     
     public override void OnPlayerLeftRoom(Player otherPlayer){
@@ -80,21 +81,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
         Debug.LogFormat("Player '{0}' is leave the game",otherPlayer.NickName);
 
-        if(isNotSaveThisPlayerData){
+        if(_isNotSaveThisPlayerData){
             Debug.LogErrorFormat("Data from player '{0}' was not saved",otherPlayer.NickName);
-            isNotSaveThisPlayerData = false;
+            _isNotSaveThisPlayerData = false;
             return;
         }
 
         if(PhotonNetwork.IsMasterClient){
-            savePlayerData.SaveData(otherPlayer);
+            _savePlayerData.SaveData(otherPlayer);
 
             StartCoroutine(WaitUntilSaveFinish(otherPlayer.ActorNumber));
         }
     }
 
     IEnumerator WaitUntilSaveFinish(int leavePlayerID){
-        while(!savePlayerData.isSaveDone){
+        while(!_savePlayerData._isSaveDone){
             yield return null;
         }
 
@@ -104,18 +105,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     [PunRPC]
     void RPC_RemovePlayerFromPlayerListMenu(int otherPlayer){
-        if(!playerListMenu){
-            playerListMenu = FindObjectOfType<PlayerListMenu>();
+        if(!_playerListMenu){
+            _playerListMenu = FindObjectOfType<PlayerListMenu>();
         }
-        playerListMenu.RemovePlayerListMenu(otherPlayer);
+        _playerListMenu.RemovePlayerListMenu(otherPlayer);
     }
     [PunRPC]
     void RPC_RemovePlayerFromPlayerList(int otherPlayer){
-        if(!playerManMulti){
-            playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        if(!_playerManMulti){
+            _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         }
 
-        playerManMulti.RemovePlayer(otherPlayer);
+        _playerManMulti.RemovePlayer(otherPlayer);
     }
 
     [PunRPC]
@@ -139,9 +140,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
             yield return null;
         }
 
-        savePlayerData.SaveData(PhotonNetwork.LocalPlayer);
+        _savePlayerData.SaveData(PhotonNetwork.LocalPlayer);
 
-        while(!savePlayerData.isSaveDone){
+        while(!_savePlayerData._isSaveDone){
             yield return null;
         }
 
@@ -158,18 +159,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
     void CheckPlayerName(Player newPlayer){
         if(!PhotonNetwork.IsMasterClient){return;}
 
-        for (int i = 0; i < playerListMenu.playerListingInfos.Count; i++){
-            if (playerListMenu.playerListingInfos[i].info.NickName == newPlayer.NickName){
+        for (int i = 0; i < _playerListMenu._playerListingInfos.Count; i++){
+            if (_playerListMenu._playerListingInfos[i].info.NickName == newPlayer.NickName){
                 Debug.Log("Kick " + newPlayer.NickName);
                     
-                isNotSaveThisPlayerData = true;
+                _isNotSaveThisPlayerData = true;
 
                 base.photonView.RPC("RPC_Disconnect",newPlayer);
                 break;
             }
         }
 
-        isCheckNameDone = true;
+        _isCheckNameDone = true;
     }
 
 

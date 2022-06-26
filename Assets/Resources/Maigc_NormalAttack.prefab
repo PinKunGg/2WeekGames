@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5741438144511800153}
   - component: {fileID: 4056589663618088105}
   - component: {fileID: -8327404152949283263}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Maigc_NormalAttack
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -3865,7 +3865,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 449
+      m_Bits: 4294967295
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4947,7 +4947,7 @@ GameObject:
   - component: {fileID: 5741438145036998738}
   - component: {fileID: 5741438145036998740}
   - component: {fileID: 5741438145036998739}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Magic_NotmalAttack_Hit_Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9759,7 +9759,7 @@ GameObject:
   - component: {fileID: 5741438145404248519}
   - component: {fileID: 5741438145404248518}
   - component: {fileID: 5741438145404248517}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Maigc_NormalAttack_trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14571,7 +14571,7 @@ GameObject:
   - component: {fileID: 5741438145482535716}
   - component: {fileID: 5741438145482535715}
   - component: {fileID: 5741438145482535714}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Magic_NotmalAttack_Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

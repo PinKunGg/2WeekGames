@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5130489159618638083}
   - component: {fileID: 1679196184961571010}
   - component: {fileID: 6592091387951413773}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Arrow_Bullet
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -3792,7 +3792,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3847,7 +3847,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 449
+      m_Bits: 4294967295
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4930,7 +4930,7 @@ GameObject:
   - component: {fileID: 5130489159788911298}
   - component: {fileID: 5130489159788911301}
   - component: {fileID: 5130489159788911300}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Arrow_HitFx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9802,7 +9802,7 @@ GameObject:
   - component: {fileID: 5130489159828182454}
   - component: {fileID: 5130489159828182457}
   - component: {fileID: -2044301546079924000}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Arrow_HeavyAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14695,7 +14695,7 @@ GameObject:
   - component: {fileID: 4372670973196758379}
   - component: {fileID: 3462596965935369517}
   - component: {fileID: 18105747135303874}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Arrow_Bullet__Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

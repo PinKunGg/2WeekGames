@@ -8,20 +8,20 @@ using DG.Tweening;
 public class BoarAttacker : MonoBehaviour
 {
     public int[] attackIndex;
-    int attackIndexTemp, previousAttackIndex;
+    int attackIndexTemp;
     public bool isCanAttack{get; private set;}
     bool isChargeAttackDone;
 
-    Monster_Animation monsterAnima;
-    Monster_Movement monsterMove;
+    Monster_Animation _monsterAnima;
+    Monster_Movement _monsterMove;
 
     Sequence AttackSqeuence;
 
     float disBetweenEnemyAndPlayer;
 
     private void Start() {
-        monsterAnima = GetComponent<Monster_Animation>();
-        monsterMove = GetComponent<Monster_Movement>();
+        _monsterAnima = GetComponent<Monster_Animation>();
+        _monsterMove = GetComponent<Monster_Movement>();
 
         if(PhotonNetwork.IsMasterClient){
             isCanAttack = true;
@@ -43,14 +43,7 @@ public class BoarAttacker : MonoBehaviour
 
         attackIndexTemp = Random.Range(0,attackIndex.Length);
 
-        if(attackIndexTemp == previousAttackIndex){
-            attackIndexTemp++;
-            previousAttackIndex = attackIndexTemp;
-        }else{
-            previousAttackIndex = attackIndexTemp;
-        }
-
-        monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
+        _monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
         CancelInvoke();
 
         AttackSpecific(attackIndexTemp);
@@ -60,19 +53,24 @@ public class BoarAttacker : MonoBehaviour
         attackIndexTemp = value;
 
         isCanAttack = false;
-        monsterMove.isStopWalk = true;
+        _monsterMove.isStopWalk = true;
 
         AttackSqeuence = DOTween.Sequence();
 
-        monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
+        _monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
 
         switch(value){
             case 0:
-            NormalAttack();
+            _monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
+            
+            AnimationName = "IsNormalAttack";
+            AttackSqeuence.AppendInterval(0.5f);
+            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+            DelayCaculate();
             break;
 
             case 1:
-            monsterAnima.PlayBoolAnimator("IsSkill1",true);
+            _monsterAnima.PlayBoolAnimator("IsSkill1",true);
 
             AnimationName = "IsSkill1";
             AttackSqeuence.AppendInterval(0.3f);
@@ -87,52 +85,48 @@ public class BoarAttacker : MonoBehaviour
             break;
 
             default:
-            NormalAttack();
+            _monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
+            
+            AnimationName = "IsNormalAttack";
+            AttackSqeuence.AppendInterval(0.3f);
+            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+            DelayCaculate();
             break;
         }
     }
 
-    void NormalAttack(){
-        monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
-            
-        AnimationName = "IsNormalAttack";
-        AttackSqeuence.AppendInterval(0.3f);
-        AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-        DelayCaculate();
-    }
-
     void DelayCaculate(){
         AttackSqeuence = DOTween.Sequence();
-        AttackSqeuence.AppendInterval(monsterAnima.anima.GetCurrentAnimatorStateInfo(0).length / 2f);
+        AttackSqeuence.AppendInterval(_monsterAnima.anima.GetCurrentAnimatorStateInfo(0).length / 2f);
         AttackSqeuence.AppendCallback(DelayAttacker);
     }
 
     IEnumerator StopAttackerAnimation(string name, float time){
         yield return new WaitForSeconds(time);
-        monsterAnima.PlayBoolAnimator(name,false);
+        _monsterAnima.PlayBoolAnimator(name,false);
     }
 
     string AnimationName;
     void StopAttackerAnimationTween(){
-        monsterAnima.PlayBoolAnimator(AnimationName,false);
+        _monsterAnima.PlayBoolAnimator(AnimationName,false);
     }
 
     void DelayAttacker(){
         isCanAttack = true;
-        monsterMove.isStopWalk = false;
+        _monsterMove.isStopWalk = false;
     }
 
     IEnumerator ChargeAttack(){
-        monsterAnima.PlayBoolAnimator("IsSkill2",true);
+        _monsterAnima.PlayBoolAnimator("IsSkill2",true);
         yield return new WaitForSeconds(1f);
 
-        monsterAnima.PlayBoolAnimator("IsSkill2",false);
-        monsterMove.lookAtTarget = null;
+        _monsterAnima.PlayBoolAnimator("IsSkill2",false);
+        _monsterMove.lookAtTarget = null;
 
         while(!isChargeAttackDone){
-            monsterMove.rb.drag = 20f;
-            monsterMove.rb.angularDrag = 20f;
-            monsterMove.rb.velocity = transform.forward * 30f;
+            _monsterMove.rb.drag = 20f;
+            _monsterMove.rb.angularDrag = 20f;
+            _monsterMove.rb.velocity = transform.forward * 30f;
             yield return null;
         }
     }
@@ -141,15 +135,15 @@ public class BoarAttacker : MonoBehaviour
         isChargeAttackDone = true;
         StopCoroutine(ChargeAttack());
 
-        monsterMove.rb.velocity = Vector3.zero;
-        monsterMove.rb.drag = 1f;
-        monsterMove.rb.angularDrag = 1f;
+        _monsterMove.rb.velocity = Vector3.zero;
+        _monsterMove.rb.drag = 1f;
+        _monsterMove.rb.angularDrag = 1f;
 
-        monsterAnima.PlayBoolAnimator("IsSkill2",false);
-        monsterAnima.PlayBoolAnimator("IsAttackFinish",true);
+        _monsterAnima.PlayBoolAnimator("IsSkill2",false);
+        _monsterAnima.PlayBoolAnimator("IsAttackFinish",true);
 
-        monsterMove.lookAtTarget = monsterMove.goToTarget;
-        monsterMove.isStopWalk = false;
+        _monsterMove.lookAtTarget = _monsterMove.goToTarget;
+        _monsterMove.isStopWalk = false;
         Invoke("DelayAttacker",1f);
     }
 

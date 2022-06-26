@@ -8,31 +8,31 @@ using Photon.Pun;
 
 public class RoomListInfo : MonoBehaviour
 {
-    [SerializeField] TMP_InputField playerName;
+    [SerializeField] TMP_InputField _playerName;
 
     [Space]
-    [SerializeField] TMP_Text roomName;
-    [SerializeField] TMP_Text roomPlayerCount;
-    [SerializeField] TMP_Text roomPing;
+    [SerializeField] TMP_Text _roomName;
+    [SerializeField] TMP_Text _roomPlayerCount;
+    [SerializeField] TMP_Text _roomPing;
 
     public RoomInfo info {get; private set;}
 
     public void SetRoomInfo(RoomInfo roomInfo){
         info = roomInfo;
-        roomName.text = roomInfo.Name;
-        roomPlayerCount.text = string.Format("{0} / {1}",roomInfo.PlayerCount,roomInfo.MaxPlayers);
+        _roomName.text = roomInfo.Name;
+        _roomPlayerCount.text = string.Format("{0} / {1}",roomInfo.PlayerCount,roomInfo.MaxPlayers);
         
-        roomPing.text = string.Format("{0} ms",PhotonNetwork.GetPing());
+        _roomPing.text = string.Format("{0} ms",PhotonNetwork.GetPing());
     }
 
     public void ClickToJoin(){
-        playerName = GameObject.Find("PlayerName").GetComponent<TMP_InputField>();
+        _playerName = GameObject.Find("PlayerName").GetComponent<TMP_InputField>();
 
-        if(string.IsNullOrEmpty(playerName.text)){
+        if(string.IsNullOrEmpty(_playerName.text)){
             return;
         }
 
-        PhotonNetwork.NickName = playerName.text;
-        PhotonNetwork.JoinRoom(roomName.text);
+        PhotonNetwork.NickName = _playerName.text;
+        PhotonNetwork.JoinRoom(_roomName.text);
     }
 }

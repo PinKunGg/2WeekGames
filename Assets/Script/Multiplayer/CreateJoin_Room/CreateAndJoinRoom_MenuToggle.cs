@@ -10,19 +10,19 @@ public class CreateAndJoinRoom_MenuToggle : MonoBehaviourPunCallbacks
     public TMP_Text LobbyType_tx;
 
     [Space]
-    public GameObject createButton;
-    public GameObject createRoomUI;
+    public GameObject _createButton;
+    public GameObject _createRoomUI;
 
     [Space]
-    public GameObject joinButton;
-    public GameObject joinRoomUI;
+    public GameObject _joinButton;
+    public GameObject _joinRoomUI;
 
     [Space]
-    public GameObject roomListButton;
-    public GameObject roomListUI;
+    public GameObject _roomListButton;
+    public GameObject _roomListUI;
 
     [Space]
-    public GameObject mainMenuButton;
+    public GameObject _mainMenuButton;
 
     private void Start() {
         CrateOrJoin_Toggle();
@@ -32,40 +32,40 @@ public class CreateAndJoinRoom_MenuToggle : MonoBehaviourPunCallbacks
         LobbyType_tx.text = "";
         ToggleAllButton(true);
 
-        createRoomUI.SetActive(false);
-        joinRoomUI.SetActive(false);
-        roomListUI.SetActive(false);
+        _createRoomUI.SetActive(false);
+        _joinRoomUI.SetActive(false);
+        _roomListUI.SetActive(false);
     }
     public void CreateRoom_Toggle(){
         LobbyType_tx.text = "- Create room -";
         ToggleAllButton(false);
 
-        createRoomUI.SetActive(true);
-        joinRoomUI.SetActive(false);
-        roomListUI.SetActive(false);
+        _createRoomUI.SetActive(true);
+        _joinRoomUI.SetActive(false);
+        _roomListUI.SetActive(false);
     }
     public void JoinRoom_Toggle(){
         LobbyType_tx.text = "- Join room -";
         ToggleAllButton(false);
 
-        createRoomUI.SetActive(false);
-        joinRoomUI.SetActive(true);
-        roomListUI.SetActive(false);
+        _createRoomUI.SetActive(false);
+        _joinRoomUI.SetActive(true);
+        _roomListUI.SetActive(false);
     }
 
     public void RoomList_Toggle(){
         LobbyType_tx.text = "- Room list -";
         ToggleAllButton(false);
 
-        createRoomUI.SetActive(false);
-        joinRoomUI.SetActive(false);
-        roomListUI.SetActive(true);
+        _createRoomUI.SetActive(false);
+        _joinRoomUI.SetActive(false);
+        _roomListUI.SetActive(true);
     }
 
     public void ToggleAllButton(bool value){
-        createButton.SetActive(value);
-        joinButton.SetActive(value);
-        roomListButton.SetActive(value);
-        mainMenuButton.SetActive(value);
+        _createButton.SetActive(value);
+        _joinButton.SetActive(value);
+        _roomListButton.SetActive(value);
+        _mainMenuButton.SetActive(value);
     }
 }

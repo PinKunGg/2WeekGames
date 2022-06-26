@@ -8325,13 +8325,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LobbyType_tx: {fileID: 1252002712}
-  createButton: {fileID: 610866730}
-  createRoomUI: {fileID: 1897315216}
-  joinButton: {fileID: 1657539603}
-  joinRoomUI: {fileID: 1542377274}
-  roomListButton: {fileID: 1159856401}
-  roomListUI: {fileID: 503961719}
-  mainMenuButton: {fileID: 567671803}
+  _createButton: {fileID: 610866730}
+  _createRoomUI: {fileID: 1897315216}
+  _joinButton: {fileID: 1657539603}
+  _joinRoomUI: {fileID: 1542377274}
+  _roomListButton: {fileID: 1159856401}
+  _roomListUI: {fileID: 503961719}
+  _mainMenuButton: {fileID: 567671803}
 --- !u!114 &1313440380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8344,8 +8344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e5951e155abea14b8fc6771d8c6355a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: {fileID: 683068572}
-  roomListInfo: {fileID: 5208731146324457709, guid: 8ff6e4cc68da3294e9826430f320f998,
+  _content: {fileID: 683068572}
+  _roomListInfo: {fileID: 5208731146324457709, guid: 8ff6e4cc68da3294e9826430f320f998,
     type: 3}
 --- !u!114 &1313440381
 MonoBehaviour:
@@ -8359,13 +8359,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485abbb3ed2216040939618b89a739bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: {fileID: 1968026409}
-  createRoomName: {fileID: 1780500953}
-  PrivateRoom: {fileID: 1730194141}
-  PublicRoom: {fileID: 489443452}
-  createMaxPlayer: {fileID: 25216675}
-  createMaxPlayer_InputField: {fileID: 1925819968}
-  joinRoomName: {fileID: 1375787809}
+  _playerName: {fileID: 1968026409}
+  _createRoomName: {fileID: 1780500953}
+  _PrivateRoom: {fileID: 1730194141}
+  _PublicRoom: {fileID: 489443452}
+  _createMaxPlayer: {fileID: 25216675}
+  _createMaxPlayer_InputField: {fileID: 1925819968}
+  _joinRoomList_ui: {fileID: 0}
+  _joinRoomName: {fileID: 1375787809}
 --- !u!4 &1313440382
 Transform:
   m_ObjectHideFlags: 0

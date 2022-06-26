@@ -9,16 +9,16 @@ public class Monster_Retreat : MonoBehaviour
 
     public bool isGroundTouch;
 
-    Monster_Animation monsterAnima;
-    Monster_Movement monsterMove;
+    Monster_Animation _monsterAnima;
+    Monster_Movement _monsterMove;
 
     private void Start() {
-        monsterAnima = GetComponent<Monster_Animation>();
-        monsterMove = GetComponent<Monster_Movement>();
+        _monsterAnima = GetComponent<Monster_Animation>();
+        _monsterMove = GetComponent<Monster_Movement>();
     }
 
     private void OnDisable() {
-        monsterAnima.PlayBoolAnimator("IsRun",false);
+        _monsterAnima.PlayBoolAnimator("IsRun",false);
     }
 
     private void Update() {
@@ -28,16 +28,16 @@ public class Monster_Retreat : MonoBehaviour
 
         if(dis <= 8f){
             dir = transform.position - target.position;
-            monsterAnima.PlayBoolAnimator("IsRun",true);
-            monsterMove.rb.velocity = -transform.forward * 5f;
+            _monsterAnima.PlayBoolAnimator("IsRun",true);
+            _monsterMove.rb.velocity = -transform.forward * 5f;
         }
         else if(dis >= 12f){
             dir = target.position - transform.position;
-            monsterAnima.PlayBoolAnimator("IsRun",true);
-            monsterMove.rb.velocity = transform.forward * 5f;
+            _monsterAnima.PlayBoolAnimator("IsRun",true);
+            _monsterMove.rb.velocity = transform.forward * 5f;
         }
         else{
-            monsterAnima.PlayBoolAnimator("IsRun",false);
+            _monsterAnima.PlayBoolAnimator("IsRun",false);
         }
     }
 

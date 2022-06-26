@@ -39,11 +39,9 @@ public class Monster_Movement : MonoBehaviour
     void Start(){
         //Make path and update it
         if(PhotonNetwork.IsMasterClient){
-            startWalk = true;
             InvokeRepeating("UpdatePath", 0f, 0.1f);
         }
 
-        // startWalk = true;
         // InvokeRepeating("UpdatePath", 0f, 0.1f);
     }
 

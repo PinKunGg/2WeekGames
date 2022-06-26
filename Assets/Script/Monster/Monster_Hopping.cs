@@ -23,8 +23,6 @@ public class Monster_Hopping : MonoBehaviour
 
     private void OnEnable() {
         rb = GetComponent<Rigidbody>();
-        
-        if(!HoppingShadow){return;}
         if(PhotonNetwork.IsMasterClient){
             HoppingShadow.enabled = false;
         }
@@ -54,8 +52,6 @@ public class Monster_Hopping : MonoBehaviour
     }
 
     public void SpawnShadowHopping(){
-        if(!HoppingShadow){return;}
-
         HoppingShadow.transform.localPosition = new Vector3(this.transform.position.x,0.3f,this.transform.position.z);
         HoppingShadow.enabled = true;
         Sequence FadeShadow = DOTween.Sequence();
@@ -73,9 +69,8 @@ public class Monster_Hopping : MonoBehaviour
     public void DelayDisableHoppingShadow(){
         HoppingShadow.enabled = false;
     }
-    public void FindDropPoint(float minOffset, float maxOffset){
-        this.transform.position = new Vector3(goToTarget.position.x + Random.Range(minOffset,maxOffset),this.transform.position.y,goToTarget.position.z + Random.Range(minOffset,maxOffset));
-        
+    public void FindDropPoint(){
+        this.transform.position = new Vector3(goToTarget.position.x + Random.Range(-1f,2f),this.transform.position.y,goToTarget.position.z + Random.Range(-1f,2f));
         SpawnShadowHopping();
     }
 
