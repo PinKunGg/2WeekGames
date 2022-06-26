@@ -21,6 +21,14 @@ public class LobbyControl : MonoBehaviour
     [Header("ClientUI")]
     public GameObject ReadyButton;
     public bool IsReady = false;
+
+    public TextMeshProUGUI SelectStage_output;
+    public GameObject InvenUI, CraftUI, ShowClothUI,SelectBossUI,BossHeathUI;
+    public Player_Move_Control player_Move_Control;
+    public GameObject[] MapStage;
+    string IsStageChange;
+
+    public GameObject local_player;
     // Start is called before the first frame update
 
     private void Awake()
@@ -54,11 +62,66 @@ public class LobbyControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (IsStageChange != SelectStage_output.text) 
+        {
+            IsStageChange = SelectStage_output.text;
+            if (SelectStage_output.text == "Stage 1")
+            {
+                MapStage[0].SetActive(true);
+                MapStage[1].SetActive(false);
+                MapStage[2].SetActive(false);
+                MapStage[3].SetActive(false);
+                MapStage[4].SetActive(false);
+            }
+            else if (SelectStage_output.text == "Stage 2")
+            {
+                MapStage[0].SetActive(false);
+                MapStage[1].SetActive(true);
+                MapStage[2].SetActive(false);
+                MapStage[3].SetActive(false);
+                MapStage[4].SetActive(false);
+            }
+            else if (SelectStage_output.text == "Stage 3")
+            {
+                MapStage[0].SetActive(false);
+                MapStage[1].SetActive(false);
+                MapStage[2].SetActive(true);
+                MapStage[3].SetActive(false);
+                MapStage[4].SetActive(false);
+            }
+            else if (SelectStage_output.text == "Stage 4")
+            {
+                MapStage[0].SetActive(false);
+                MapStage[1].SetActive(false);
+                MapStage[2].SetActive(false);
+                MapStage[3].SetActive(true);
+                MapStage[4].SetActive(false);
+            }
+            else if (SelectStage_output.text == "Stage 5")
+            {
+                MapStage[0].SetActive(false);
+                MapStage[1].SetActive(false);
+                MapStage[2].SetActive(false);
+                MapStage[3].SetActive(false);
+                MapStage[4].SetActive(true);
+            }
+            photonView.RPC("Rpc_ChangeStage",RpcTarget.All, MapStage[0].activeSelf, MapStage[1].activeSelf, MapStage[2].activeSelf, MapStage[3].activeSelf, MapStage[4].activeSelf);
+        }     
     }
+
+    [PunRPC]
+    void Rpc_ChangeStage(bool stage1, bool stage2, bool stage3, bool stage4, bool stage5) 
+    {
+        MapStage[0].SetActive(stage1);
+        MapStage[1].SetActive(stage2);
+        MapStage[2].SetActive(stage3);
+        MapStage[3].SetActive(stage4);
+        MapStage[4].SetActive(stage5);
+    }   
 
     public void addPlayer(GameObject player) 
     {
+        if (player.GetComponent<PhotonView>().IsMine) { local_player = player; }
         AllPlayerObj.Add(player);
         setPlayerPosition();
     }
@@ -97,9 +160,11 @@ public class LobbyControl : MonoBehaviour
             ReadyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
         }
     }
-    public void UnReadyFormLeaveRoom() 
+    public void UnReady() 
     {
-        photonView.RPC("Rpc_clientReady", RpcTarget.MasterClient, true);
+        if (IsReady == true) { photonView.RPC("Rpc_clientReady", RpcTarget.MasterClient, true); }
+        IsReady = false;
+        ReadyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
     }
     public void WhenPlayerLeftRoom() 
     {
@@ -137,5 +202,68 @@ public class LobbyControl : MonoBehaviour
             StartGameButton.SetActive(false);
         }
 
+    }
+
+    public void StartGame() 
+    {
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+        IsotherReady_count = 0;
+        photonView.RPC("Rpc_StartGame", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void Rpc_StartGame() 
+    {
+        Tutorial_Control.tutorial_Control.IsLobby = false;
+        InvenUI.SetActive(false);
+        CraftUI.SetActive(false);
+        StartGameButton.SetActive(false);
+        ReadyButton.SetActive(false);
+        ShowClothUI.SetActive(false);
+        SelectBossUI.SetActive(false);
+        BossHeathUI.SetActive(true);
+        player_Move_Control.CameraOn();
+    }
+
+    public void EndGame() 
+    {
+        PhotonNetwork.CurrentRoom.IsOpen = true;
+        PhotonNetwork.CurrentRoom.IsVisible = true;
+        resetPosition();
+        photonView.RPC("Rpc_EndGame", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void Rpc_EndGame()
+    {
+        Tutorial_Control.tutorial_Control.IsLobby = true;
+        InvenUI.SetActive(true);
+        CraftUI.SetActive(true);
+        ShowClothUI.SetActive(true);
+        BossHeathUI.SetActive(false);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartGameButton.SetActive(true);
+            ReadyButton.SetActive(false);
+            SelectBossUI.SetActive(true);
+            Check();
+        }
+        else 
+        {
+            StartGameButton.SetActive(false);
+            ReadyButton.SetActive(true);
+            IsReady = false;
+            ReadyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
+        }
+    }
+
+    void resetPosition() 
+    {
+        for (int x = 0; x < AllPlayerObj.Count; x++) 
+        {
+            AllPlayerObj[x].transform.position = Pos[x].transform.position;
+            AllPlayerObj[x].transform.rotation = Pos[x].transform.rotation;
+        }
     }
 }

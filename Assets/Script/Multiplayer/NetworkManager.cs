@@ -130,7 +130,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             return;
         }
-        LobbyControl.lobbyControl.UnReadyFormLeaveRoom();
+        LobbyControl.lobbyControl.UnReady();
         PhotonNetwork.LeaveRoom();
     }
 

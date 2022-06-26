@@ -14,6 +14,7 @@ public class Player_Stat : MonoBehaviour
     Player_Inventory player_Inventory;
     Player_Attack_Control player_Attack_Control;
     Player_Move_Control player_Move_Control;
+    public PlayerRespawn playerRespawn; 
     public bool IsImu = false;
 
     public bool IsBarrierOn = false;
@@ -49,6 +50,7 @@ public class Player_Stat : MonoBehaviour
         playerListMenu = PlayerListMenu.playerListMenu;
         player_Attack_Control = GetComponent<Player_Attack_Control>();
         player_Move_Control = GetComponent<Player_Move_Control>();
+        playerRespawn = PlayerRespawn.playerRespawn;
     }
     void Start()
     {
@@ -79,7 +81,7 @@ public class Player_Stat : MonoBehaviour
         {
             Player_Take_Damage(10);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && Tutorial_Control.tutorial_Control.IsLobby == false)
         {
             Heal();
         }
@@ -248,6 +250,16 @@ public class Player_Stat : MonoBehaviour
         }
         Debug.Log("Run");
         photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP,Max_Current_HP, Player_Name);
+        if (photonView.IsMine) 
+        {
+            if (Current_HP <= 0) 
+            {
+                playerRespawn.player = this.gameObject;
+                playerRespawn.player_respawn();
+                Current_HP = Max_Current_HP;
+                photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Max_Current_HP, Player_Name);
+            }
+        }
     }
 
     void BarrierExplosive() 
