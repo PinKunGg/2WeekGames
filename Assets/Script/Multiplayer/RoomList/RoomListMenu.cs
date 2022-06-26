@@ -6,10 +6,10 @@ using Photon.Realtime;
 
 public class RoomListMenu : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Transform _content;
-    [SerializeField] RoomListInfo _roomListInfo;
+    [SerializeField] Transform content;
+    [SerializeField] RoomListInfo roomListInfo;
 
-    private List<RoomListInfo> _roomListingInfos = new List<RoomListInfo>();
+    private List<RoomListInfo> roomListingInfos = new List<RoomListInfo>();
 
     private void Awake() {
         
@@ -27,22 +27,22 @@ public class RoomListMenu : MonoBehaviourPunCallbacks
         for(int i = 0; i < roomList.Count; i++){
 
             if(roomList[i].RemovedFromList){
-                int index = _roomListingInfos.FindIndex(x => x.info.Name == roomList[i].Name);
+                int index = roomListingInfos.FindIndex(x => x.info.Name == roomList[i].Name);
                 if(index != -1){
-                    Destroy(_roomListingInfos[index].gameObject);
-                    _roomListingInfos.RemoveAt(index);
+                    Destroy(roomListingInfos[index].gameObject);
+                    roomListingInfos.RemoveAt(index);
                 }
             }else{
-                int index = _roomListingInfos.FindIndex(x => x.info.Name == roomList[i].Name);
+                int index = roomListingInfos.FindIndex(x => x.info.Name == roomList[i].Name);
                 if(index == -1){
-                    RoomListInfo roomInfo = Instantiate(_roomListInfo,_content);
+                    RoomListInfo roomInfo = Instantiate(roomListInfo,content);
 
                     if(roomInfo != null){
                         roomInfo.SetRoomInfo(roomList[i]);
-                        _roomListingInfos.Add(roomInfo);
+                        roomListingInfos.Add(roomInfo);
                     }
                 }else{
-                    _roomListingInfos[index].SetRoomInfo(roomList[i]);
+                    roomListingInfos[index].SetRoomInfo(roomList[i]);
                 }
             }
         }
@@ -50,6 +50,6 @@ public class RoomListMenu : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom(){
         base.OnJoinedRoom();
-        _roomListingInfos.Clear();
+        roomListingInfos.Clear();
     }
 }
