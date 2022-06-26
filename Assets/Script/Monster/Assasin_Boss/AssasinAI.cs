@@ -9,6 +9,7 @@ public class AssasinAI : MonoBehaviour
     Monster_Hopping monsterHopping;
     Assasin_Attacker assasinAttack;
     PlayerManager_Multiplayer playerManMulti;
+    Monster_SkillTeleportToTarget monsterSkillTp;
 
     bool isChargeAttackReady = true;
 
@@ -16,9 +17,10 @@ public class AssasinAI : MonoBehaviour
         monsterHopping = GetComponent<Monster_Hopping>();
         assasinAttack = GetComponent<Assasin_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        monsterSkillTp = GetComponent<Monster_SkillTeleportToTarget>();
         
         if(PhotonNetwork.IsMasterClient){
-            // Invoke("DelayStart",1f);
+            Invoke("DelayStart",1f);
         }
 
         InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
@@ -34,6 +36,7 @@ public class AssasinAI : MonoBehaviour
         Transform targetPlayer = playerManMulti.GetRandomPlayer().transform;
         monsterHopping.goToTarget = targetPlayer;
         monsterHopping.lookAtTarget = targetPlayer;
+        monsterSkillTp.target = targetPlayer;
     }
 
     private void Update() {

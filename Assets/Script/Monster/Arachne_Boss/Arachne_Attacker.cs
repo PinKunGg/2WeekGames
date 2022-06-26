@@ -8,7 +8,7 @@ using DG.Tweening;
 public class Arachne_Attacker : MonoBehaviour
 {
     public int[] attackIndex;
-    int attackIndexTemp;
+    int attackIndexTemp, previousAttackIndex;
     public bool isCanAttack{get; private set;}
     bool isAttackSpecificInUse;
     bool isChargeAttackDone;
@@ -49,6 +49,13 @@ public class Arachne_Attacker : MonoBehaviour
 
         attackIndexTemp = Random.Range(0,attackIndex.Length);
 
+        if(attackIndexTemp == previousAttackIndex){
+            attackIndexTemp++;
+            previousAttackIndex = attackIndexTemp;
+        }else{
+            previousAttackIndex = attackIndexTemp;
+        }
+
         monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
         CancelInvoke();
 
@@ -59,8 +66,6 @@ public class Arachne_Attacker : MonoBehaviour
         if(isAttackSpecificInUse){return;}
         isAttackSpecificInUse = true;
         isCanAttack = false;
-
-        attackIndexTemp = value;
 
         AttackSqeuence = DOTween.Sequence();
 
@@ -73,12 +78,7 @@ public class Arachne_Attacker : MonoBehaviour
                 break;
             }
 
-            monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
-            
-            AnimationName = "IsNormalAttack";
-            AttackSqeuence.AppendInterval(0.5f);
-            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            NormalAttack();
             break;
 
             case 1:
@@ -110,14 +110,18 @@ public class Arachne_Attacker : MonoBehaviour
             break;
 
             default:
-            monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
-            
-            AnimationName = "IsNormalAttack";
-            AttackSqeuence.AppendInterval(0.3f);
-            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            NormalAttack();
             break;
         }
+    }
+    
+    void NormalAttack(){
+        monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
+            
+        AnimationName = "IsNormalAttack";
+        AttackSqeuence.AppendInterval(0.3f);
+        AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+        DelayCaculate();
     }
 
     void DelayCaculate(){

@@ -8,6 +8,7 @@ using DG.Tweening;
 public class Assasin_Attacker : MonoBehaviour
 {
     public int[] attackIndex;
+    int attackIndexTemp, previousAttackIndex;
     public bool isCanAttack{get; private set;}
     bool isAttackSpecificInUse;
     bool isChargeAttackDone;
@@ -17,6 +18,8 @@ public class Assasin_Attacker : MonoBehaviour
     Monster_Hopping monsterHopping;
 
     Sequence AttackSqeuence;
+
+    public Collider _collider;
 
     float disBetweenEnemyAndPlayer;
 
@@ -46,10 +49,19 @@ public class Assasin_Attacker : MonoBehaviour
 
         isCanAttack = false;
 
+        attackIndexTemp = Random.Range(0,attackIndex.Length);
+
+        if(attackIndexTemp == previousAttackIndex){
+            attackIndexTemp++;
+            previousAttackIndex = attackIndexTemp;
+        }else{
+            previousAttackIndex = attackIndexTemp;
+        }
+
         monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
         CancelInvoke();
 
-        AttackSpecific(Random.Range(0,attackIndex.Length));
+        AttackSpecific(attackIndexTemp);
     }
 
     int AttackSpecificIndex;
@@ -92,7 +104,7 @@ public class Assasin_Attacker : MonoBehaviour
             AnimationName = "IsSkill2";
             AttackSqeuence.AppendInterval(0.3f);
             AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            AttackSqeuence.AppendInterval(1f);
+            AttackSqeuence.AppendInterval(4f);
             AttackSqeuence.AppendCallback(DelayCaculate);
             break;
 
@@ -117,7 +129,8 @@ public class Assasin_Attacker : MonoBehaviour
     }
 
     void TeleportToPlayer(){
-        monsterHopping.rb.Sleep();
+        _collider.enabled = false;
+        monsterHopping.rb.isKinematic = true;
         monsterAnima.PlayBoolAnimator("IsTeleportUp",true);
 
         monsterHopping.SpawnShadowHopping();
@@ -170,7 +183,8 @@ public class Assasin_Attacker : MonoBehaviour
 
         monsterAnima.PlayBoolAnimator("IsTeleportDown",false);
         yield return new WaitForSeconds(2.5f);
-        monsterHopping.rb.WakeUp();
+        _collider.enabled = true;
+        monsterHopping.rb.isKinematic = false;
 
         monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
         
