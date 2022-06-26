@@ -23,6 +23,8 @@ public class Player_Attack_Control : MonoBehaviour
     public GameObject[] AllWeaponObj = new GameObject[9];
     public bool IsDrawed = false;
     bool IsDrawByOpenInven = false;
+    public GameObject LookAtBow;
+    public GameObject LookAtOrigin;
 
     [Header("Block Setting")]
     public bool IsBlock = false;
@@ -59,6 +61,7 @@ public class Player_Attack_Control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (tutorial_Control.IsLobby) { return; }
         if (!photonView.IsMine)
         {
             return;
@@ -88,6 +91,7 @@ public class Player_Attack_Control : MonoBehaviour
     }
     public void IsPlayerNoWeapond(bool value) 
     {
+        Debug.Log("No Weapond");
         IsNoWeapon = value;
         if (value) { photonView.RPC("RpcPlayerNoWeapond", RpcTarget.All); }
 
@@ -106,12 +110,15 @@ public class Player_Attack_Control : MonoBehaviour
         if (player_Move_Control.IsRun) { return; }
         if (Input.GetMouseButton(0))
         {
-            if (Cursor.visible == true)
-            {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                return;
-            }
+            //if (tutorial_Control.IsLobby == false) 
+            //{
+            //    if (Cursor.visible == true)
+            //    {
+            //        Cursor.visible = false;
+            //        Cursor.lockState = CursorLockMode.Locked;
+            //        return;
+            //    }
+            //}
             Attack();
         }
         else
@@ -155,6 +162,7 @@ public class Player_Attack_Control : MonoBehaviour
         }
         if (IsNoWeapon) 
         {
+            Debug.Log("No Weapond");
             photonView.RPC("Rpc_CheckWeaponUse", RpcTarget.All, "NoWeapond");
             return; 
         }
@@ -190,7 +198,8 @@ public class Player_Attack_Control : MonoBehaviour
         }
         else
         {
-        
+            Debug.Log("No Weapond");
+            IsPlayerNoWeapond(true);
         }
         UpdateAnimForOther();
     }
@@ -306,15 +315,16 @@ public class Player_Attack_Control : MonoBehaviour
 
     void Block() 
     {
+        if (player_Move_Control.IsDash) { return; }
         if (Input.GetMouseButton(1)) 
         {
             if (!TutorialCheck(4)) { return; }
             IsBlock = true;
             if (anim.runtimeAnimatorController == player_inventory.animBow)
             {
-                CameraAimBow.GetComponent<CinemachineFreeLook>().Priority = 12;
+                //CameraAimBow.GetComponent<CinemachineFreeLook>().LookAt = LookAtBow.transform;
             }
-            else if (anim.runtimeAnimatorController == player_inventory.animMagic && Input.GetMouseButtonDown(1)) 
+            else if (anim.runtimeAnimatorController == player_inventory.animMagic && Input.GetMouseButtonDown(1) && IsDraw) 
             {
                 photonView.RPC("Rpc_SetactiveMagicBlock", RpcTarget.All, true);
             }
@@ -324,7 +334,7 @@ public class Player_Attack_Control : MonoBehaviour
             IsBlock = false;
             if (anim.runtimeAnimatorController == player_inventory.animBow)
             {
-                CameraAimBow.GetComponent<CinemachineFreeLook>().Priority = 1;
+                //CameraAimBow.GetComponent<CinemachineFreeLook>().LookAt = LookAtOrigin.transform;
             }
             else if (anim.runtimeAnimatorController == player_inventory.animMagic && Input.GetMouseButtonUp(1))
             {

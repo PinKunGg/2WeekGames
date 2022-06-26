@@ -8,11 +8,16 @@ public class MonsterAttackKnockback : MonoBehaviour
 
     static bool isKnockBackAlready;
     Player_Move_Control _playerMoveCon;
+    Player_Attack_Control _player_Attack_Control;
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.CompareTag("Player")){
 
             if(isKnockBackAlready){
                 return;
+            }
+            _player_Attack_Control = other.gameObject.GetComponent<Player_Attack_Control>();
+            if (_player_Attack_Control.IsBlock) { 
+                return; 
             }
 
             isKnockBackAlready = true;

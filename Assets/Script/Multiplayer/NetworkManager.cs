@@ -121,6 +121,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     [PunRPC]
     public void RPC_Disconnect(){
+        Destroy(FindObjectOfType<PlayerListMenu>().gameObject);
         if (PhotonNetwork.IsMasterClient){
             base.photonView.RPC("RPC_Disconnect",RpcTarget.Others);
             PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -130,7 +131,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             return;
         }
-
+        LobbyControl.lobbyControl.UnReadyFormLeaveRoom();
         PhotonNetwork.LeaveRoom();
     }
 

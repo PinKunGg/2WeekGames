@@ -11,6 +11,7 @@ public class Player_Move_Control : MonoBehaviour
     Rigidbody rb;
     Player_Inventory player_inventory;
     Tutorial_Control tutorial_Control;
+    Player_Skill_Control player_Skill_Control;
 
     public GameObject cam_player, cam_player_inven;
     Player_Attack_Control player_Attack_Control;
@@ -48,13 +49,20 @@ public class Player_Move_Control : MonoBehaviour
         photonView = GetComponent<PhotonView>();
         anim = GetComponentInChildren<Animator>();
         player_Attack_Control = GetComponent<Player_Attack_Control>();
+        player_Skill_Control = GetComponent<Player_Skill_Control>();
         cam_main = Camera.main.gameObject;
         rb = GetComponent<Rigidbody>();
         temp_move_speed = move_speed;
         temp_move_speed_run = move_speed_run;
         player_inventory = Player_Inventory.player_Inventory;
         tutorial_Control = Tutorial_Control.tutorial_Control;
-        SwitchCursor(false);
+        if (tutorial_Control.IsLobby == false) { SwitchCursor(false); }
+        else 
+        {
+            SwitchCursor(true);
+            cam_player.SetActive(false);
+            cam_player_inven.SetActive(false);
+        }
     }
 
     private void Start()
@@ -63,7 +71,8 @@ public class Player_Move_Control : MonoBehaviour
         {
             player_inventory.player_Move_Control = this;
             player_inventory.CameraPlayer = cam_player;
-            player_inventory.LoadCloth();
+            player_inventory.player_name = photonView.Owner.NickName;
+            player_inventory.LoadSave();
         }
         else
         {
@@ -74,13 +83,14 @@ public class Player_Move_Control : MonoBehaviour
 
     private void Update()
     {
+        if (tutorial_Control.IsLobby) { return; }
         if (!photonView.IsMine)
         {
             return;
         }
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            SwitchCursor(false);
+            SwitchCursor(true);
         }
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1") || anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2"))
         {
@@ -98,6 +108,10 @@ public class Player_Move_Control : MonoBehaviour
 
     public void SwitchCursor(bool value)
     {
+        if (tutorial_Control.IsLobby)
+        {
+            return;
+        }
         if (!value)
         {
             Cursor.visible = false;
@@ -179,26 +193,19 @@ public class Player_Move_Control : MonoBehaviour
 
         if (temp_dash_time < dash_time)
         {
-            if (IsDash) 
+            if (IsDash)
             {
-                rb.velocity = new Vector3(movedir.normalized.x*dash_speed, rb.velocity.y, movedir.normalized.z * dash_speed);
+                rb.velocity = new Vector3(movedir.normalized.x * dash_speed, rb.velocity.y, movedir.normalized.z * dash_speed);
                 temp_dash_time += Time.deltaTime;
-                if (temp_dash_time >= delay_iframe && temp_dash_time < (delay_iframe+iframe_time)) { IsIframe = true; }
+                if (temp_dash_time >= delay_iframe && temp_dash_time < (delay_iframe + iframe_time)) { IsIframe = true; }
                 else { IsIframe = false; }
             }
         }
-        else 
+        else { IsDash = false; }
+        if (!player_Skill_Control.Isdash) 
         {
-            IsDash = false;
-            if (temp_dash_cooldown < dash_cooldown)
-            {
-                temp_dash_cooldown += Time.deltaTime;
-            }
-            else 
-            {
-                temp_dash_time = 0;
-                temp_dash_cooldown = 0;
-            }
+            temp_dash_time = 0;
+            temp_dash_cooldown = 0;
         }
     }
 

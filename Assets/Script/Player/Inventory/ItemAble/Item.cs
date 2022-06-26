@@ -35,4 +35,6 @@ public class Item : ScriptableObject
 
     public Item[] ItemForCraft = new Item[2];
     public int[] CountItemForCraft = new int[2];
+
+    public int PotionHeal;
 }

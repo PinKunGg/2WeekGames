@@ -38,7 +38,7 @@ public class Player_Stat : MonoBehaviour
     [Header("Reduce Damage Whebblock %")]
     public float ReduceDamage_Axe = 50;
     public float ReduceDamage_SwordAndShield = 70;
-    public float ReduceDamage_Stuff= 50;
+    public float ReduceDamage_Stuff = 50;
     public float ReduceDamage_Bow = -10;
 
     public Slider Friend_HealthBar;
@@ -79,6 +79,35 @@ public class Player_Stat : MonoBehaviour
         {
             Player_Take_Damage(10);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Heal();
+        }
+    }
+
+    void Heal()
+    {
+        if (player_Inventory.PotionSlot > 0)
+        {
+            player_Inventory.PotionSlot--;
+        }
+        else { return; }
+        int total_heal = player_Inventory.ClothesSlot_Item[6].PotionHeal;
+        if ((Current_HP + total_heal) < Max_Current_HP)
+        {
+            Current_HP += total_heal;
+        }
+        else if ((Current_HP + total_heal) >= Max_Current_HP) 
+        {
+            Current_HP = Max_Current_HP;
+        }
+        if (player_Inventory.PotionSlot == 0)
+        {
+            player_Inventory.ClothesSlot_Item[6] = null;
+            player_Inventory.ClothesSlot_pic[6].sprite = player_Inventory.Defath_Sprite;
+            player_Inventory.UpdateSlot();
+        }
+        photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP,Max_Current_HP, Player_Name);
     }
 
     public void Rpc_SetactiveBarrier() 
@@ -125,17 +154,18 @@ public class Player_Stat : MonoBehaviour
         if (photonView.IsMine) 
         {
             Player_Name = photonView.Owner.NickName;
-            photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP,Player_Name);
+            photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP,Max_Current_HP,Player_Name);
         }
     }
 
 
     [PunRPC]
-    void UpdateHealthBar(float value,string name) 
+    void UpdateHealthBar(float value,float max_hp,string name) 
     {
         if (!photonView) { photonView = GetComponent<PhotonView>(); }
         if (HealthBar == null) {HealthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Slider>(); }
         Current_HP = value;
+        Debug.Log("Run : " + gameObject.name);
         if (photonView.IsMine)
         {
             HealthBar.value = value;
@@ -143,7 +173,7 @@ public class Player_Stat : MonoBehaviour
         else
         {
             if (!Friend_HealthBar) { CreateFriendHealthBar(name);  }
-            Friend_HealthBar.maxValue = 100f;
+            Friend_HealthBar.maxValue = max_hp;
             Friend_HealthBar.value = value;
         }
     }
@@ -164,7 +194,7 @@ public class Player_Stat : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BossAttack")) 
         {
-            Player_Take_Damage(10);
+            Player_Take_Damage(other.GetComponentInParent<Monster_Stat>().baseMonsterStat.base_Damage);
         }
     }
 
@@ -215,8 +245,9 @@ public class Player_Stat : MonoBehaviour
                 BarrierExplosive();
             }
             Current_HP -= totoal_damagee;
-            photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Player_Name);
         }
+        Debug.Log("Run");
+        photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP,Max_Current_HP, Player_Name);
     }
 
     void BarrierExplosive() 

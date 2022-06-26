@@ -19,6 +19,7 @@ public class Monster_Stat : MonoBehaviour
     PlayerWeaponDamage forDot;
     PlayerManager_Multiplayer _playerManMulti;
 
+    bool IsDie = false;
     int playerDamageID;
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class Monster_Stat : MonoBehaviour
     {
         photonView = GetComponent<PhotonView>();
         tutorial_Control = Tutorial_Control.tutorial_Control;
+        Player_Inventory = Player_Inventory.player_Inventory;
         UpdateMonsterCurrentStat();
 
         if(PhotonNetwork.IsMasterClient){
@@ -64,9 +66,8 @@ public class Monster_Stat : MonoBehaviour
                     totoal_damage = playerWeaponDamage.Damage * ((playerWeaponDamage.CriDamage + 100) / 100);
                 }
                 else { totoal_damage = playerWeaponDamage.Damage; }
-                Current_HP -= totoal_damage;
                 photonView.RPC("RPC_SendDamageToPlayerManagerMultiplayer",RpcTarget.MasterClient,other.GetComponent<PhotonView>().OwnerActorNr,totoal_damage);
-                photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
+                photonView.RPC("TakeDamage", RpcTarget.All, totoal_damage);
             }
             else 
             {
@@ -90,9 +91,8 @@ public class Monster_Stat : MonoBehaviour
                     totoal_damage = playerWeaponDamage.Damage * ((playerWeaponDamage.CriDamage + 100) / 100);
                 }
                 else { totoal_damage = playerWeaponDamage.Damage; }
-                Current_HP -= totoal_damage;
                 photonView.RPC("RPC_SendDamageToPlayerManagerMultiplayer",RpcTarget.MasterClient,other.GetComponent<PhotonView>().OwnerActorNr,totoal_damage);
-                photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
+                photonView.RPC("TakeDamage", RpcTarget.All, totoal_damage);
             }
         }
     }
@@ -117,24 +117,29 @@ public class Monster_Stat : MonoBehaviour
             totoal_damage = forDot.Damage * ((forDot.CriDamage + 100) / 100);
         }
         else { totoal_damage = forDot.Damage; }
-        Current_HP -= totoal_damage;
         photonView.RPC("RPC_SendDamageToPlayerManagerMultiplayer",RpcTarget.MasterClient,playerDamageID,totoal_damage);
-        photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
+        photonView.RPC("TakeDamage", RpcTarget.All, totoal_damage);
 
     }
 
     [PunRPC]
-    void TakeDamage(float Damage) 
+    void TakeDamage(float damage) 
     {
         if (Monster_HealthBar.value > 0)
         {
-            Monster_HealthBar.value = Damage;
+            Current_HP -= damage;
+            Monster_HealthBar.value = Current_HP;
         }
         else 
         {
             if (photonView.IsMine) 
             {
-                DropItem();
+                if (IsDie == false) 
+                {
+                    IsDie = true;
+                    GetComponent<Animator>().SetBool("IsDie", true);
+                    DropItem();
+                }
             }
         }
     }
@@ -148,6 +153,12 @@ public class Monster_Stat : MonoBehaviour
     {
         if (!TutorialCheck(9)) { return; }
         Player_Inventory.AddItem(itemDrop, Random.Range(AmountRangeitemDrop[0], AmountRangeitemDrop[1]));
+        Invoke("DelayBactToLobby", 5);
+    }
+
+    void DelayBactToLobby() 
+    {
+        PhotonNetwork.LoadLevel("Multiplayer_Lobby");
     }
 
     bool TutorialCheck(int stage)

@@ -1040,7 +1040,7 @@ MonoBehaviour:
     Name_Monster: Boar - The Dumpest Boss
     base_HP: 4200
     base_Armor: 5
-    base_Damage: 0
+    base_Damage: 60
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
   itemDrop: {fileID: 11400000, guid: 6127aee6f2762b14f80a0fbcb6e839c2, type: 2}

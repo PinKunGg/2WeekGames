@@ -13,13 +13,14 @@ public class Tutorial_Control : MonoBehaviour
     }
 
     public bool IsTutorial = false;
+    public bool IsLobby = false;
     public bool[] Stage;
     public GameObject[] Stage_Obj;
     public GameObject HP_Boss;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Check());
+        if (IsTutorial) { StartCoroutine(Check()); }
     }
 
     // Update is called once per frame
