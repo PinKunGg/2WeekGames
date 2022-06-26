@@ -184,7 +184,10 @@ public class LobbyControl : MonoBehaviour
         }
         else 
         {
-            IsotherReady_count--;
+            if (IsotherReady_count>0) 
+            {
+                IsotherReady_count--;
+            }
         }
         Check();
     }
@@ -244,6 +247,7 @@ public class LobbyControl : MonoBehaviour
         BossHeathUI.SetActive(false);
         if (PhotonNetwork.IsMasterClient)
         {
+            IsotherReady_count = 0;
             StartGameButton.SetActive(true);
             ReadyButton.SetActive(false);
             SelectBossUI.SetActive(true);
