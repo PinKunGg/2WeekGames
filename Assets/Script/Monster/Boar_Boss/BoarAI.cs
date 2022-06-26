@@ -6,17 +6,17 @@ using Photon.Realtime;
 
 public class BoarAI : MonoBehaviourPunCallbacks
 {
-    Monster_Movement _monsterMove;
+    Monster_Movement monsterMove;
     BoarAttacker boarAttack;
 
-    PlayerManager_Multiplayer _playerManMulti;
+    PlayerManager_Multiplayer playerManMulti;
 
     bool isChargeAttackReady = true;
 
     private void Start() {
-        _monsterMove = GetComponent<Monster_Movement>();
+        monsterMove = GetComponent<Monster_Movement>();
         boarAttack = GetComponent<BoarAttacker>();
-        _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         
         if(PhotonNetwork.IsMasterClient){
             Invoke("DelayStart",1f);
@@ -32,9 +32,9 @@ public class BoarAI : MonoBehaviourPunCallbacks
     }
 
     void GetPlayerTarget(){
-        Transform targetPlayer = _playerManMulti.GetRandomPlayer().transform;
-        _monsterMove.goToTarget = targetPlayer;
-        _monsterMove.lookAtTarget = targetPlayer;
+        Transform targetPlayer = playerManMulti.GetRandomPlayer().transform;
+        monsterMove.goToTarget = targetPlayer;
+        monsterMove.lookAtTarget = targetPlayer;
     }
 
     private void Update() {
@@ -44,9 +44,9 @@ public class BoarAI : MonoBehaviourPunCallbacks
     }
 
     void CheckIsPlayerInRange(){
-        if(!_monsterMove.goToTarget){return;}
+        if(!monsterMove.goToTarget){return;}
 
-        if(_monsterMove.isPlayerInRange){
+        if(monsterMove.isPlayerInRange){
             boarAttack.Attack();
         }
     }
@@ -55,16 +55,16 @@ public class BoarAI : MonoBehaviourPunCallbacks
         float hightestDamage = 0;
         int playerHightestDamage = 0;
 
-        for(int i = 0; i < _playerManMulti._allPlayerInCurrentRoom.Count; i++){
-            if(_playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss > hightestDamage){
-                hightestDamage = _playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss;
+        for(int i = 0; i < playerManMulti._allPlayerInCurrentRoom.Count; i++){
+            if(playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss > hightestDamage){
+                hightestDamage = playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss;
                 playerHightestDamage = i;
             }
         }
 
-        Transform targetPlayer = _playerManMulti._allPlayerInCurrentRoom[playerHightestDamage]._playerGameObject.transform;
-        _monsterMove.goToTarget = targetPlayer;
-        _monsterMove.lookAtTarget = targetPlayer;
+        Transform targetPlayer = playerManMulti._allPlayerInCurrentRoom[playerHightestDamage]._playerGameObject.transform;
+        monsterMove.goToTarget = targetPlayer;
+        monsterMove.lookAtTarget = targetPlayer;
     }
 
     void DelayChargeAttack(){
