@@ -31,7 +31,7 @@ public class Assasin_Attacker : MonoBehaviour
             isCanAttack = true;
         }
 
-        isCanAttack = true;
+        // isCanAttack = true;
     }
 
     private void Update() {
