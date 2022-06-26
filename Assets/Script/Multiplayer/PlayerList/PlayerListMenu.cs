@@ -11,24 +11,22 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
 {
     public static PlayerListMenu playerListMenu;
     public PlayerNameControl playerNameControl;
-    [SerializeField] Transform _content;
-    [SerializeField] PlayerListInfo _playerListInfo;
+    [SerializeField] Transform content;
+    [SerializeField] PlayerListInfo playerListInfo;
 
-    public List<PlayerListInfo> _playerListingInfos = new List<PlayerListInfo>();
+    public List<PlayerListInfo> playerListingInfos = new List<PlayerListInfo>();
     public List<Player_Stat> allPlayerStat;
     public List<Player_Attack_Control> AllAttack_Controls;
 
     public GameObject SelectStage;
     public TextMeshProUGUI SelectStage_output;
 
-    PhotonView photonView;
     public void Awake() 
     {
         playerListMenu = this;
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
         //DontDestroyOnLoad(this);
-        photonView = GetComponent<PhotonView>();
         if (PhotonNetwork.IsMasterClient)
         {
             SelectStage.gameObject.SetActive(true);
@@ -51,16 +49,16 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
     }
 
     public void AddPlayerListMenu(Player player){
-        int indexPlayerListMenu = _playerListingInfos.FindIndex(x => x.info.ActorNumber == player.ActorNumber);
+        int indexPlayerListMenu = playerListingInfos.FindIndex(x => x.info.ActorNumber == player.ActorNumber);
         if(indexPlayerListMenu != -1){
             return;
         }
 
-        PlayerListInfo playerInfo = Instantiate(_playerListInfo,_content);
+        PlayerListInfo playerInfo = Instantiate(playerListInfo,content);
 
         if(playerInfo != null){
             playerInfo.SetPlayerInfo(player);
-            _playerListingInfos.Add(playerInfo);
+            playerListingInfos.Add(playerInfo);
         }
 
         playerNameControl.AddOtherNamePlayer(player.NickName);
@@ -70,12 +68,12 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
 
     public void RemovePlayerListMenu(int ActorID){
         Debug.Log(ActorID);
-        int indexPlayerListMenu = _playerListingInfos.FindIndex(x => x.info.ActorNumber == ActorID);
+        int indexPlayerListMenu = playerListingInfos.FindIndex(x => x.info.ActorNumber == ActorID);
         if(indexPlayerListMenu != -1){
-            playerNameControl.RemoveHealthBar_ByName(_playerListingInfos[indexPlayerListMenu].info.NickName);
+            playerNameControl.RemoveHealthBar_ByName(playerListingInfos[indexPlayerListMenu].info.NickName);
             LobbyControl.lobbyControl.WhenPlayerLeftRoom();
-            Destroy(_playerListingInfos[indexPlayerListMenu].gameObject);
-            _playerListingInfos.RemoveAt(indexPlayerListMenu);
+            Destroy(playerListingInfos[indexPlayerListMenu].gameObject);
+            playerListingInfos.RemoveAt(indexPlayerListMenu);
         }
     }
 
@@ -108,8 +106,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
             FindObjectOfType<SpawnPlayerFormLobby>().ChangeIsFirstRun();
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-            if (photonView == null) { photonView = GetComponent<PhotonView>(); }
-            photonView.RPC("Rpc_SaveGame", RpcTarget.All);
+            base.photonView.RPC("Rpc_SaveGame", RpcTarget.All);
             string name_scene = "";
             if (SelectStage_output.text == "Stage 1") 
             {

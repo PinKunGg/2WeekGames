@@ -5563,7 +5563,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772192769}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5846,7 +5846,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809123669}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10484,10 +10484,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameControl: {fileID: 0}
-  _content: {fileID: 0}
-  _playerListInfo: {fileID: 6567762548724360074, guid: c531ee590b0c3fe47b78f3bbcd2816cd,
-    type: 3}
-  _playerListingInfos: []
+  content: {fileID: 0}
+  playerListInfo: {fileID: 0}
+  playerListingInfos: []
   allPlayerStat: []
   AllAttack_Controls: []
   SelectStage: {fileID: 0}
@@ -12349,7 +12348,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1699278651}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13442,8 +13441,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083782553824e0246bbeec66a7cef9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSaveDone: 0
-  _isLoadDone: 0
+  isSaveDone: 0
+  isLoadDone: 0
 --- !u!114 &1845650364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15606,7 +15605,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097412036}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -30983,6 +30982,7 @@ MonoBehaviour:
   BossHeathUI: {fileID: 0}
   player_Move_Control: {fileID: 0}
   MapStage: []
+  local_player: {fileID: 0}
 --- !u!33 &7081371050284373576
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -35,7 +35,7 @@ public class SpawnPlayerFormLobby : MonoBehaviour
         Debug.Log("IsFistRun : " + IsFistRun);
         if (SceneManager.GetActiveScene().name == "Multiplayer_Lobby") { return; }
         playerObj = PhotonNetwork.Instantiate(playerPrefabs.name, spawnPoint.position, Quaternion.identity);
-        foreach (PlayerListInfo value in playerListMenu._playerListingInfos) 
+        foreach (PlayerListInfo value in playerListMenu.playerListingInfos) 
         {        
             playerObj.GetComponent<PhotonView>().TransferOwnership(value.info);
         }

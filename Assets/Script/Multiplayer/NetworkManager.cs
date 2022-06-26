@@ -158,8 +158,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
     void CheckPlayerName(Player newPlayer){
         if(!PhotonNetwork.IsMasterClient){return;}
 
-        for (int i = 0; i < playerListMenu._playerListingInfos.Count; i++){
-            if (playerListMenu._playerListingInfos[i].info.NickName == newPlayer.NickName){
+        for (int i = 0; i < playerListMenu.playerListingInfos.Count; i++){
+            if (playerListMenu.playerListingInfos[i].info.NickName == newPlayer.NickName){
                 Debug.Log("Kick " + newPlayer.NickName);
                     
                 isNotSaveThisPlayerData = true;
