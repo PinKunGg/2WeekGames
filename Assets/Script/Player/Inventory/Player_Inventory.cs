@@ -21,6 +21,7 @@ public class Player_Inventory : MonoBehaviour
     public TextMeshProUGUI PotionText;
     ItemSlot[] allItemSlot = new ItemSlot[40];
     public string player_name;
+    public TextMeshProUGUI PlayerStat_Value;
 
     [Header("Animator For Change")]
     public RuntimeAnimatorController animAxe;
@@ -340,6 +341,7 @@ public class Player_Inventory : MonoBehaviour
                     SkillShow[0].sprite = ClothesSlot_Item[x].ItemPic;
                 }
             }
+            PlayerStat_Value.text = HP.ToString() + '\n' + Armor.ToString() + '\n' + Damage.ToString() + '\n' + Cri_Rate.ToString() + '\n' + Cri_Damage.ToString();
         }
         player_Stat = player_Move_Control.gameObject.GetComponent<Player_Stat>();
         if (!is_player_has_weapond) { player_Stat.gameObject.GetComponent<Player_Attack_Control>().IsPlayerNoWeapond(true); }
@@ -458,6 +460,7 @@ public class Player_Inventory : MonoBehaviour
             ClothesSlot_pic[slotNumber].sprite = Defath_Sprite;
             PotionSlot = 0;
         }
+        LobbyControl.lobbyControl.UnReady();
     }
 
     void LoadItem()
@@ -490,13 +493,18 @@ public class Player_Inventory : MonoBehaviour
             {
                 ClothesSlot_Item[y] = saveClothes.SaveClothesSlot_Item[y];
                 ClothesSlot_pic[y].sprite = saveClothes.SaveClothesSlot_Item[y].ItemPic;
-                if (saveClothes.SaveClothesSlot_Item[y].type == Item.Type.Veil) 
+                if (saveClothes.SaveClothesSlot_Item[y].type == Item.Type.Veil)
                 {
                     player_Move_Control.gameObject.GetComponent<Player_Buff_Control>().Veil_Buff_int = ClothesSlot_Item[y].Veil_Skill;
                     player_Move_Control.dash_cooldown = ClothesSlot_Item[y].Veil_Dash_Cooldown;
                     player_Move_Control.IsCanDash = true;
                     player_Move_Control.gameObject.GetComponent<Player_Skill_Control>().init();
                 }
+            }
+            else 
+            {
+                ClothesSlot_Item[y] = null;
+                ClothesSlot_pic[y].sprite = Defath_Sprite;
             }
         }
         UpdateStat();

@@ -66,7 +66,8 @@ public class Player_Skill_Control : MonoBehaviour
             return;
         }
         CountCooldown();
-        if (player_Attack_Control.IsBlock) { return; }
+        if (player_Attack_Control.IsBlock && player_Attack_Control.AnimConName != "Bow") 
+        { return; }
         if (Input.GetKeyDown(KeyCode.Q) && anim.GetBool("IsDraw") == false) 
         {
             if (player_Inventory.PotionSlot >= 1) 

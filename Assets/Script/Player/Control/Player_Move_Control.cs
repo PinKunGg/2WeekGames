@@ -13,6 +13,7 @@ public class Player_Move_Control : MonoBehaviour
     Tutorial_Control tutorial_Control;
     Player_Skill_Control player_Skill_Control;
 
+    public GameObject cam_lobby_pos;
     public GameObject cam_player, cam_player_inven;
     Player_Attack_Control player_Attack_Control;
     public bool IsWalk, IsRun = false;
@@ -50,15 +51,21 @@ public class Player_Move_Control : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         player_Attack_Control = GetComponent<Player_Attack_Control>();
         player_Skill_Control = GetComponent<Player_Skill_Control>();
+        cam_lobby_pos = GameObject.FindGameObjectWithTag("CamLobbyPos");
         cam_main = Camera.main.gameObject;
         rb = GetComponent<Rigidbody>();
         temp_move_speed = move_speed;
         temp_move_speed_run = move_speed_run;
         player_inventory = Player_Inventory.player_Inventory;
         tutorial_Control = Tutorial_Control.tutorial_Control;
-        if (tutorial_Control.IsLobby == false) { SwitchCursor(false); }
+        if (!photonView.IsMine) { return; }
+        if (tutorial_Control.IsLobby == false) 
+        {
+            SwitchCursor(false); 
+        }
         else 
         {
+            LobbyControl.lobbyControl.player_Move_Control = this;
             SwitchCursor(true);
             cam_player.SetActive(false);
             cam_player_inven.SetActive(false);
@@ -104,6 +111,27 @@ public class Player_Move_Control : MonoBehaviour
         }
         Dash();
         CheckRollAnimIsRun();
+    }
+
+    public void OnLobbySetUp() 
+    {
+        anim.Play("Idle");
+        cam_player.SetActive(false);
+        cam_player_inven.SetActive(false);
+        Debug.Log("EndRun");
+        cam_main.transform.position = cam_lobby_pos.transform.position;
+        cam_main.transform.rotation = cam_lobby_pos.transform.rotation;
+        foreach (AnimatorControllerParameter parameter in anim.parameters)
+        {
+            anim.SetBool(parameter.name, false);
+        }
+        anim.Play("Standing Idle");
+    }
+
+    public void CameraOn() 
+    {
+        cam_player.SetActive(true);
+        cam_player_inven.SetActive(true);
     }
 
     public void SwitchCursor(bool value)
