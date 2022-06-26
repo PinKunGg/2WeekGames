@@ -81,7 +81,7 @@ public class Assasin_Attacker : MonoBehaviour
         switch(value){
             case 0:
             if(disBetweenEnemyAndPlayer > NormalAttackRange){
-                TeleportToPlayer();
+                ShootDarkEnergy();
                 break;
             }
 
@@ -89,13 +89,7 @@ public class Assasin_Attacker : MonoBehaviour
             break;
 
             case 1:
-            monsterAnima.PlayBoolAnimator("IsSkill1",true);
-
-            AnimationName = "IsSkill1";
-            AttackSqeuence.AppendInterval(0.3f);
-            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            AttackSqeuence.AppendInterval(0.5f);
-            AttackSqeuence.AppendCallback(DelayCaculate);
+            ShootDarkEnergy();
             break;
 
             case 2:
@@ -153,6 +147,16 @@ public class Assasin_Attacker : MonoBehaviour
         AttackSqeuence.AppendCallback(DelayCaculate);
     }
 
+    void ShootDarkEnergy(){
+        monsterAnima.PlayBoolAnimator("IsSkill1",true);
+
+        AnimationName = "IsSkill1";
+        AttackSqeuence.AppendInterval(0.3f);
+        AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+        AttackSqeuence.AppendInterval(0.5f);
+        AttackSqeuence.AppendCallback(DelayCaculate);
+    }
+
     void DelayCaculate(){
         monsterHopping.rb.isKinematic = false;
         Debug.Log(monsterAnima.GetCurrentAnimationTime() * 1.5f);
@@ -175,14 +179,14 @@ public class Assasin_Attacker : MonoBehaviour
         monsterHopping.rb.isKinematic = true;
         yield return new WaitForSeconds(7.5f);
 
-        monsterHopping.FindDropPoint();
-        yield return new WaitForSeconds(1f);
+        monsterHopping.FindDropPoint(0f,0.5f);
+        // yield return new WaitForSeconds(1f);
 
         monsterAnima.PlayBoolAnimator("IsTeleportDown",true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
 
         monsterAnima.PlayBoolAnimator("IsTeleportDown",false);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(0.1f);
         _collider.enabled = true;
         monsterHopping.rb.isKinematic = false;
 

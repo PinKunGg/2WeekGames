@@ -7,22 +7,22 @@ public class MonsterAttackKnockback : MonoBehaviour
     Vector3 knockBackPos;
 
     static bool isKnockBackAlready;
-    Player_Move_Control _playerMoveCon;
-    Player_Attack_Control _player_Attack_Control;
+    Player_Move_Control playerMoveCon;
+    Player_Attack_Control player_Attack_Control;
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.CompareTag("Player")){
 
             if(isKnockBackAlready){
                 return;
             }
-            _player_Attack_Control = other.gameObject.GetComponent<Player_Attack_Control>();
-            if (_player_Attack_Control.IsBlock) { 
+            player_Attack_Control = other.gameObject.GetComponent<Player_Attack_Control>();
+            if (player_Attack_Control.IsBlock) { 
                 return; 
             }
 
             isKnockBackAlready = true;
-            _playerMoveCon = other.gameObject.GetComponent<Player_Move_Control>();
-            _playerMoveCon.enabled = false;
+            playerMoveCon = other.gameObject.GetComponent<Player_Move_Control>();
+            playerMoveCon.enabled = false;
 
             Vector3 tempKnockback = this.transform.forward;
             knockBackPos = new Vector3(tempKnockback.x,other.transform.position.y * 3f,tempKnockback.z);
@@ -33,7 +33,7 @@ public class MonsterAttackKnockback : MonoBehaviour
     }
 
     void DelayKnockBack(){
-        _playerMoveCon.enabled = true;
+        playerMoveCon.enabled = true;
         isKnockBackAlready = false;
     }
 }

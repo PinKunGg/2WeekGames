@@ -73,8 +73,8 @@ public class Monster_Hopping : MonoBehaviour
     public void DelayDisableHoppingShadow(){
         HoppingShadow.enabled = false;
     }
-    public void FindDropPoint(){
-        this.transform.position = new Vector3(goToTarget.position.x + Random.Range(-1f,2f),this.transform.position.y,goToTarget.position.z + Random.Range(-1f,2f));
+    public void FindDropPoint(float minOffset, float maxOffset){
+        this.transform.position = new Vector3(goToTarget.position.x + Random.Range(minOffset,maxOffset),this.transform.position.y,goToTarget.position.z + Random.Range(minOffset,maxOffset));
         
         SpawnShadowHopping();
     }
