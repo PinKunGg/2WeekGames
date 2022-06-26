@@ -184,7 +184,7 @@ public class LobbyControl : MonoBehaviour
         }
         else 
         {
-            IsotherReady_count--;
+            if (IsotherReady_count > 0) { IsotherReady_count--; }
         }
         Check();
     }

@@ -93,7 +93,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.75
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -284,10 +284,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e1bebfdb89f71943891dad6cc2de55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerName: {fileID: 0}
-  _roomName: {fileID: 3837374853183206012}
-  _roomPlayerCount: {fileID: 7320310178386376520}
-  _roomPing: {fileID: 4074105391117792465}
+  playerName: {fileID: 0}
+  roomName: {fileID: 3837374853183206012}
+  roomPlayerCount: {fileID: 7320310178386376520}
+  roomPing: {fileID: 4074105391117792465}
 --- !u!1 &4497316119746761702
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15.55
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15.55
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

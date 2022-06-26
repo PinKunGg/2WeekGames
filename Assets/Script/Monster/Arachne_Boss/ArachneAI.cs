@@ -8,14 +8,14 @@ public class ArachneAI : MonoBehaviourPunCallbacks
 {
     Monster_Hopping monsterHopping;
     Monster_RotateToTarget monsterRotToTarget;
-    ArachneAttacker arachneAttack;
+    Arachne_Attacker arachneAttack;
     PlayerManager_Multiplayer playerManMulti;
 
     bool isChargeAttackReady = true;
 
     private void Start() {
         monsterHopping = GetComponent<Monster_Hopping>();
-        arachneAttack = GetComponent<ArachneAttacker>();
+        arachneAttack = GetComponent<Arachne_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         monsterRotToTarget = GetComponentInChildren<Monster_RotateToTarget>();
         
@@ -41,7 +41,7 @@ public class ArachneAI : MonoBehaviourPunCallbacks
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.O)){
-            arachneAttack.AttackSpecific(2);
+            // arachneAttack.AttackSpecific(2);
         }
     }
 
@@ -49,10 +49,10 @@ public class ArachneAI : MonoBehaviourPunCallbacks
         if(!monsterHopping.goToTarget){return;}
 
         if(monsterHopping.isPlayerInRange){
-            // arachneAttack.Attack();
+            arachneAttack.Attack();
         }
         else{
-            // arachneAttack.AttackSpecific(3);
+            arachneAttack.AttackSpecific(3);
         }
     }
 
