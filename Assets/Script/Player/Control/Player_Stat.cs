@@ -203,6 +203,8 @@ public class Player_Stat : MonoBehaviour
     private void OnParticleCollision(GameObject other) {
         if (other.gameObject.CompareTag("BossAttack")) 
         {
+            FindObjectOfType<Player_Buff_Control>().posion_damage = other.GetComponentInParent<Monster_Stat>().baseMonsterStat.base_Damage;
+            FindObjectOfType<Player_Buff_Control>().CreateBuff(6);
             Player_Take_Damage(10);
         }
     }

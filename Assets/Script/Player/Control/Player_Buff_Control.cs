@@ -19,6 +19,7 @@ public class Player_Buff_Control : MonoBehaviour
 
     public int Veil_Buff_int = 0;
     public int[] Veil_Buff = new int[5] {99,1,2,0,3};
+    public float posion_damage = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,7 @@ public class Player_Buff_Control : MonoBehaviour
         CreateBuff(Veil_Buff[Veil_Buff_int]);
     }
 
-    void CreateBuff(int value) 
+    public void CreateBuff(int value) 
     {
         if (value == 99) { return; }
         if (AllBuff_Cooldown[value] != 0) { return; }
@@ -158,7 +159,7 @@ public class Player_Buff_Control : MonoBehaviour
         float time = value;
         while (time > 0) 
         {
-            player_Stat.Player_Take_Damage(5);
+            player_Stat.Player_Take_Damage(posion_damage);
             time -= 1;
             yield return new WaitForSeconds(1);
         }

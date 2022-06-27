@@ -9,7 +9,7 @@ public class Craft_Control : MonoBehaviour
     public Player_Inventory player_inventory;
     public Craft_Slot FirstSlot;
 
-    public int SetUnlockCount;
+    public bool[] SetUnlockCount = new bool[6] { true,false,false,false,false,false};
     public GameObject[] AllItemSet = new GameObject[12];
 
     public GameObject Main_Craft_UI;
@@ -57,62 +57,32 @@ public class Craft_Control : MonoBehaviour
         {
             set.SetActive(false);
         }
-        if (SetUnlockCount == 5)
+        if (SetUnlockCount[5] == true)
         {
             AllItemSet[11].SetActive(true);
             AllItemSet[10].SetActive(true);
-            AllItemSet[9].SetActive(true);
-            AllItemSet[8].SetActive(true);
-            AllItemSet[7].SetActive(true);
-            AllItemSet[6].SetActive(true);
-            AllItemSet[5].SetActive(true);
-            AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
-        if (SetUnlockCount == 4) 
+        if (SetUnlockCount[4] == true) 
         {
             AllItemSet[9].SetActive(true);
             AllItemSet[8].SetActive(true);
-            AllItemSet[7].SetActive(true);
-            AllItemSet[6].SetActive(true);
-            AllItemSet[5].SetActive(true);
-            AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
-        if (SetUnlockCount == 3)
+        if (SetUnlockCount[3] == true)
         {
             AllItemSet[7].SetActive(true);
             AllItemSet[6].SetActive(true);
-            AllItemSet[5].SetActive(true);
-            AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
-        if (SetUnlockCount == 2)
+        if (SetUnlockCount[2] == true)
         {
             AllItemSet[5].SetActive(true);
             AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
-        if (SetUnlockCount == 1)
+        if (SetUnlockCount[1] == true)
         {
             AllItemSet[3].SetActive(true);
             AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
-        if (SetUnlockCount == 0)
+        if (SetUnlockCount[0] == true)
         {
             AllItemSet[1].SetActive(true);
             AllItemSet[0].SetActive(true);

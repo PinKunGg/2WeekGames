@@ -469,7 +469,7 @@ public class Player_Inventory : MonoBehaviour
     public void updateCraft() 
     {
         Debug.Log("updateCraft");
-        craft_Control.SetUnlockCount = BossUnlockStage;
+        craft_Control.SetUnlockCount = saveInventory.BossUnlockStage;
         craft_Control.UpdateSet();
     }
 
@@ -477,7 +477,6 @@ public class Player_Inventory : MonoBehaviour
     {
         string data = js.LoadJson(Application.persistentDataPath, "Saveinventory" + PhotonNetwork.MasterClient.NickName + player_name);
         JsonUtility.FromJsonOverwrite(data, saveInventory);
-        BossUnlockStage = saveInventory.BossUnlockStage;
         updateCraft();
         for (int x = 0; x < saveInventory.ItemNameArray.Length; x++)
         {
@@ -531,7 +530,7 @@ public class Player_Inventory : MonoBehaviour
                 saveInventory.ItemIndexArray[x] = inventory.ItemIndexArray[x];
             }
         }
-        saveInventory.BossUnlockStage = BossUnlockStage;
+        saveInventory.BossUnlockStage[BossUnlockStage] = true;
         string savedata = JsonUtility.ToJson(saveInventory);
         js.SaveJson(Application.persistentDataPath, "Saveinventory" + PhotonNetwork.MasterClient.NickName + player_name, savedata);
     }
@@ -582,7 +581,7 @@ public class SaveInventory
     public string[] ItemNameArray = new string[40];
     public int[] ItemIndexArray = new int[40];
 
-    public int BossUnlockStage = 0;
+    public bool[] BossUnlockStage = new bool[6] {true,false,false,false,false,false };
 }
 
 [System.Serializable]
