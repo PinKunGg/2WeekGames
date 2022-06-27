@@ -14,21 +14,19 @@ public class ArachneAI : MonoBehaviourPunCallbacks
     bool isChargeAttackReady = true;
 
     private void Start() {
-
+        monsterHopping = GetComponent<Monster_Hopping>();
+        arachneAttack = GetComponent<Arachne_Attacker>();
+        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        monsterRotToTarget = GetComponentInChildren<Monster_RotateToTarget>();
         
         if(PhotonNetwork.IsMasterClient){
-            //Invoke("DelayStart",1f);
+            Invoke("DelayStart",1f);
         }
 
         // InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
     }
 
-    public void DelayStart(){
-        monsterHopping = GetComponent<Monster_Hopping>();
-        arachneAttack = GetComponent<Arachne_Attacker>();
-        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
-        monsterRotToTarget = GetComponentInChildren<Monster_RotateToTarget>();
-
+    void DelayStart(){
         GetPlayerTarget();
         InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
         InvokeRepeating("CheckToChangePlayerTarget",10f,10f);

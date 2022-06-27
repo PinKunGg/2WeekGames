@@ -64,6 +64,7 @@ public class Arachne_Attacker : MonoBehaviour
 
     public void AttackSpecific(int value){
         if(isAttackSpecificInUse){return;}
+
         isAttackSpecificInUse = true;
         isCanAttack = false;
 
@@ -74,7 +75,7 @@ public class Arachne_Attacker : MonoBehaviour
         switch(value){
             case 0:
             if(disBetweenEnemyAndPlayer > NormalAttackRange){
-                DelayAttacker();
+                ShootVemon();
                 break;
             }
 
@@ -82,12 +83,7 @@ public class Arachne_Attacker : MonoBehaviour
             break;
 
             case 1:
-            monsterAnima.PlayBoolAnimator("IsSkill1",true);
-
-            AnimationName = "IsSkill1";
-            AttackSqeuence.AppendInterval(0.3f);
-            AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            ShootVemon();
             break;
 
             case 2:
@@ -96,7 +92,8 @@ public class Arachne_Attacker : MonoBehaviour
             AnimationName = "IsSkill2";
             AttackSqeuence.AppendInterval(0.3f);
             AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-            DelayCaculate();
+            AttackSqeuence.AppendInterval(0.5f);
+            AttackSqeuence.AppendCallback(DelayCaculate);
             break;
 
             case 3:
@@ -121,14 +118,25 @@ public class Arachne_Attacker : MonoBehaviour
         AnimationName = "IsNormalAttack";
         AttackSqeuence.AppendInterval(0.3f);
         AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
-        DelayCaculate();
+        AttackSqeuence.AppendInterval(0.5f);
+        AttackSqeuence.AppendCallback(DelayCaculate);
+    }
+
+    void ShootVemon(){
+        monsterAnima.PlayBoolAnimator("IsSkill1",true);
+
+        AnimationName = "IsSkill1";
+        AttackSqeuence.AppendInterval(0.3f);
+        AttackSqeuence.AppendCallback(StopAttackerAnimationTween);
+        AttackSqeuence.AppendInterval(0.5f);
+        AttackSqeuence.AppendCallback(DelayCaculate);   
     }
 
     void DelayCaculate(){
         monsterHopping.rb.isKinematic = false;
-        Debug.Log(monsterAnima.anima.GetCurrentAnimatorStateInfo(0).length);
+        Debug.Log(monsterAnima.GetCurrentAnimationTime() * 2f);
         AttackSqeuence = DOTween.Sequence();
-        AttackSqeuence.AppendInterval(monsterAnima.anima.GetCurrentAnimatorStateInfo(0).length / 0.5f);
+        AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 2f);
         AttackSqeuence.AppendCallback(DelayAttacker);
     }
 
@@ -153,6 +161,7 @@ public class Arachne_Attacker : MonoBehaviour
         transform.DOMoveY(this.transform.position.y - 5f,0.5f);
         yield return new WaitForSeconds(0.2f);
         monsterAnima.PlayBoolAnimator("IsJumpDown",true);
+        yield return new WaitForSeconds(0.5f);
         DelayCaculate();
         yield return new WaitForSeconds(0.3f);
         monsterAnima.PlayBoolAnimator("IsJumpDown",false);

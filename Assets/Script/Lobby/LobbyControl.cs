@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
-using Cinemachine;
 
 public class LobbyControl : MonoBehaviour
 {
@@ -30,7 +29,6 @@ public class LobbyControl : MonoBehaviour
     string IsStageChange;
 
     public GameObject local_player;
-    public GameObject[] AllBoss;
     // Start is called before the first frame update
 
     private void Awake()
@@ -211,11 +209,11 @@ public class LobbyControl : MonoBehaviour
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
         IsotherReady_count = 0;
-        photonView.RPC("Rpc_StartGame", RpcTarget.All,IsStageChange);
+        photonView.RPC("Rpc_StartGame", RpcTarget.All);
     }
 
     [PunRPC]
-    void Rpc_StartGame(string stage) 
+    void Rpc_StartGame() 
     {
         Tutorial_Control.tutorial_Control.IsLobby = false;
         InvenUI.SetActive(false);
@@ -226,24 +224,6 @@ public class LobbyControl : MonoBehaviour
         SelectBossUI.SetActive(false);
         BossHeathUI.SetActive(true);
         player_Move_Control.CameraOn();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        local_player.GetComponentInChildren<CinemachineFreeLook>().m_XAxis.Value = 0;
-        if (stage == "Stage 1") 
-        { 
-            AllBoss[0].SetActive(true);
-            AllBoss[0].GetComponent<BoarAI>().DelayStart();
-        }
-        else if (stage == "Stage 2")
-        { 
-            AllBoss[1].SetActive(true);
-            AllBoss[1].GetComponent<ArachneAI>().DelayStart();
-        }
-        else if (stage == "Stage 3")
-        { 
-            AllBoss[2].SetActive(true);
-            AllBoss[2].GetComponent<AssasinAI>().DelayStart();
-        }
     }
 
     public void EndGame() 
@@ -258,16 +238,10 @@ public class LobbyControl : MonoBehaviour
     void Rpc_EndGame()
     {
         Tutorial_Control.tutorial_Control.IsLobby = true;
-        local_player.GetComponent<Player_Move_Control>().OnLobbySetUp();
-        local_player.GetComponent<Player_Attack_Control>().CheckWeaponUse();
-        local_player.GetComponent<Player_Attack_Control>().IsDraw = false;
-        local_player.GetComponent<Player_Attack_Control>().IsDrawed = false;
         InvenUI.SetActive(true);
         CraftUI.SetActive(true);
         ShowClothUI.SetActive(true);
         BossHeathUI.SetActive(false);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         if (PhotonNetwork.IsMasterClient)
         {
             StartGameButton.SetActive(true);
@@ -288,7 +262,6 @@ public class LobbyControl : MonoBehaviour
     {
         for (int x = 0; x < AllPlayerObj.Count; x++) 
         {
-            AllPlayerObj[x].GetComponent<Rigidbody>().velocity = Vector3.zero;
             AllPlayerObj[x].transform.position = Pos[x].transform.position;
             AllPlayerObj[x].transform.rotation = Pos[x].transform.rotation;
         }

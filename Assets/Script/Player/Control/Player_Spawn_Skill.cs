@@ -16,7 +16,6 @@ public class Player_Spawn_Skill : MonoBehaviour
     public GameObject Magic_Skill_2;
     public bool[] IsMagicSKill = new bool[3] { false, false, false };
     public PlayerWeaponDamage stuff_weapondDamage;
-    public GameObject Magic_spawn_pos1, Magic_spawn_pos2, Magic_spawn_pos3;
 
     [Header("Bow Skill Prefab")]
     public GameObject Bow_Normal_Attack;
@@ -24,7 +23,6 @@ public class Player_Spawn_Skill : MonoBehaviour
     public GameObject Bow_Skill_2;
     public bool[] IsBowSkill = new bool[3] { false, false, false };
     public PlayerWeaponDamage bow_weapondDamage;
-    public GameObject Bow_spawn_pos1, Bow_spawn_pos2 , Bow_spawn_pos3;
 
     GameObject[][] all_weapond_skill_obj = new GameObject[2][];
     public string animconName;
@@ -76,19 +74,7 @@ public class Player_Spawn_Skill : MonoBehaviour
 
     void SpawnNetworkSkill(int weapond,int number_of_skill){
         if (all_weapond_skill_obj[0][0] == null) { init(); }
-        if (weapond == 0) 
-        {
-            if (number_of_skill == 0) { spawn_pos = Magic_spawn_pos1; }
-            else if (number_of_skill == 1) { spawn_pos = Magic_spawn_pos2; }
-            else if (number_of_skill == 2) { spawn_pos = Magic_spawn_pos3; }
-        }
-        else if(weapond == 1)
-        {
-            if (number_of_skill == 0) { spawn_pos = Bow_spawn_pos1; }
-            else if (number_of_skill == 1) { spawn_pos = Bow_spawn_pos2; }
-            else if (number_of_skill == 2) { spawn_pos = Bow_spawn_pos3; }
-        }
-        GameObject skill_obj = PhotonNetwork.Instantiate(all_weapond_skill_obj[weapond][number_of_skill].name, spawn_pos.transform.position, spawn_pos.transform.rotation);
+        GameObject skill_obj = PhotonNetwork.Instantiate(all_weapond_skill_obj[weapond][number_of_skill].name, spawn_pos.transform.position,spawn_pos.transform.rotation);
         skill_obj.transform.parent = null;
         PlayerWeaponDamage skill_weapond = skill_obj.GetComponentInChildren<PlayerWeaponDamage>();
         if (weapond == 0)

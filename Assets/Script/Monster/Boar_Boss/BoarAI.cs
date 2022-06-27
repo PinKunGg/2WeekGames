@@ -6,27 +6,19 @@ using Photon.Realtime;
 
 public class BoarAI : MonoBehaviourPunCallbacks
 {
-    Monster_Movement _monsterMove;
-    BoarAttacker boarAttack;
+    Monster_Movement monsterMove;
+    Boar_Attacker boarAttack;
 
-    PlayerManager_Multiplayer _playerManMulti;
+    PlayerManager_Multiplayer playerManMulti;
 
     bool isChargeAttackReady = true;
 
-    private void Start() {
-        
-        
-        if(PhotonNetwork.IsMasterClient){
-            //Invoke("DelayStart",1f);
-        }
-
-        // InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
-    }
+    float TimeRandomChargeAttack = 5f;
 
     public void DelayStart(){
-        _monsterMove = GetComponent<Monster_Movement>();
-        boarAttack = GetComponent<BoarAttacker>();
-        _playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        monsterMove = GetComponent<Monster_Movement>();
+        boarAttack = GetComponent<Boar_Attacker>();
+        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
 
         GetPlayerTarget();
         InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
@@ -34,9 +26,9 @@ public class BoarAI : MonoBehaviourPunCallbacks
     }
 
     void GetPlayerTarget(){
-        Transform targetPlayer = _playerManMulti.GetRandomPlayer().transform;
-        _monsterMove.goToTarget = targetPlayer;
-        _monsterMove.lookAtTarget = targetPlayer;
+        Transform targetPlayer = playerManMulti.GetRandomPlayer().transform;
+        monsterMove.goToTarget = targetPlayer;
+        monsterMove.lookAtTarget = targetPlayer;
     }
 
     private void Update() {
@@ -46,10 +38,21 @@ public class BoarAI : MonoBehaviourPunCallbacks
     }
 
     void CheckIsPlayerInRange(){
-        if(!_monsterMove.goToTarget){return;}
+        if(!monsterMove.goToTarget){return;}
 
-        if(_monsterMove.isPlayerInRange){
+        if(monsterMove.isPlayerInRange){
             boarAttack.Attack();
+        }
+        else{
+            if(TimeRandomChargeAttack <= 0){
+                if(Random.value > 0.8f){
+                    boarAttack.AttackSpecific(2);
+                }
+                TimeRandomChargeAttack = 5f;
+            }
+            else{
+                TimeRandomChargeAttack--;
+            }
         }
     }
 
@@ -57,16 +60,16 @@ public class BoarAI : MonoBehaviourPunCallbacks
         float hightestDamage = 0;
         int playerHightestDamage = 0;
 
-        for(int i = 0; i < _playerManMulti._allPlayerInCurrentRoom.Count; i++){
-            if(_playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss > hightestDamage){
-                hightestDamage = _playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss;
+        for(int i = 0; i < playerManMulti._allPlayerInCurrentRoom.Count; i++){
+            if(playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss > hightestDamage){
+                hightestDamage = playerManMulti._allPlayerInCurrentRoom[i]._playerDamageDealToBoss;
                 playerHightestDamage = i;
             }
         }
 
-        Transform targetPlayer = _playerManMulti._allPlayerInCurrentRoom[playerHightestDamage]._playerGameObject.transform;
-        _monsterMove.goToTarget = targetPlayer;
-        _monsterMove.lookAtTarget = targetPlayer;
+        Transform targetPlayer = playerManMulti._allPlayerInCurrentRoom[playerHightestDamage]._playerGameObject.transform;
+        monsterMove.goToTarget = targetPlayer;
+        monsterMove.lookAtTarget = targetPlayer;
     }
 
     void DelayChargeAttack(){
