@@ -16459,6 +16459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2862395223950464458}
   - component: {fileID: 2862395223950464437}
+  - component: {fileID: 2947190314190491998}
   m_Layer: 8
   m_Name: JumpDownDamgeCollider
   m_TagString: BossAttack
@@ -16494,6 +16495,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 1, z: 4}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &2947190314190491998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2862395223950464459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2862395224017265284
 GameObject:
   m_ObjectHideFlags: 0
@@ -41294,7 +41307,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7385873378832570128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5332926ca6f7a7b44ba044c8220bdac0, type: 3}
+  m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7385873379763382685
@@ -41492,12 +41505,10 @@ MonoBehaviour:
     base_HP: 6200
     base_Armor: 5
     base_Damage: 100
-  BossStageNumber: 0
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
   itemDrop: {fileID: 11400000, guid: 6127aee6f2762b14f80a0fbcb6e839c2, type: 2}
   AmountRangeitemDrop: 0f00000019000000
-  WinUI: {fileID: 0}
 --- !u!95 &7385873379763382695
 Animator:
   serializedVersion: 4
@@ -41591,9 +41602,6 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsAttackFinish
-  - Type: 4
-    SynchronizeType: 0
-    Name: IsDie
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

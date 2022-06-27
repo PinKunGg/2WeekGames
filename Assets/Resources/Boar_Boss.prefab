@@ -121,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4739653772415333620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5332926ca6f7a7b44ba044c8220bdac0, type: 3}
+  m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4739653772419427877
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4739653772419427877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5332926ca6f7a7b44ba044c8220bdac0, type: 3}
+  m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4739653772427156508
@@ -332,7 +332,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4739653772611956924}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5332926ca6f7a7b44ba044c8220bdac0, type: 3}
+  m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4739653772648532925
@@ -1010,6 +1010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackIndex: 000000000100000002000000
+  NormalAttackRange: 0
 --- !u!114 &4739653773620498590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,14 +1042,10 @@ MonoBehaviour:
     base_HP: 4200
     base_Armor: 5
     base_Damage: 60
-  BossStageNumber: 0
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
   itemDrop: {fileID: 11400000, guid: 6127aee6f2762b14f80a0fbcb6e839c2, type: 2}
   AmountRangeitemDrop: 0000000000000000
-  WinUI: {fileID: 0}
-  BossRenderer: {fileID: 0}
-  Bossmaterial: []
 --- !u!95 &4739653773620498578
 Animator:
   serializedVersion: 4
