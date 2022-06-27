@@ -36,6 +36,9 @@ public class Monster_Stat : MonoBehaviour
         photonView = GetComponent<PhotonView>();
         Player_Inventory = Player_Inventory.player_Inventory;
         UpdateMonsterCurrentStat();
+        GetComponent<Boar_Attacker>()?.DelayAttacker();
+        GetComponent<Arachne_Attacker>()?.DelayAttacker();
+        GetComponent<Assasin_Attacker>()?.DelayAttacker();
         if (PhotonNetwork.IsMasterClient)
         {
             playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();

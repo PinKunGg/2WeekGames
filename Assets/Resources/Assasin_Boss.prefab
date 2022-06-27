@@ -269,10 +269,12 @@ MonoBehaviour:
     base_HP: 100
     base_Armor: 5
     base_Damage: 0
+  BossStageNumber: 0
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
   itemDrop: {fileID: 0}
   AmountRangeitemDrop: 0000000000000000
+  WinUI: {fileID: 0}
 --- !u!95 &6415003433350563478
 Animator:
   serializedVersion: 4
@@ -20104,7 +20106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 606928269809530809}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5332926ca6f7a7b44ba044c8220bdac0, type: 3}
+  m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &606928269913580237
@@ -49543,7 +49545,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 606928270913448803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5332926ca6f7a7b44ba044c8220bdac0, type: 3}
+  m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!65 &606928270913448805

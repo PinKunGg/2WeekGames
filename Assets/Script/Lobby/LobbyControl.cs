@@ -232,17 +232,17 @@ public class LobbyControl : MonoBehaviour
         if (stage == "Stage 1") 
         { 
             AllBoss[0].SetActive(true);
-            AllBoss[0].GetComponent<BoarAI>().DelayStart();
+            //AllBoss[0].GetComponent<BoarAI>().DelayStart();
         }
         else if (stage == "Stage 2")
         { 
             AllBoss[1].SetActive(true);
-            AllBoss[1].GetComponent<ArachneAI>().DelayStart();
+            //AllBoss[1].GetComponent<ArachneAI>().DelayStart();
         }
         else if (stage == "Stage 3")
         { 
             AllBoss[2].SetActive(true);
-            AllBoss[2].GetComponent<AssasinAI>().DelayStart();
+            //AllBoss[2].GetComponent<AssasinAI>().DelayStart();
         }
     }
 

@@ -11,7 +11,6 @@ public class Assasin_Attacker : MonoBehaviour
     int attackIndexTemp, previousAttackIndex;
     public bool isCanAttack{get; private set;}
     bool isAttackSpecificInUse;
-    bool isChargeAttackDone;
     public float NormalAttackRange;
 
     Monster_Animation monsterAnima;
@@ -170,7 +169,7 @@ public class Assasin_Attacker : MonoBehaviour
         monsterAnima.PlayBoolAnimator(AnimationName,false);
     }
 
-    void DelayAttacker(){
+    public void DelayAttacker(){
         isCanAttack = true;
         isAttackSpecificInUse = false;
     }

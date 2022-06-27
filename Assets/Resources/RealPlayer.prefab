@@ -2912,6 +2912,7 @@ MonoBehaviour:
   - 0
   Veil_Buff_int: 0
   Veil_Buff: 6300000001000000020000000000000003000000
+  posion_damage: 5
 --- !u!1 &6683289133713681330
 GameObject:
   m_ObjectHideFlags: 0

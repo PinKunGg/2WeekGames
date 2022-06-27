@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class BoarAI : MonoBehaviourPunCallbacks
+public class BoarAI : MonoBehaviour
 {
     Monster_Movement monsterMove;
     Boar_Attacker boarAttack;
@@ -15,6 +15,11 @@ public class BoarAI : MonoBehaviourPunCallbacks
 
     float TimeRandomChargeAttack = 5f;
 
+    private void OnEnable()
+    {
+        if (!PhotonNetwork.IsMasterClient) { return; }
+        DelayStart();
+    }
     public void DelayStart(){
         //Fuck
         monsterMove = GetComponent<Monster_Movement>();

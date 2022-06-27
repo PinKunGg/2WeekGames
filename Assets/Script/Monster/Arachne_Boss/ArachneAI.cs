@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class ArachneAI : MonoBehaviourPunCallbacks
+public class ArachneAI : MonoBehaviour
 {
     Monster_Hopping monsterHopping;
     Monster_RotateToTarget monsterRotToTarget;
@@ -13,17 +13,12 @@ public class ArachneAI : MonoBehaviourPunCallbacks
 
     bool isChargeAttackReady = true;
 
-    private void Start() {
-
-        
-        if(PhotonNetwork.IsMasterClient){
-            //Invoke("DelayStart",1f);
-        }
-
-        // InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
+    private void OnEnable()
+    {
+        if (!PhotonNetwork.IsMasterClient) { return; }
+        DelayStart();
     }
-
-    public void DelayStart(){
+    void DelayStart(){
         monsterHopping = GetComponent<Monster_Hopping>();
         arachneAttack = GetComponent<Arachne_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
