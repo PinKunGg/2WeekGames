@@ -9,7 +9,7 @@ public class Craft_Control : MonoBehaviour
     public Player_Inventory player_inventory;
     public Craft_Slot FirstSlot;
 
-    public int SetUnlockCount;
+    public static int SetUnlockCount;
     public GameObject[] AllItemSet = new GameObject[12];
 
     public GameObject Main_Craft_UI;
@@ -50,9 +50,8 @@ public class Craft_Control : MonoBehaviour
         player_inventory.InvenUI.SetActive(false);
     }
 
-    public void UpdateSet() 
+    void UpdateSet() 
     {
-        Debug.Log("updateCraft2");
         foreach (GameObject set in AllItemSet) 
         {
             set.SetActive(false);
@@ -61,56 +60,26 @@ public class Craft_Control : MonoBehaviour
         {
             AllItemSet[11].SetActive(true);
             AllItemSet[10].SetActive(true);
-            AllItemSet[9].SetActive(true);
-            AllItemSet[8].SetActive(true);
-            AllItemSet[7].SetActive(true);
-            AllItemSet[6].SetActive(true);
-            AllItemSet[5].SetActive(true);
-            AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
         if (SetUnlockCount == 4) 
         {
             AllItemSet[9].SetActive(true);
             AllItemSet[8].SetActive(true);
-            AllItemSet[7].SetActive(true);
-            AllItemSet[6].SetActive(true);
-            AllItemSet[5].SetActive(true);
-            AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
         if (SetUnlockCount == 3)
         {
             AllItemSet[7].SetActive(true);
             AllItemSet[6].SetActive(true);
-            AllItemSet[5].SetActive(true);
-            AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
         if (SetUnlockCount == 2)
         {
             AllItemSet[5].SetActive(true);
             AllItemSet[4].SetActive(true);
-            AllItemSet[3].SetActive(true);
-            AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
         if (SetUnlockCount == 1)
         {
             AllItemSet[3].SetActive(true);
             AllItemSet[2].SetActive(true);
-            AllItemSet[1].SetActive(true);
-            AllItemSet[0].SetActive(true);
         }
         if (SetUnlockCount == 0)
         {
@@ -179,7 +148,6 @@ public class Craft_Control : MonoBehaviour
             }
         }
         player_inventory.RemoveItem(Craft_Item1, Craft_amount1);
-        Debug.LogFormat("{0} , {1}", Craft_Item2, Craft_amount2);
         player_inventory.RemoveItem(Craft_Item2, Craft_amount2);
         player_inventory.AddItem(item_selected, 1);
         Debug.Log("Crafted");

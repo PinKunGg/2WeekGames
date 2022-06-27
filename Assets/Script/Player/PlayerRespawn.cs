@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Cinemachine;
 
 public class PlayerRespawn : MonoBehaviour
 {
@@ -17,7 +16,6 @@ public class PlayerRespawn : MonoBehaviour
     public GameObject GameOverUI;
     public GameObject pos;
     public GameObject player;
-    public GameObject PlayerDieUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,21 +30,9 @@ public class PlayerRespawn : MonoBehaviour
 
     public void player_respawn() 
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        PlayerDieUI.SetActive(true);
-        photonView.RPC("SentDeathCountToMaster", RpcTarget.MasterClient);
-    }
-    public void When_player_respawn()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        PlayerDieUI.SetActive(false);
-        player.GetComponent<Player_Stat>().WhenRespawn();
-        player.GetComponentInChildren<CinemachineFreeLook>().m_XAxis.Value = 0;
         player.transform.position = pos.transform.position;
         player.transform.rotation = pos.transform.rotation;
-        
+        photonView.RPC("SentDeathCountToMaster", RpcTarget.MasterClient);
     }
 
     [PunRPC]
@@ -67,7 +53,6 @@ public class PlayerRespawn : MonoBehaviour
     void RpcShowBGGameObver() 
     {
         GameOverUI.SetActive(true);
-        PlayerDieUI.SetActive(false);
         Tutorial_Control.tutorial_Control.IsLobby = true;
         Invoke("BackToLobby", 5);
     }
@@ -81,6 +66,8 @@ public class PlayerRespawn : MonoBehaviour
     {
         GameOverUI.SetActive(false);
         LobbyControl lobbyControl = LobbyControl.lobbyControl;
+        lobbyControl.local_player.GetComponent<Player_Move_Control>().OnLobbySetUp();
+        lobbyControl.local_player.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         lobbyControl.EndGame();
     }
 }
