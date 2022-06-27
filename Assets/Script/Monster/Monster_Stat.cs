@@ -11,6 +11,7 @@ public class Monster_Stat : MonoBehaviour
     PhotonView photonView;
     public BaseMonsterStat baseMonsterStat;
     [Header("Monster Setting")]
+    public int BossStageNumber;
     public float Current_HP;
     public Slider Monster_HealthBar;
 
@@ -18,6 +19,8 @@ public class Monster_Stat : MonoBehaviour
     public int[] AmountRangeitemDrop = new int[2];
     PlayerWeaponDamage forDot;
     PlayerManager_Multiplayer playerManMulti;
+    public GameObject WinUI;
+    Vector3 spawnPos;
 
     bool IsDie = false;
     int playerDamageID;
@@ -25,13 +28,18 @@ public class Monster_Stat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
         tutorial_Control = Tutorial_Control.tutorial_Control;
+    }
+
+    private void OnEnable()
+    {
+        photonView = GetComponent<PhotonView>();
         Player_Inventory = Player_Inventory.player_Inventory;
         UpdateMonsterCurrentStat();
-
-        if(PhotonNetwork.IsMasterClient){
+        if (PhotonNetwork.IsMasterClient)
+        {
             playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+            spawnPos = this.gameObject.transform.position;
         }
     }
 
@@ -138,6 +146,12 @@ public class Monster_Stat : MonoBehaviour
                 {
                     IsDie = true;
                     GetComponent<Animator>().SetBool("IsDie", true);
+                    Monster_HealthBar.gameObject.SetActive(false);
+                    if (!tutorial_Control.IsTutorial) { WinUI.SetActive(true); }
+                    else {
+                        Cursor.visible = true;
+                        Cursor.lockState = CursorLockMode.None;
+                    }
                     DropItem();
                 }
             }
@@ -152,13 +166,39 @@ public class Monster_Stat : MonoBehaviour
     void DropItem() 
     {
         if (!TutorialCheck(9)) { return; }
+        Debug.Log("Drop : " + itemDrop.NameItem);
+        Player_Inventory.BossUnlockStage = BossStageNumber;
+        Player_Inventory.updateCraft();
         Player_Inventory.AddItem(itemDrop, Random.Range(AmountRangeitemDrop[0], AmountRangeitemDrop[1]));
-        Invoke("DelayBactToLobby", 5);
+        MonoBehaviour[] allscript = GetComponents<MonoBehaviour>();
+        for (int x = 0; x < allscript.Length; x++) 
+        {
+            if (allscript[x] != this) { allscript[x].enabled = false; }
+        }
+        if (!tutorial_Control.IsTutorial) { Invoke("DelayBactToLobby", 5); }
     }
 
     void DelayBactToLobby() 
     {
-        PhotonNetwork.LoadLevel("Multiplayer_Lobby");
+        WinUI.SetActive(false);
+        IsDie = false;
+        this.gameObject.transform.position = spawnPos;
+        LobbyControl.lobbyControl.EndGame();
+        Current_HP = baseMonsterStat.base_HP;
+        MonoBehaviour[] allscript = GetComponents<MonoBehaviour>();
+        for (int x = 0; x < allscript.Length; x++)
+        {
+            if (allscript[x] != this) { allscript[x].enabled = true; }
+        }
+        photonView.RPC("SaveInven", RpcTarget.All);
+        this.gameObject.SetActive(false);
+    }
+
+    [PunRPC]
+    void SaveInven() 
+    {
+        Player_Inventory.SaveCloth();
+        Player_Inventory.SaveItem();
     }
 
     bool TutorialCheck(int stage)

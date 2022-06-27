@@ -11,6 +11,7 @@ public class Assasin_Attacker : MonoBehaviour
     int attackIndexTemp, previousAttackIndex;
     public bool isCanAttack{get; private set;}
     bool isAttackSpecificInUse;
+    bool isChargeAttackDone;
     public float NormalAttackRange;
 
     Monster_Animation monsterAnima;
