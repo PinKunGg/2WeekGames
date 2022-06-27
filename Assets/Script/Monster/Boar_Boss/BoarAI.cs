@@ -16,6 +16,7 @@ public class BoarAI : MonoBehaviourPunCallbacks
     float TimeRandomChargeAttack = 5f;
 
     public void DelayStart(){
+        //Fuck
         monsterMove = GetComponent<Monster_Movement>();
         boarAttack = GetComponent<Boar_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
