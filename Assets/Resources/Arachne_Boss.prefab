@@ -41676,4 +41676,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackIndex: 00000000010000000200000003000000
-  NormalAttackRange: 0
+  NormalAttackRange: 4.5
