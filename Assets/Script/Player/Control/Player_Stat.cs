@@ -256,10 +256,15 @@ public class Player_Stat : MonoBehaviour
             {
                 playerRespawn.player = this.gameObject;
                 playerRespawn.player_respawn();
-                Current_HP = Max_Current_HP;
-                photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Max_Current_HP, Player_Name);
+                
             }
         }
+    }
+
+    public void WhenRespawn() 
+    {
+        Current_HP = Max_Current_HP;
+        photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Max_Current_HP, Player_Name);
     }
 
     void BarrierExplosive() 

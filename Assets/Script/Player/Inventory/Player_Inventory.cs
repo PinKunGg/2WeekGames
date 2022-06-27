@@ -43,6 +43,8 @@ public class Player_Inventory : MonoBehaviour
     public List<Image> AllSlotPic;
     public List<Item> AllItem;
     bool IsFirstRun = false;
+    public int BossUnlockStage = 0;
+    public Craft_Control craft_Control;
 
     Inventory temp_inven;
     int count_temp_inven = 0;
@@ -85,10 +87,10 @@ public class Player_Inventory : MonoBehaviour
     void Update()
     {
         PotionText.text = PotionSlot.ToString();
-        //if (Input.GetKeyDown(KeyCode.I)) 
-        //{
-        //    OpenInven();
-        //}
+        if (Input.GetKeyDown(KeyCode.I) && (tutorial_Control.IsTutorial || tutorial_Control.IsLobby))
+        {
+            OpenInven();
+        }
         //if (Input.GetKeyDown(KeyCode.K)) 
         //{
         //    AddItem(Test, 1);
@@ -201,6 +203,7 @@ public class Player_Inventory : MonoBehaviour
                 {
                     inventory.ItemIndexArray[pos] = inventory.ItemIndexArray[pos] - _amount;
                     remove_count += _amount;
+                    _amount = 0;
                 }
                 else if (inventory.ItemIndexArray[pos] - _amount <= 0)
                 {
@@ -463,10 +466,19 @@ public class Player_Inventory : MonoBehaviour
         LobbyControl.lobbyControl.UnReady();
     }
 
+    public void updateCraft() 
+    {
+        Debug.Log("updateCraft");
+        craft_Control.SetUnlockCount = BossUnlockStage;
+        craft_Control.UpdateSet();
+    }
+
     void LoadItem()
     {
         string data = js.LoadJson(Application.persistentDataPath, "Saveinventory" + PhotonNetwork.MasterClient.NickName + player_name);
         JsonUtility.FromJsonOverwrite(data, saveInventory);
+        BossUnlockStage = saveInventory.BossUnlockStage;
+        updateCraft();
         for (int x = 0; x < saveInventory.ItemNameArray.Length; x++)
         {
             if (saveInventory.ItemNameArray[x] == "") { return; }
@@ -479,7 +491,6 @@ public class Player_Inventory : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void LoadCloth() 
@@ -520,6 +531,7 @@ public class Player_Inventory : MonoBehaviour
                 saveInventory.ItemIndexArray[x] = inventory.ItemIndexArray[x];
             }
         }
+        saveInventory.BossUnlockStage = BossUnlockStage;
         string savedata = JsonUtility.ToJson(saveInventory);
         js.SaveJson(Application.persistentDataPath, "Saveinventory" + PhotonNetwork.MasterClient.NickName + player_name, savedata);
     }
@@ -569,6 +581,8 @@ public class SaveInventory
 {
     public string[] ItemNameArray = new string[40];
     public int[] ItemIndexArray = new int[40];
+
+    public int BossUnlockStage = 0;
 }
 
 [System.Serializable]

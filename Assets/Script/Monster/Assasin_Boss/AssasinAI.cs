@@ -14,19 +14,20 @@ public class AssasinAI : MonoBehaviour
     bool isChargeAttackReady = true;
 
     private void Start() {
+        
+        if(PhotonNetwork.IsMasterClient){
+            //Invoke("DelayStart",1f);
+        }
+
+        //InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
+    }
+
+    public void DelayStart(){
         monsterHopping = GetComponent<Monster_Hopping>();
         assasinAttack = GetComponent<Assasin_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         monsterSkillTp = GetComponent<Monster_SkillTeleportToTarget>();
-        
-        if(PhotonNetwork.IsMasterClient){
-            Invoke("DelayStart",1f);
-        }
 
-        InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
-    }
-
-    void DelayStart(){
         GetPlayerTarget();
         InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
         InvokeRepeating("CheckToChangePlayerTarget",10f,10f);

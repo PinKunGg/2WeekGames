@@ -15,18 +15,11 @@ public class BoarAI : MonoBehaviourPunCallbacks
 
     float TimeRandomChargeAttack = 5f;
 
-    private void Start() {
+    public void DelayStart(){
         monsterMove = GetComponent<Monster_Movement>();
         boarAttack = GetComponent<Boar_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
-        
-        if(PhotonNetwork.IsMasterClient){return;}
 
-        Invoke("DelayStart",1f);
-        // InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
-    }
-
-    void DelayStart(){
         GetPlayerTarget();
         InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
         InvokeRepeating("CheckToChangePlayerTarget",10f,10f);

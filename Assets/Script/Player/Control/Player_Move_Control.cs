@@ -241,6 +241,8 @@ public class Player_Move_Control : MonoBehaviour
     {
         if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Dash"))
         {
+            //Debug.Log("anim : " + anim.GetBool("IsBowAttack"));
+            //if (anim.GetBool("IsBowAttack")) { return; }
             if (player_Attack_Control.IsBlock && player_Attack_Control.IsDrawed)
             {
                 RotationOnBlocked();
