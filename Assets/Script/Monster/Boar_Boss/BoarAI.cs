@@ -7,21 +7,22 @@ using Photon.Realtime;
 public class BoarAI : MonoBehaviourPunCallbacks
 {
     Monster_Movement monsterMove;
-    BoarAttacker boarAttack;
+    Boar_Attacker boarAttack;
 
     PlayerManager_Multiplayer playerManMulti;
 
     bool isChargeAttackReady = true;
 
+    float TimeRandomChargeAttack = 5f;
+
     private void Start() {
         monsterMove = GetComponent<Monster_Movement>();
-        boarAttack = GetComponent<BoarAttacker>();
+        boarAttack = GetComponent<Boar_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         
-        if(PhotonNetwork.IsMasterClient){
-            Invoke("DelayStart",1f);
-        }
+        if(PhotonNetwork.IsMasterClient){return;}
 
+        Invoke("DelayStart",1f);
         // InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
     }
 
@@ -48,6 +49,17 @@ public class BoarAI : MonoBehaviourPunCallbacks
 
         if(monsterMove.isPlayerInRange){
             boarAttack.Attack();
+        }
+        else{
+            if(TimeRandomChargeAttack <= 0){
+                if(Random.value > 0.8f){
+                    boarAttack.AttackSpecific(2);
+                }
+                TimeRandomChargeAttack = 5f;
+            }
+            else{
+                TimeRandomChargeAttack--;
+            }
         }
     }
 

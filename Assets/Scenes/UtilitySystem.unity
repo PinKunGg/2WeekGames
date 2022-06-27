@@ -10770,8 +10770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083782553824e0246bbeec66a7cef9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSaveDone: 0
-  _isLoadDone: 0
+  isSaveDone: 0
+  isLoadDone: 0
 --- !u!114 &1698198369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11837,6 +11837,7 @@ MonoBehaviour:
   Defath_Sprite: {fileID: 21300000, guid: 4157062771d46b342bb02f66c41ee1b1, type: 3}
   PotionText: {fileID: 0}
   player_name: 
+  PlayerStat_Value: {fileID: 0}
   animAxe: {fileID: 9100000, guid: 26dd52b5b518eaf4ba2d60f6fb796f42, type: 2}
   animSwordAndShield: {fileID: 22100000, guid: 42472d4ecb4d53e4baa6ad132966b51a, type: 2}
   animMagic: {fileID: 22100000, guid: 0d035f975a8ac3542a92a7d17f3b192c, type: 2}
@@ -12063,10 +12064,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameControl: {fileID: 1882672553}
-  _content: {fileID: 1754614167}
-  _playerListInfo: {fileID: 6567762548724360074, guid: c531ee590b0c3fe47b78f3bbcd2816cd,
-    type: 3}
-  _playerListingInfos: []
+  content: {fileID: 0}
+  playerListInfo: {fileID: 0}
+  playerListingInfos: []
   allPlayerStat: []
   AllAttack_Controls: []
   SelectStage: {fileID: 0}
@@ -13686,6 +13686,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Assasin_Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 337022142850270806, guid: 6ddf082297e794c41ac8d8507bed1a3d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1145752099992657132, guid: 6ddf082297e794c41ac8d8507bed1a3d,
         type: 3}
       propertyPath: m_RootOrder
@@ -13746,6 +13751,11 @@ PrefabInstance:
       propertyPath: _collider
       value: 
       objectReference: {fileID: 692421232}
+    - target: {fileID: 6415003433350563489, guid: 6ddf082297e794c41ac8d8507bed1a3d,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6415003433350563498, guid: 6ddf082297e794c41ac8d8507bed1a3d,
         type: 3}
       propertyPath: goToTarget
@@ -13784,6 +13794,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AssasinBoss_ExplosionCore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497059077801961486, guid: ce859cc36a8be944da4f669a368c76a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2497059077801961487, guid: ce859cc36a8be944da4f669a368c76a9,
         type: 3}
@@ -13933,20 +13948,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4739653773620498599, guid: b95812157ba5e684eba067729752a49a,
+    - target: {fileID: 4739653773620498593, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: goToTarget
+      value: 
+      objectReference: {fileID: 291625622}
+    - target: {fileID: 4739653773620498593, guid: b95812157ba5e684eba067729752a49a,
+        type: 3}
+      propertyPath: lookAtTarget
+      value: 
+      objectReference: {fileID: 291625622}
     - target: {fileID: 4739653773620498600, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
       propertyPath: m_Name
       value: Boar_Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 4739653773620498600, guid: b95812157ba5e684eba067729752a49a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
@@ -13956,7 +13971,7 @@ PrefabInstance:
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.9
+      value: -14.7
       objectReference: {fileID: 0}
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
@@ -13966,17 +13981,17 @@ PrefabInstance:
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.1
+      value: 10.68
       objectReference: {fileID: 0}
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000035762784
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
@@ -13986,7 +14001,7 @@ PrefabInstance:
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4739653773620498601, guid: b95812157ba5e684eba067729752a49a,
         type: 3}
