@@ -46,6 +46,7 @@ public class ArachneAI : MonoBehaviour
     private void Update() {
         if(Input.GetKeyDown(KeyCode.O)){
             // arachneAttack.AttackSpecific(2);
+            // arachneAttack.Attack();
         }
     }
 

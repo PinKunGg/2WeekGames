@@ -7,6 +7,9 @@ using Photon.Realtime;
 public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
 {
     public float Current_HP;
+    public Collider _collider;
+
+    Rigidbody rb;
 
     Monster_Animation monsterAnima;
     Monster_Movement monsterMove;
@@ -20,11 +23,13 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
         monsterMove = GetComponent<Monster_Movement>();
         monsterHopping = FindObjectOfType<Monster_Hopping>();
         arachneAI = FindObjectOfType<ArachneAI>();
+        rb = GetComponent<Rigidbody>();
     }
 
     public override void OnEnable() {
         if(!PhotonNetwork.IsMasterClient){return;}
 
+        isDeath = false;
         monsterMove.goToTarget = monsterHopping.goToTarget;
         monsterMove.lookAtTarget = monsterHopping.lookAtTarget;
     }
@@ -46,7 +51,7 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
         if(isDeath){return;}
 
         if(other.gameObject.CompareTag("Player")){
-            Death();
+            Explosion();
         }
 
         if (other.gameObject.CompareTag("Weapon")) 
@@ -130,6 +135,8 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
 
     void Death(){
         isDeath = true;
+        rb.isKinematic = true;
+        _collider.enabled = false;
         monsterMove.isStopWalk = true;
         monsterMove.goToTarget = null;
         monsterMove.lookAtTarget = null;
@@ -138,6 +145,20 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
 
         if(!PhotonNetwork.IsMasterClient){return;}
         Invoke("DelayDestroy",4f);
+    }
+
+    void Explosion(){
+        isDeath = true;
+        rb.isKinematic = true;
+        _collider.enabled = false;
+        monsterMove.isStopWalk = true;
+        monsterMove.goToTarget = null;
+        monsterMove.lookAtTarget = null;
+        monsterAnima.PlayBoolAnimator("IsExplosion",true);
+        Invoke("DelayDisableAnimation",0.5f);
+
+        if(!PhotonNetwork.IsMasterClient){return;}
+        Invoke("DelayDestroy",10f);
     }
 
     void DelayDisableAnimation(){

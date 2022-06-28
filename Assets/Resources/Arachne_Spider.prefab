@@ -1637,6 +1637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Current_HP: 100
+  _collider: {fileID: 5038259111999353862}
 --- !u!114 &1788103735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1678,6 +1679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   StopDis: 1
+  rotationSpeed: 10
   startWalk: 0
   isStopWalk: 0
   goToTarget: {fileID: 0}
