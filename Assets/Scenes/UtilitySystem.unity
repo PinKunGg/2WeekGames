@@ -7745,6 +7745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_inventory: {fileID: 1882672552}
   FirstSlot: {fileID: 485168724}
+  SetUnlockCount: 010000000000
   AllItemSet:
   - {fileID: 1673027468}
   - {fileID: 722710925}
@@ -10770,8 +10771,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083782553824e0246bbeec66a7cef9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSaveDone: 0
-  _isLoadDone: 0
+  isSaveDone: 0
+  isLoadDone: 0
 --- !u!114 &1698198369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11837,6 +11838,7 @@ MonoBehaviour:
   Defath_Sprite: {fileID: 21300000, guid: 4157062771d46b342bb02f66c41ee1b1, type: 3}
   PotionText: {fileID: 0}
   player_name: 
+  PlayerStat_Value: {fileID: 0}
   animAxe: {fileID: 9100000, guid: 26dd52b5b518eaf4ba2d60f6fb796f42, type: 2}
   animSwordAndShield: {fileID: 22100000, guid: 42472d4ecb4d53e4baa6ad132966b51a, type: 2}
   animMagic: {fileID: 22100000, guid: 0d035f975a8ac3542a92a7d17f3b192c, type: 2}
@@ -11930,6 +11932,7 @@ MonoBehaviour:
     - 
     - 
     ItemIndexArray: 0a000000010000000100000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    BossUnlockStage: 010000000000
   prefab_invenSlot: {fileID: 3331414242423919, guid: 366f109a7e69f8c469c8dacba90fcb2d,
     type: 3}
   Inventory_zone: {fileID: 1479791806}
@@ -12020,6 +12023,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 693e6c0d1743c1c4b98ce1f306572e39, type: 2}
   - {fileID: 11400000, guid: a7c28eedda1859c46a0881a511944ad2, type: 2}
   - {fileID: 11400000, guid: e6f3985eabe62d94ba1d7259c8b4535e, type: 2}
+  BossUnlockStage: 0
+  craft_Control: {fileID: 0}
   HP: 0
   Armor: 0
   Damage: 0
@@ -12063,10 +12068,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameControl: {fileID: 1882672553}
-  _content: {fileID: 1754614167}
-  _playerListInfo: {fileID: 6567762548724360074, guid: c531ee590b0c3fe47b78f3bbcd2816cd,
-    type: 3}
-  _playerListingInfos: []
+  content: {fileID: 0}
+  playerListInfo: {fileID: 0}
+  playerListingInfos: []
   allPlayerStat: []
   AllAttack_Controls: []
   SelectStage: {fileID: 0}
@@ -13746,6 +13750,11 @@ PrefabInstance:
       propertyPath: _collider
       value: 
       objectReference: {fileID: 692421232}
+    - target: {fileID: 6415003433350563489, guid: 6ddf082297e794c41ac8d8507bed1a3d,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6415003433350563498, guid: 6ddf082297e794c41ac8d8507bed1a3d,
         type: 3}
       propertyPath: goToTarget

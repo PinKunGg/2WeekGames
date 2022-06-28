@@ -12,13 +12,17 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
     Monster_Movement monsterMove;
     Monster_Hopping monsterHopping;
     PlayerWeaponDamage forDot;
+    ArachneAI arachneAI;
     bool isDeath;
 
-    private void Start() {
+    private void Awake() {
         monsterAnima = GetComponent<Monster_Animation>();
         monsterMove = GetComponent<Monster_Movement>();
         monsterHopping = FindObjectOfType<Monster_Hopping>();
+        arachneAI = FindObjectOfType<ArachneAI>();
+    }
 
+    public override void OnEnable() {
         if(!PhotonNetwork.IsMasterClient){return;}
 
         monsterMove.goToTarget = monsterHopping.goToTarget;
@@ -27,6 +31,10 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
 
     private void Update() {
         if(isDeath){return;}
+
+        if(arachneAI.monsterStat.IsDie){
+            photonView.RPC("TakeDamage", RpcTarget.All, 999f);
+        }
 
         if (forDot == null) 
         {
@@ -38,13 +46,7 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
         if(isDeath){return;}
 
         if(other.gameObject.CompareTag("Player")){
-            isDeath = true;
-            monsterMove.isStopWalk = true;
-            monsterMove.goToTarget = null;
-            monsterMove.lookAtTarget = null;
-            monsterAnima.PlayBoolAnimator("IsExplosion",true);
-            Invoke("DelayDisableAnimation",0.5f);
-            Invoke("DelayDestroy",6f);
+            Death();
         }
 
         if (other.gameObject.CompareTag("Weapon")) 
@@ -59,8 +61,7 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
                     totoal_damage = playerWeaponDamage.Damage * ((playerWeaponDamage.CriDamage + 100) / 100);
                 }
                 else { totoal_damage = playerWeaponDamage.Damage; }
-                Current_HP -= totoal_damage;
-                base.photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
+                base.photonView.RPC("TakeDamage", RpcTarget.All, totoal_damage);
             }
             else 
             {
@@ -84,8 +85,7 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
                     totoal_damage = playerWeaponDamage.Damage * ((playerWeaponDamage.CriDamage + 100) / 100);
                 }
                 else { totoal_damage = playerWeaponDamage.Damage; }
-                Current_HP -= totoal_damage;
-                photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
+                photonView.RPC("TakeDamage", RpcTarget.All, totoal_damage);
             }
         }
     }
@@ -115,24 +115,29 @@ public class Arachne_SpiderMinion : MonoBehaviourPunCallbacks
             totoal_damage = forDot.Damage * ((forDot.CriDamage + 100) / 100);
         }
         else { totoal_damage = forDot.Damage; }
-        Current_HP -= totoal_damage;
-        photonView.RPC("TakeDamage", RpcTarget.All, Current_HP);
+        photonView.RPC("TakeDamage", RpcTarget.All, totoal_damage);
 
     }
 
     [PunRPC]
     void TakeDamage(float Damage) {
-        Current_HP = Damage;
+        Current_HP -= Damage;
 
         if(Current_HP <= 0f){
-            isDeath = true;
-            monsterMove.isStopWalk = true;
-            monsterMove.goToTarget = null;
-            monsterMove.lookAtTarget = null;
-            monsterAnima.PlayBoolAnimator("IsDeath",true);
-            Invoke("DelayDisableAnimation",0.5f);
-            Invoke("DelayDestroy",4f);
+            Death();
         }
+    }
+
+    void Death(){
+        isDeath = true;
+        monsterMove.isStopWalk = true;
+        monsterMove.goToTarget = null;
+        monsterMove.lookAtTarget = null;
+        monsterAnima.PlayBoolAnimator("IsDeath",true);
+        Invoke("DelayDisableAnimation",0.5f);
+
+        if(!PhotonNetwork.IsMasterClient){return;}
+        Invoke("DelayDestroy",4f);
     }
 
     void DelayDisableAnimation(){

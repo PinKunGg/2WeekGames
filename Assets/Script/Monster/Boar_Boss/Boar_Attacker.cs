@@ -15,16 +15,22 @@ public class Boar_Attacker : MonoBehaviour
 
     Monster_Animation monsterAnima;
     Monster_Movement monsterMove;
+    Monster_Stat monsterStat;
 
     Sequence AttackSqeuence;
 
     float disBetweenEnemyAndPlayer;
 
-    private void Start() {
+    private void Awake() {
         monsterAnima = GetComponent<Monster_Animation>();
         monsterMove = GetComponent<Monster_Movement>();
-
-        if(!PhotonNetwork.IsMasterClient){return;}
+        monsterStat = GetComponent<Monster_Stat>();
+    }
+    private void OnEnable() {
+        if (!PhotonNetwork.IsMasterClient){ 
+            enabled = false;
+            return;
+        }
 
         isCanAttack = true;
     }
@@ -36,6 +42,19 @@ public class Boar_Attacker : MonoBehaviour
 
         if(!monsterMove.goToTarget){return;}
 
+        if(monsterStat.IsDie){
+            if(AttackSqeuence.IsPlaying()){
+                AttackSqeuence.Kill();
+            }
+            
+            monsterAnima.PlayBoolAnimator("IsNormalAttack",false);
+            monsterAnima.PlayBoolAnimator("IsSkill1",false);
+            monsterAnima.PlayBoolAnimator("IsSkill2",false);
+            monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
+            monsterAnima.PlayBoolAnimator("IsRun",false);
+            return;
+        }
+        
         disBetweenEnemyAndPlayer = Vector3.Distance(this.transform.position, monsterMove.goToTarget.transform.localPosition);
     }
 

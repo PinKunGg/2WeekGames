@@ -27,8 +27,7 @@ public class Monster_Movement : MonoBehaviour
     Vector3 direc;
     Vector3 force;
     Monster_Animation monsterAnima;
-    
-
+    public Monster_Stat monsterStat;
 
     private void Awake(){
         seeker = GetComponent<Seeker>();
@@ -36,13 +35,15 @@ public class Monster_Movement : MonoBehaviour
         monsterAnima = GetComponent<Monster_Animation>();
     }
 
-    private void OnEnable()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            startWalk = true;
-            InvokeRepeating("UpdatePath", 0f, 0.5f);
+    private void OnEnable(){
+        if(!PhotonNetwork.IsMasterClient){
+            enabled = false;
+            return;
         }
+
+        startWalk = true;
+        isStopWalk = false;
+        InvokeRepeating("UpdatePath", 0f, 0.5f);
     }
 
     void OnPathComplete(Path p){
@@ -74,6 +75,11 @@ public class Monster_Movement : MonoBehaviour
     void FixedUpdate(){
         if (path == null){return;}
         if (currentWaypoint >= path.vectorPath.Count){return;}
+
+        if(monsterStat.IsDie){
+            startWalk = false;
+            isStopWalk = false;
+        }
 
         direc = ((Vector3)path.vectorPath[currentWaypoint] - rb.position).normalized;
         force = direc * speed;

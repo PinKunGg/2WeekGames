@@ -10,6 +10,14 @@ public class Monster_SkillTeleportToTarget : MonoBehaviour
     public GameObject[] SkillToTp;
 
     bool isSkillFollowTarget;
+
+    private void OnEnable() {
+        if (!PhotonNetwork.IsMasterClient){ 
+            enabled = false;
+            return;
+        }
+    }
+
     public void TeleportSkillToTarget(){
         if(!PhotonNetwork.IsMasterClient){return;}
 
@@ -21,8 +29,6 @@ public class Monster_SkillTeleportToTarget : MonoBehaviour
     }
 
     private void Update() {
-        if(!PhotonNetwork.IsMasterClient){return;}
-
         if(!isSkillFollowTarget){return;}
 
         for(int i = 0; i < SkillToTp.Length; i++){

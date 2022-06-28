@@ -41618,7 +41618,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsAttackFinish
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsDie
   m_SynchronizeLayers:
   - SynchronizeType: 1

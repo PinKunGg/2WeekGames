@@ -21,14 +21,17 @@ public class Monster_Hopping : MonoBehaviour
 
     public Rigidbody rb {get;private set;}
 
-    private void OnEnable() {
+    private void Awake() {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void OnEnable() {
+        if(!PhotonNetwork.IsMasterClient){
+            enabled = false;
+            return;
+        }
         
         if(!HoppingShadow){return;}
-        if(PhotonNetwork.IsMasterClient){
-            HoppingShadow.enabled = false;
-        }
-
         HoppingShadow.enabled = false;
     }
 

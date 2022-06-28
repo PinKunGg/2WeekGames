@@ -10,20 +10,27 @@ public class ArachneAI : MonoBehaviour
     Monster_RotateToTarget monsterRotToTarget;
     Arachne_Attacker arachneAttack;
     PlayerManager_Multiplayer playerManMulti;
+    public Monster_Stat monsterStat {get;private set;}
 
     bool isChargeAttackReady = true;
 
-    private void OnEnable()
-    {
-        if (!PhotonNetwork.IsMasterClient) { return; }
-        DelayStart();
-    }
-    void DelayStart(){
+    private void Awake() {
         monsterHopping = GetComponent<Monster_Hopping>();
         arachneAttack = GetComponent<Arachne_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         monsterRotToTarget = GetComponentInChildren<Monster_RotateToTarget>();
-
+        monsterStat = GetComponent<Monster_Stat>();
+    }
+    
+    private void OnEnable()
+    {
+        if (!PhotonNetwork.IsMasterClient){ 
+            enabled = false;
+            return;
+        }
+        DelayStart();
+    }
+    void DelayStart(){
         GetPlayerTarget();
         InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
         InvokeRepeating("CheckToChangePlayerTarget",10f,10f);
@@ -44,6 +51,11 @@ public class ArachneAI : MonoBehaviour
 
     void CheckIsPlayerInRange(){
         if(!monsterHopping.goToTarget){return;}
+
+        if(monsterStat.IsDie){
+            CancelInvoke();
+            return;
+        }
 
         if(monsterHopping.isPlayerInRange){
             arachneAttack.Attack();
