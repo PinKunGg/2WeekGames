@@ -24,7 +24,7 @@ public class LobbyControl : MonoBehaviour
     public GameObject ReadyButton;
     public bool IsReady = false;
 
-    public TextMeshProUGUI SelectStage_output;
+    public TMP_Dropdown SelectStage_DropDown;
     public GameObject InvenUI, CraftUI, ShowClothUI,SelectBossUI,BossHeathUI;
     public Player_Move_Control player_Move_Control;
     public GameObject[] MapStage;
