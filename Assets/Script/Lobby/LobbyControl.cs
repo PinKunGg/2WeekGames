@@ -250,7 +250,6 @@ public class LobbyControl : MonoBehaviour
     {
         PhotonNetwork.CurrentRoom.IsOpen = true;
         PhotonNetwork.CurrentRoom.IsVisible = true;
-        resetPosition();
         photonView.RPC("Rpc_EndGame", RpcTarget.All);
     }
 
@@ -258,7 +257,7 @@ public class LobbyControl : MonoBehaviour
     void Rpc_EndGame()
     {
         Tutorial_Control.tutorial_Control.IsLobby = true;
-        local_player.GetComponent<Player_Move_Control>().OnLobbySetUp();
+        local_player.GetComponent<Player_Move_Control>().OnLobbySetUp(true);
         local_player.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         local_player.GetComponent<Player_Attack_Control>().IsDraw = false;
         local_player.GetComponent<Player_Attack_Control>().IsDrawed = false;
@@ -282,15 +281,20 @@ public class LobbyControl : MonoBehaviour
             IsReady = false;
             ReadyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
         }
+        resetPosition();
     }
 
     void resetPosition() 
     {
-        for (int x = 0; x < AllPlayerObj.Count; x++) 
+        for (int x = 0; x < AllPlayerObj.Count; x++)
         {
-            AllPlayerObj[x].GetComponent<Rigidbody>().velocity = Vector3.zero;
-            AllPlayerObj[x].transform.position = Pos[x].transform.position;
-            AllPlayerObj[x].transform.rotation = Pos[x].transform.rotation;
+            if (AllPlayerObj[x].name == Player_Inventory.player_Inventory.player_name) 
+            {
+                AllPlayerObj[x].GetComponent<Rigidbody>().velocity = Vector3.zero;
+                AllPlayerObj[x].transform.position = Pos[x].transform.position;
+                AllPlayerObj[x].transform.rotation = Pos[x].transform.rotation;
+            }
         }
     }
+
 }

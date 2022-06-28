@@ -13,6 +13,7 @@ public class Player_Attack_Control : MonoBehaviour
     Player_Move_Control player_Move_Control;
     Player_Inventory player_inventory;
     Tutorial_Control tutorial_Control;
+    Player_Stat player_Stat;
     bool IsFormOther = false;
     public bool IsNoWeapon = false;
 
@@ -40,6 +41,7 @@ public class Player_Attack_Control : MonoBehaviour
         photonView = GetComponent<PhotonView>();
         anim = GetComponentInChildren<Animator>();
         player_inventory = Player_Inventory.player_Inventory;
+        player_Stat = GetComponent<Player_Stat>();
     }
     void Start()
     {
@@ -62,11 +64,8 @@ public class Player_Attack_Control : MonoBehaviour
     void Update()
     {
         if (tutorial_Control.IsLobby) { return; }
-        if (!photonView.IsMine)
-        {
-            return;
-        }
-
+        if (!photonView.IsMine) {return; }
+        if (player_Stat.IsDie) { return; }
         if (player_inventory.InvenUI.activeSelf) 
         {
             if (IsDrawByOpenInven) 

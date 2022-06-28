@@ -12,6 +12,7 @@ public class Player_Move_Control : MonoBehaviour
     Player_Inventory player_inventory;
     Tutorial_Control tutorial_Control;
     Player_Skill_Control player_Skill_Control;
+    Player_Stat player_Stat;
 
     public GameObject cam_lobby_pos;
     public GameObject cam_player, cam_player_inven;
@@ -76,6 +77,7 @@ public class Player_Move_Control : MonoBehaviour
     {
         if (photonView.IsMine)
         {
+            player_Stat = GetComponent<Player_Stat>();
             player_inventory.player_Move_Control = this;
             player_inventory.CameraPlayer = cam_player;
             player_inventory.player_name = photonView.Owner.NickName;
@@ -91,10 +93,8 @@ public class Player_Move_Control : MonoBehaviour
     private void Update()
     {
         if (tutorial_Control.IsLobby) { return; }
-        if (!photonView.IsMine)
-        {
-            return;
-        }
+        if (!photonView.IsMine){ return; }
+        if (player_Stat.IsDie) { return; }
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
             SwitchCursor(true);
@@ -113,14 +113,15 @@ public class Player_Move_Control : MonoBehaviour
         CheckRollAnimIsRun();
     }
 
-    public void OnLobbySetUp() 
+    public void OnLobbySetUp(bool isLobby) 
     {
-        anim.Play("Idle");
-        cam_player.SetActive(false);
-        cam_player_inven.SetActive(false);
-        Debug.Log("EndRun");
-        cam_main.transform.position = cam_lobby_pos.transform.position;
-        cam_main.transform.rotation = cam_lobby_pos.transform.rotation;
+        if (isLobby)
+        {
+            cam_main.transform.position = cam_lobby_pos.transform.position;
+            cam_main.transform.rotation = cam_lobby_pos.transform.rotation;
+            cam_player.SetActive(false);
+            cam_player_inven.SetActive(false);
+        }
         foreach (AnimatorControllerParameter parameter in anim.parameters)
         {
             anim.SetBool(parameter.name, false);

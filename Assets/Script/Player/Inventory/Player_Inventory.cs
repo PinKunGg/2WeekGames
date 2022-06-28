@@ -499,16 +499,23 @@ public class Player_Inventory : MonoBehaviour
         JsonUtility.FromJsonOverwrite(data, saveClothes);
         for (int y = 0; y < ClothesSlot_Item.Length; y++)
         {
-            if (saveClothes.SaveClothesSlot_Item[y] != null)
+            if (saveClothes.ItemNameArray[y] != null)
             {
-                ClothesSlot_Item[y] = saveClothes.SaveClothesSlot_Item[y];
-                ClothesSlot_pic[y].sprite = saveClothes.SaveClothesSlot_Item[y].ItemPic;
-                if (saveClothes.SaveClothesSlot_Item[y].type == Item.Type.Veil)
+                foreach (Item item in AllItem)
                 {
-                    player_Move_Control.gameObject.GetComponent<Player_Buff_Control>().Veil_Buff_int = ClothesSlot_Item[y].Veil_Skill;
-                    player_Move_Control.dash_cooldown = ClothesSlot_Item[y].Veil_Dash_Cooldown;
-                    player_Move_Control.IsCanDash = true;
-                    player_Move_Control.gameObject.GetComponent<Player_Skill_Control>().init();
+                    if (saveClothes.ItemNameArray[y] == item.NameItem)
+                    {
+                        ClothesSlot_Item[y] = item;
+                        ClothesSlot_pic[y].sprite = item.ItemPic;
+                        if (item.type == Item.Type.Veil)
+                        {
+                            player_Move_Control.gameObject.GetComponent<Player_Buff_Control>().Veil_Buff_int = item.Veil_Skill;
+                            player_Move_Control.dash_cooldown = item.Veil_Dash_Cooldown;
+                            player_Move_Control.IsCanDash = true;
+                            player_Move_Control.gameObject.GetComponent<Player_Skill_Control>().init();
+                        }
+                        break;
+                    }
                 }
             }
             else 
@@ -539,8 +546,8 @@ public class Player_Inventory : MonoBehaviour
     {
         for (int y = 0; y < ClothesSlot_Item.Length; y++)
         {
-            if (ClothesSlot_Item[y] != null) { saveClothes.SaveClothesSlot_Item[y] = ClothesSlot_Item[y]; }
-            else { saveClothes.SaveClothesSlot_Item[y] = null; }
+            if (ClothesSlot_Item[y] != null) { saveClothes.ItemNameArray[y] = ClothesSlot_Item[y].NameItem; }
+            else { saveClothes.ItemNameArray[y] = null; }
         }
         string savedata = JsonUtility.ToJson(saveClothes);
         js.SaveJson(Application.persistentDataPath, "SaveCloth" + PhotonNetwork.MasterClient.NickName + player_name, savedata);
@@ -572,7 +579,7 @@ public class Player_Inventory : MonoBehaviour
 [System.Serializable]
 public class SaveClothes 
 {
-    public Item[] SaveClothesSlot_Item = new Item[8];
+    public string[] ItemNameArray = new string[8];
 }
 
 [System.Serializable]

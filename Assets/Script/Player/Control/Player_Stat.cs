@@ -16,6 +16,7 @@ public class Player_Stat : MonoBehaviour
     Player_Move_Control player_Move_Control;
     public PlayerRespawn playerRespawn; 
     public bool IsImu = false;
+    public bool IsDie = false;
 
     public bool IsBarrierOn = false;
     public float BarrierMaxHP = 100;
@@ -256,6 +257,7 @@ public class Player_Stat : MonoBehaviour
         {
             if (Current_HP <= 0) 
             {
+                IsDie = true;
                 playerRespawn.player = this.gameObject;
                 playerRespawn.player_respawn();
                 
@@ -265,6 +267,7 @@ public class Player_Stat : MonoBehaviour
 
     public void WhenRespawn() 
     {
+        IsDie = false;
         Current_HP = Max_Current_HP;
         photonView.RPC("UpdateHealthBar", RpcTarget.All, Current_HP, Max_Current_HP, Player_Name);
     }

@@ -4789,14 +4789,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   saveClothes:
-    SaveClothesSlot_Item:
-    - {fileID: 11400000, guid: db1ddd4aea7afad40b8152e9f1402730, type: 2}
-    - {fileID: 11400000, guid: 86a6091433508e646879a73fcd25dd19, type: 2}
-    - {fileID: 11400000, guid: f2c7dc4295fe07d4e8904c063dc01353, type: 2}
-    - {fileID: 11400000, guid: 017188c1b79ab1442b25bf3bc58a6529, type: 2}
-    - {fileID: 11400000, guid: 51009f73c7d3d5041b68119fc3c0b9ee, type: 2}
-    - {fileID: 11400000, guid: cc8cb6a5aef7d3b448e38dd3f2308b69, type: 2}
-    - {fileID: 0}
+    ItemNameArray:
+    - 1Head
+    - 1Body
+    - 1Pant
+    - 1Feet
+    - 1Veil
+    - 1Bow
+    - 
   PotionSlot: 0
   AllSlotPic: []
   AllItem:

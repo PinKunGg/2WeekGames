@@ -42,6 +42,10 @@ public class PlayerRespawn : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         PlayerDieUI.SetActive(false);
+        player.GetComponent<Player_Move_Control>().OnLobbySetUp(false);
+        player.GetComponent<Player_Attack_Control>().CheckWeaponUse();
+        player.GetComponent<Player_Attack_Control>().IsDraw = false;
+        player.GetComponent<Player_Attack_Control>().IsDrawed = false;
         player.GetComponent<Player_Stat>().WhenRespawn();
         player.GetComponentInChildren<CinemachineFreeLook>().m_XAxis.Value = 0;
         player.transform.position = pos.transform.position;

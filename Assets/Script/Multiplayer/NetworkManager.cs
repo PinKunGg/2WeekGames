@@ -125,11 +125,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
             base.photonView.RPC("RPC_Disconnect",RpcTarget.Others);
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-
+            FindObjectOfType<Player_Inventory>().SaveCloth();
+            FindObjectOfType<Player_Inventory>().SaveItem();
             StartCoroutine(PrepareHostDisconnect());
 
             return;
         }
+        FindObjectOfType<Player_Inventory>().SaveCloth();
+        FindObjectOfType<Player_Inventory>().SaveItem();
         LobbyControl.lobbyControl.UnReady();
         PhotonNetwork.LeaveRoom();
     }
