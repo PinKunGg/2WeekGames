@@ -12,11 +12,6 @@ public class Monster_Animation : MonoBehaviour
 
         anima.SetBool(parameterName,value);
     }
-    public void PlayTriggerAnimator(string parameterName){
-        if(!PhotonNetwork.IsMasterClient){return;}
-
-        anima.SetTrigger(parameterName);
-    }
     public float GetCurrentAnimationTime(){
         AnimatorStateInfo animationState = anima.GetCurrentAnimatorStateInfo(0);
         AnimatorClipInfo[] animatorClip = anima.GetCurrentAnimatorClipInfo(0);

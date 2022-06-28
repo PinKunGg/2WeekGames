@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
 using Cinemachine;
+using Pathfinding;
 
 public class LobbyControl : MonoBehaviour
 {
@@ -27,11 +28,10 @@ public class LobbyControl : MonoBehaviour
     public GameObject InvenUI, CraftUI, ShowClothUI,SelectBossUI,BossHeathUI;
     public Player_Move_Control player_Move_Control;
     public GameObject[] MapStage;
-    string IsStageChange;
+    int stageIndex;
 
     public GameObject local_player;
     public GameObject[] AllBoss;
-    // Start is called before the first frame update
 
     private void Awake()
     {
@@ -61,13 +61,10 @@ public class LobbyControl : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (IsStageChange != SelectStage_output.text) 
-        {
-            IsStageChange = SelectStage_output.text;
-            if (SelectStage_output.text == "Stage 1")
+    public void OnStageChange(int value){
+        stageIndex = value;
+
+        if (value == 0)
             {
                 MapStage[0].SetActive(true);
                 MapStage[1].SetActive(false);
@@ -75,7 +72,7 @@ public class LobbyControl : MonoBehaviour
                 MapStage[3].SetActive(false);
                 MapStage[4].SetActive(false);
             }
-            else if (SelectStage_output.text == "Stage 2")
+            else if (value == 1)
             {
                 MapStage[0].SetActive(false);
                 MapStage[1].SetActive(true);
@@ -83,7 +80,7 @@ public class LobbyControl : MonoBehaviour
                 MapStage[3].SetActive(false);
                 MapStage[4].SetActive(false);
             }
-            else if (SelectStage_output.text == "Stage 3")
+            else if (value == 2)
             {
                 MapStage[0].SetActive(false);
                 MapStage[1].SetActive(false);
@@ -91,7 +88,7 @@ public class LobbyControl : MonoBehaviour
                 MapStage[3].SetActive(false);
                 MapStage[4].SetActive(false);
             }
-            else if (SelectStage_output.text == "Stage 4")
+            else if (value == 3)
             {
                 MapStage[0].SetActive(false);
                 MapStage[1].SetActive(false);
@@ -99,7 +96,7 @@ public class LobbyControl : MonoBehaviour
                 MapStage[3].SetActive(true);
                 MapStage[4].SetActive(false);
             }
-            else if (SelectStage_output.text == "Stage 5")
+            else if (value == 4)
             {
                 MapStage[0].SetActive(false);
                 MapStage[1].SetActive(false);
@@ -108,7 +105,6 @@ public class LobbyControl : MonoBehaviour
                 MapStage[4].SetActive(true);
             }
             photonView.RPC("Rpc_ChangeStage",RpcTarget.All, MapStage[0].activeSelf, MapStage[1].activeSelf, MapStage[2].activeSelf, MapStage[3].activeSelf, MapStage[4].activeSelf);
-        }     
     }
 
     [PunRPC]
@@ -208,14 +204,15 @@ public class LobbyControl : MonoBehaviour
 
     public void StartGame() 
     {
+        AstarPath.active.Scan();
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
         IsotherReady_count = 0;
-        photonView.RPC("Rpc_StartGame", RpcTarget.All,IsStageChange);
+        photonView.RPC("Rpc_StartGame", RpcTarget.All,stageIndex);
     }
 
     [PunRPC]
-    void Rpc_StartGame(string stage) 
+    void Rpc_StartGame(int stage) 
     {
         Tutorial_Control.tutorial_Control.IsLobby = false;
         InvenUI.SetActive(false);
@@ -229,17 +226,17 @@ public class LobbyControl : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         local_player.GetComponentInChildren<CinemachineFreeLook>().m_XAxis.Value = 0;
-        if (stage == "Stage 1") 
+        if (stage == 0) 
         { 
             AllBoss[0].SetActive(true);
             //AllBoss[0].GetComponent<BoarAI>().DelayStart();
         }
-        else if (stage == "Stage 2")
+        else if (stage == 1)
         { 
             AllBoss[1].SetActive(true);
             //AllBoss[1].GetComponent<ArachneAI>().DelayStart();
         }
-        else if (stage == "Stage 3")
+        else if (stage == 2)
         { 
             AllBoss[2].SetActive(true);
             //AllBoss[2].GetComponent<AssasinAI>().DelayStart();

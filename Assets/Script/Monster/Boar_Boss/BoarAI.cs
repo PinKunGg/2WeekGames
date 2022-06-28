@@ -7,25 +7,30 @@ using Photon.Realtime;
 public class BoarAI : MonoBehaviour
 {
     Monster_Movement monsterMove;
+    Monster_Stat monsterStat;
     Boar_Attacker boarAttack;
-
     PlayerManager_Multiplayer playerManMulti;
 
     bool isChargeAttackReady = true;
-
     float TimeRandomChargeAttack = 5f;
+
+    private void Awake() {
+        monsterMove = GetComponent<Monster_Movement>();
+        monsterStat = GetComponent<Monster_Stat>();
+        boarAttack = GetComponent<Boar_Attacker>();
+        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+    }
 
     private void OnEnable()
     {
-        if (!PhotonNetwork.IsMasterClient) { return; }
+        if (!PhotonNetwork.IsMasterClient){ 
+            enabled = false;
+            return;
+        }
+        monsterMove.monsterStat = monsterStat;
         DelayStart();
     }
     public void DelayStart(){
-        //Fuck
-        monsterMove = GetComponent<Monster_Movement>();
-        boarAttack = GetComponent<Boar_Attacker>();
-        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
-
         GetPlayerTarget();
         InvokeRepeating("CheckIsPlayerInRange",0.5f,1f);
         InvokeRepeating("CheckToChangePlayerTarget",10f,10f);
@@ -45,6 +50,11 @@ public class BoarAI : MonoBehaviour
 
     void CheckIsPlayerInRange(){
         if(!monsterMove.goToTarget){return;}
+
+        if(monsterStat.IsDie){
+            CancelInvoke();
+            return;
+        }
 
         if(monsterMove.isPlayerInRange){
             boarAttack.Attack();

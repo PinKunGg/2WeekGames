@@ -402,7 +402,7 @@ Transform:
   - {fileID: 4739653773626306452}
   m_Father: {fileID: 4739653772648532914}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.00003051759, y: 179.99992, z: -179.99998}
+  m_LocalEulerAnglesHint: {x: 0.000004344649, y: 179.99992, z: 170.00868}
 --- !u!1 &4739653772763548095
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +466,7 @@ Transform:
   - {fileID: 4739653772427156509}
   m_Father: {fileID: 4739653772648532914}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 4.700866, y: 179.99985, z: 180}
+  m_LocalEulerAnglesHint: {x: 0.0000026376595, y: 179.99985, z: 175.01006}
 --- !u!1 &4739653772820609206
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +564,7 @@ Transform:
   - {fileID: 4739653773449155191}
   m_Father: {fileID: 4739653772648532914}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: -19.572369, y: 0.000023019922, z: -0.000018151293}
+  m_LocalEulerAnglesHint: {x: -14.017446, y: 0.000019928015, z: -0.000010222799}
 --- !u!1 &4739653773137114977
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,7 +911,7 @@ Transform:
   m_GameObject: {fileID: 4739653773620498600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4739653774036722785}
@@ -992,11 +992,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  StopDis: 5
+  StopDis: 3.5
   startWalk: 0
   isStopWalk: 0
   goToTarget: {fileID: 0}
   lookAtTarget: {fileID: 0}
+  monsterStat: {fileID: 0}
 --- !u!114 &4739653773620498589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,7 +1011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackIndex: 000000000100000002000000
-  NormalAttackRange: 4.5
+  NormalAttackRange: 3
 --- !u!114 &4739653773620498590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,10 +1043,12 @@ MonoBehaviour:
     base_HP: 4200
     base_Armor: 5
     base_Damage: 60
+  BossStageNumber: 1
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
   itemDrop: {fileID: 11400000, guid: 6127aee6f2762b14f80a0fbcb6e839c2, type: 2}
-  AmountRangeitemDrop: 0000000000000000
+  AmountRangeitemDrop: 0f00000019000000
+  WinUI: {fileID: 0}
 --- !u!95 &4739653773620498578
 Animator:
   serializedVersion: 4
@@ -1509,7 +1512,7 @@ Transform:
   - {fileID: 4739653772933419072}
   m_Father: {fileID: 4739653772648532914}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0.0000152587845, y: -179.99997, z: -179.99998}
+  m_LocalEulerAnglesHint: {x: 0.000011335678, y: -179.99997, z: -170.01196}
 --- !u!1 &4739653774219400415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,4 +1702,4 @@ Transform:
   - {fileID: 4739653773759428995}
   m_Father: {fileID: 4739653772648532914}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 3.9580078, y: -179.9999, z: 179.99998}
+  m_LocalEulerAnglesHint: {x: 0.0000061753212, y: -179.9999, z: -175.00644}

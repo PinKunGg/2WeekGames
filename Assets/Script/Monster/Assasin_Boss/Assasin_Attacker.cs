@@ -15,6 +15,7 @@ public class Assasin_Attacker : MonoBehaviour
 
     Monster_Animation monsterAnima;
     Monster_Hopping monsterHopping;
+    Monster_Stat monsterStat;
 
     Sequence AttackSqeuence;
 
@@ -22,15 +23,19 @@ public class Assasin_Attacker : MonoBehaviour
 
     float disBetweenEnemyAndPlayer;
 
-    private void Start() {
+    private void Awake() {
         monsterAnima = GetComponent<Monster_Animation>();
         monsterHopping = GetComponent<Monster_Hopping>();
+        monsterStat = GetComponent<Monster_Stat>();
+    }
 
-        if(PhotonNetwork.IsMasterClient){
-            isCanAttack = true;
+    private void OnEnable() {
+        if (!PhotonNetwork.IsMasterClient){ 
+            enabled = false;
+            return;
         }
 
-        // isCanAttack = true;
+        isCanAttack = true;
     }
 
     private void Update() {
@@ -39,6 +44,19 @@ public class Assasin_Attacker : MonoBehaviour
         }
 
         if(!monsterHopping.goToTarget){return;}
+
+        if(monsterStat.IsDie){
+            if(AttackSqeuence.IsPlaying()){
+                AttackSqeuence.Kill();
+            }
+            
+            monsterAnima.PlayBoolAnimator("IsNormalAttack",false);
+            monsterAnima.PlayBoolAnimator("IsSkill1",false);
+            monsterAnima.PlayBoolAnimator("IsSkill2",false);
+            monsterAnima.PlayBoolAnimator("IsAttackFinish",false);
+            monsterAnima.PlayBoolAnimator("IsRun",false);
+            return;
+        }
 
         disBetweenEnemyAndPlayer = Vector3.Distance(this.transform.position, monsterHopping.goToTarget.transform.localPosition);
     }

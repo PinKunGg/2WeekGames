@@ -22,7 +22,7 @@ public class Monster_Stat : MonoBehaviour
     public GameObject WinUI;
     Vector3 spawnPos;
 
-    bool IsDie = false;
+    public bool IsDie {get;private set;}
     int playerDamageID;
 
     // Start is called before the first frame update
@@ -148,7 +148,7 @@ public class Monster_Stat : MonoBehaviour
                 if (IsDie == false) 
                 {
                     IsDie = true;
-                    GetComponent<Animator>().SetBool("IsDie", true);
+                    GetComponent<Animator>().SetBool("IsDie", true); 
                     Monster_HealthBar.gameObject.SetActive(false);
                     if (!tutorial_Control.IsTutorial) { WinUI.SetActive(true); }
                     else {
@@ -183,9 +183,10 @@ public class Monster_Stat : MonoBehaviour
 
     void DelayBactToLobby() 
     {
+        GetComponent<Animator>().SetBool("IsDie", false);
         WinUI.SetActive(false);
-        IsDie = false;
         this.gameObject.transform.position = spawnPos;
+        this.gameObject.transform.rotation = Quaternion.Euler(0f,180f,0f);
         LobbyControl.lobbyControl.EndGame();
         Current_HP = baseMonsterStat.base_HP;
         MonoBehaviour[] allscript = GetComponents<MonoBehaviour>();
@@ -194,6 +195,11 @@ public class Monster_Stat : MonoBehaviour
             if (allscript[x] != this) { allscript[x].enabled = true; }
         }
         photonView.RPC("SaveInven", RpcTarget.All);
+        Invoke("DelayDisable",2f);
+    }
+
+    void DelayDisable(){
+        IsDie = false;
         this.gameObject.SetActive(false);
     }
 

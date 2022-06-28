@@ -2823,8 +2823,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorial_Control: {fileID: 0}
-  sc:
-    pos: {x: 0, y: 0, z: 0}
 --- !u!114 &7112132994807439153
 MonoBehaviour:
   m_ObjectHideFlags: 0
