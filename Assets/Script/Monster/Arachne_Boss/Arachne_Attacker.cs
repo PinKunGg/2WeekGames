@@ -154,9 +154,9 @@ public class Arachne_Attacker : MonoBehaviour
 
     void DelayCaculate(){
         monsterHopping.rb.isKinematic = false;
-        Debug.Log(monsterAnima.GetCurrentAnimationTime() * 2f);
+        Debug.Log(monsterAnima.GetCurrentAnimationTime() * 4f);
         AttackSqeuence = DOTween.Sequence();
-        AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 2f);
+        AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 4f);
         AttackSqeuence.AppendCallback(DelayAttacker);
     }
 
@@ -173,12 +173,12 @@ public class Arachne_Attacker : MonoBehaviour
     IEnumerator Jumping(){
         monsterHopping.rb.isKinematic = true;
         yield return new WaitForSeconds(0.7f);
-        transform.DOMoveY(this.transform.position.y + 5f,0.5f);
+        transform.DOMoveY(this.transform.position.y + 15f,0.5f);
         yield return new WaitForSeconds(2f);
         monsterHopping.FindDropPoint(-1f,2f);
         yield return new WaitForSeconds(1f);
 
-        transform.DOMoveY(this.transform.position.y - 5f,0.5f);
+        transform.DOMoveY(this.transform.position.y - 15f,0.5f);
         yield return new WaitForSeconds(0.2f);
         monsterAnima.PlayBoolAnimator("IsJumpDown",true);
         yield return new WaitForSeconds(0.5f);

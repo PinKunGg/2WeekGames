@@ -16520,7 +16520,7 @@ GameObject:
   - component: {fileID: 2862395224017265281}
   m_Layer: 8
   m_Name: Skill_1_PoisionPool
-  m_TagString: Untagged
+  m_TagString: BossAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30529,7 +30529,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 705
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5

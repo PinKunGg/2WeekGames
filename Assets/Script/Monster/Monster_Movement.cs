@@ -8,6 +8,7 @@ using Photon.Realtime;
 public class Monster_Movement : MonoBehaviour
 {
     public float speed = 5f, StopDis = 7f;
+    public float rotationSpeed = 2f;
     public bool startWalk;
     public bool isStopWalk;
 
@@ -41,7 +42,6 @@ public class Monster_Movement : MonoBehaviour
             return;
         }
 
-        startWalk = true;
         isStopWalk = false;
         InvokeRepeating("UpdatePath", 0f, 0.5f);
     }
@@ -98,7 +98,7 @@ public class Monster_Movement : MonoBehaviour
 
             Quaternion lookAt = Quaternion.LookRotation(targetPos - transform.position);
 
-            this.transform.rotation = Quaternion.Slerp(transform.rotation,lookAt, 2f * Time.deltaTime);
+            this.transform.rotation = Quaternion.Slerp(transform.rotation,lookAt, rotationSpeed * Time.deltaTime);
         }
     }
     public void GoToPlayer(){
