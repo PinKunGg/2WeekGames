@@ -344,9 +344,12 @@ public class Player_Inventory : MonoBehaviour
                     SkillShow[0].sprite = ClothesSlot_Item[x].ItemPic;
                 }
             }
-            PlayerStat_Value.text = HP.ToString() + '\n' + Armor.ToString() + '\n' + Damage.ToString() + '\n' + Cri_Rate.ToString() + '\n' + Cri_Damage.ToString();
+            if (player_Stat == null) { player_Stat = player_Move_Control.gameObject.GetComponent<Player_Stat>(); }
+            PlayerStat_Value.text = (HP+ player_Stat.basePlayerStat.base_HP).ToString() + '\n' + 
+                (Armor+ player_Stat.basePlayerStat.base_Armor) + '\n' + (Damage + player_Stat.basePlayerStat.base_Damage) + '\n' + 
+                (Cri_Rate + player_Stat.basePlayerStat.base_Cri_Rate) + '\n' + (Cri_Damage + player_Stat.basePlayerStat.base_Cri_Damage);
         }
-        player_Stat = player_Move_Control.gameObject.GetComponent<Player_Stat>();
+        //player_Stat = player_Move_Control.gameObject.GetComponent<Player_Stat>();
         if (!is_player_has_weapond) { player_Stat.gameObject.GetComponent<Player_Attack_Control>().IsPlayerNoWeapond(true); }
         player_Stat.gameObject.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         player_Stat.SetCurrentStat();

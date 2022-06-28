@@ -209,6 +209,13 @@ public class Monster_Stat : MonoBehaviour
         Player_Inventory.SaveCloth();
         Player_Inventory.SaveItem();
     }
+    public void MultiPlyHealth(int multiply) 
+    {
+        Current_HP = baseMonsterStat.base_HP * multiply;
+        Monster_HealthBar = GameObject.FindGameObjectWithTag("MonsterHealthBar").GetComponent<Slider>();
+        Monster_HealthBar.maxValue = Current_HP;
+        Monster_HealthBar.value = Current_HP;
+    }
 
     bool TutorialCheck(int stage)
     {

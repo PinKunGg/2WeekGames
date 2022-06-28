@@ -104,26 +104,24 @@ public class Player_Spawn_Skill : MonoBehaviour
             }
             else if (number_of_skill == 2)
             {
-                skill_weapond.Damage = stuff_weapondDamage.Damage*0.1f;
+                skill_weapond.Damage = stuff_weapondDamage.Damage*0.3f;
             }
             skill_weapond.CriRate = stuff_weapondDamage.CriRate;
             skill_weapond.CriDamage = stuff_weapondDamage.CriDamage;
         }
         else if(weapond == 1)
         {
-            Debug.Log("Damage : " + bow_weapondDamage.Damage);
-            Debug.Log("Damage : "+skill_weapond.name);
             if (number_of_skill == 0 )
             {
                 skill_weapond.Damage = bow_weapondDamage.Damage;
             }
             else if(number_of_skill == 1)
             {
-                skill_weapond.Damage = bow_weapondDamage.Damage / 50;
+                skill_weapond.Damage = bow_weapondDamage.Damage / 10;
             }
             else if (number_of_skill == 2)
             {
-                skill_weapond.Damage = bow_weapondDamage.Damage;
+                skill_weapond.Damage = bow_weapondDamage.Damage*2;
             }
             skill_weapond.CriRate = bow_weapondDamage.CriRate;
             skill_weapond.CriDamage = bow_weapondDamage.CriDamage;
@@ -132,6 +130,11 @@ public class Player_Spawn_Skill : MonoBehaviour
         StartCoroutine(DelayDestroy(skill_obj.GetPhotonView()));
 
         StartCoroutine(Delay(weapond, number_of_skill));
+    }
+
+    public void SetDamageMultiplyWhenSkill(float damageMultiply) 
+    {
+        GetComponent<Player_Stat>().setDamage(damageMultiply);
     }
 
     IEnumerator DelayDestroy(PhotonView phView){

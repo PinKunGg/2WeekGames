@@ -151,7 +151,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265150204874808789}
-  m_LocalRotation: {x: 0.049236782, y: -0.000000017236397, z: 8.4969515e-10, w: 0.99878716}
+  m_LocalRotation: {x: 0.049236797, y: 0.000000016928691, z: -8.345265e-10, w: 0.99878716}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1544,7 +1544,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4439455267057404254}
-  m_LocalRotation: {x: 0.031061217, y: -0.0000000021497595, z: 6.680638e-11, w: 0.9995175}
+  m_LocalRotation: {x: 0.031061217, y: 0.00000000214976, z: -6.6806394e-11, w: 0.9995175}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1622,7 +1622,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4454036690091024923}
-  m_LocalRotation: {x: 0.012923403, y: -5.376572e-10, z: 6.948941e-12, w: 0.9999165}
+  m_LocalRotation: {x: 0.012923403, y: 5.3765453e-10, z: -6.948907e-12, w: 0.9999165}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2550,7 +2550,7 @@ Animator:
   m_GameObject: {fileID: 6356559096340847396}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b5b18194f1fd96b4484998c8b80fb133, type: 3}
-  m_Controller: {fileID: 22100000, guid: 42472d4ecb4d53e4baa6ad132966b51a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 26dd52b5b518eaf4ba2d60f6fb796f42, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2791,6 +2791,7 @@ MonoBehaviour:
   playerNameControl: {fileID: 0}
   playerRespawn: {fileID: 0}
   IsImu: 0
+  IsDie: 0
   IsBarrierOn: 0
   BarrierMaxHP: 100
   BarrierHP: 0
@@ -2883,6 +2884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20af440eca85b1c41a074bf41252357f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player_Stat: {fileID: 8926677220774774753}
   anim: {fileID: 0}
   BuffZone: {fileID: 0}
   BuffPrefab: {fileID: 2054014228480558388, guid: 56054f9fe7bbcca4dbc0314f3db248c9,
@@ -2894,6 +2896,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 64e15ab69e20d234fba2a2f0ddfbb083, type: 3}
   - {fileID: 21300000, guid: 7050b40524a7e4145b3311b6da819341, type: 3}
   - {fileID: 21300000, guid: 465a92e9dd6b4594b87ad77013665084, type: 3}
+  - {fileID: 21300000, guid: 465a92e9dd6b4594b87ad77013665084, type: 3}
   AllBuff_Time:
   - 10
   - 10
@@ -2901,7 +2904,9 @@ MonoBehaviour:
   - 10
   - 10
   - 10
+  - 10
   AllBuff_Cooldown:
+  - 0
   - 0
   - 0
   - 0

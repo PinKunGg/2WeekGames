@@ -140,14 +140,14 @@ public class Player_Stat : MonoBehaviour
             Friend_HealthBar.maxValue = Max_Current_HP;
             Friend_HealthBar.value = Current_HP;
         }
-        setDamage();
+        setDamage(1);
         UpdateHealthBarForOther();
     }
 
-    public void setDamage() 
+    public void setDamage(float damageMultiply) 
     {
         Player_Attack_Control playerWeaponDamage = GetComponent<Player_Attack_Control>();
-        playerWeaponDamage.SetDamage(basePlayerStat.base_Damage + player_Inventory.Damage, basePlayerStat.base_Cri_Rate + player_Inventory.Cri_Rate,
+        playerWeaponDamage.SetDamage((basePlayerStat.base_Damage + player_Inventory.Damage)*damageMultiply, basePlayerStat.base_Cri_Rate + player_Inventory.Cri_Rate,
     basePlayerStat.base_Cri_Damage + player_Inventory.Cri_Damage, Damage_Multiplay);
     }
 
@@ -204,14 +204,19 @@ public class Player_Stat : MonoBehaviour
     private void OnParticleCollision(GameObject other) {
         if (other.gameObject.CompareTag("BossAttack")) 
         {
-            FindObjectOfType<Player_Buff_Control>().posion_damage = other.GetComponentInParent<Monster_Stat>().baseMonsterStat.base_Damage;
-            FindObjectOfType<Player_Buff_Control>().CreateBuff(6);
-            Player_Take_Damage(10);
+            if (other.GetComponentInParent<Monster_Stat>().gameObject.name == "Arachne_Boss")
+            {
+                float damage = other.GetComponentInParent<Monster_Stat>().baseMonsterStat.base_Damage;
+                GetComponent<Player_Buff_Control>().posion_damage = damage/10;
+                GetComponent<Player_Buff_Control>().CreateBuff(6);
+                Player_Take_Damage(damage/10);
+            }
         }
     }
 
     public void Player_Take_Damage(float damage) 
     {
+        if (IsDie) { return; }
         if (IsImu) { return; }
         if (player_Move_Control.IsIframe) { return; }
         float totoal_damagee = 0;

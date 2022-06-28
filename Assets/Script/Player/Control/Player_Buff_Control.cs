@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class Player_Buff_Control : MonoBehaviour
 {
-    Player_Stat player_Stat;
+    public Player_Stat player_Stat;
     Player_Move_Control player_Move_Control;
     PhotonView photonView;
     public Animator anim;
@@ -24,7 +24,7 @@ public class Player_Buff_Control : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player_Stat = GetComponent<Player_Stat>();
+        //player_Stat = GetComponent<Player_Stat>();
         player_Move_Control = GetComponent<Player_Move_Control>();
         photonView = GetComponent<PhotonView>();
         BuffZone = GameObject.FindGameObjectWithTag("BuffZone");
@@ -46,13 +46,19 @@ public class Player_Buff_Control : MonoBehaviour
     }
     public void When_Dash() 
     {
+        if (!photonView.IsMine) { return; }
         CreateBuff(Veil_Buff[Veil_Buff_int]);
     }
 
     public void CreateBuff(int value) 
     {
+        if (!photonView.IsMine) { return; }
         if (value == 99) { return; }
-        if (AllBuff_Cooldown[value] != 0) { return; }
+        if(AllBuff_Cooldown[value] != 0) 
+        { 
+            AllBuff_Cooldown[value] = AllBuff_Time[value];
+            return;
+        }
         GameObject buff = Instantiate(BuffPrefab);
         buff.GetComponent<Image>().sprite = AllBuff[value];
         buff.transform.parent = BuffZone.transform;
@@ -103,10 +109,10 @@ public class Player_Buff_Control : MonoBehaviour
     IEnumerator AttackBuff(float value) 
     {
         player_Stat.Damage_Multiplay = 20;
-        player_Stat.setDamage();
+        player_Stat.setDamage(1);
         yield return new WaitForSeconds(value);
         player_Stat.Damage_Multiplay = 0;
-        player_Stat.setDamage();
+        player_Stat.setDamage(1);
     }
 
     IEnumerator ArmourBuff(float value) 

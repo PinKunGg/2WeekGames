@@ -229,16 +229,19 @@ public class LobbyControl : MonoBehaviour
         if (stage == 0) 
         { 
             AllBoss[0].SetActive(true);
+            AllBoss[0].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
             //AllBoss[0].GetComponent<BoarAI>().DelayStart();
         }
         else if (stage == 1)
         { 
             AllBoss[1].SetActive(true);
+            AllBoss[1].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
             //AllBoss[1].GetComponent<ArachneAI>().DelayStart();
         }
         else if (stage == 2)
         { 
             AllBoss[2].SetActive(true);
+            AllBoss[2].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
             //AllBoss[2].GetComponent<AssasinAI>().DelayStart();
         }
     }
@@ -262,6 +265,8 @@ public class LobbyControl : MonoBehaviour
         CraftUI.SetActive(true);
         ShowClothUI.SetActive(true);
         BossHeathUI.SetActive(false);
+        GetComponent<PlayerRespawn>().PlayerDieUI.SetActive(false);
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         if (PhotonNetwork.IsMasterClient)
