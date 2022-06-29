@@ -25,7 +25,6 @@ public class Monster_Stat : MonoBehaviour
     public bool IsDie {get;private set;}
     int playerDamageID;
 
-    // Start is called before the first frame update
     void Start()
     {
         tutorial_Control = Tutorial_Control.tutorial_Control;
@@ -45,7 +44,6 @@ public class Monster_Stat : MonoBehaviour
         GetComponent<Assasin_Attacker>()?.DelayAttacker();
         if (PhotonNetwork.IsMasterClient)
         {
-            playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
             if (spawnPos != Vector3.zero) { this.gameObject.transform.position = spawnPos; }
             else { spawnPos = this.gameObject.transform.position; }
         }

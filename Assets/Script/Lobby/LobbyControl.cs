@@ -234,7 +234,9 @@ public class LobbyControl : MonoBehaviour
     public void UpdateStageToOther() 
     {
         bool[] allmap = new bool[5] { MapStage[0].activeSelf, MapStage[1].activeSelf, MapStage[2].activeSelf, MapStage[3].activeSelf, MapStage[4].activeSelf };
-        photonView.RPC("Rpc_UpdateStageToOther", RpcTarget.Others, allmap);
+        if(PhotonNetwork.CurrentRoom.PlayerCount > 1){
+            photonView.RPC("Rpc_UpdateStageToOther", RpcTarget.Others, allmap);
+        }
     }
 
     [PunRPC]
@@ -323,8 +325,10 @@ public class LobbyControl : MonoBehaviour
 
         foreach (GameObject boss in AllBoss) 
         {
-            boss.SetActive(false);
+            boss.GetComponent<Monster_Animation>().PlayBoolAnimator("IsIdle",true);
         }
+
+        Invoke("DisalbeAllBoss",2f);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         if (PhotonNetwork.IsMasterClient)
@@ -344,6 +348,14 @@ public class LobbyControl : MonoBehaviour
         }
         FindObjectOfType<SoundBG>().ChangeToMainMenuBGSound();
         resetPosition();
+    }
+    
+    void DisalbeAllBoss(){
+        foreach (GameObject boss in AllBoss) 
+        {
+            boss.GetComponent<Monster_Animation>().PlayBoolAnimator("IsIdle",false);
+            boss.SetActive(false);
+        }
     }
 
     void resetPosition() 
