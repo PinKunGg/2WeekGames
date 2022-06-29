@@ -9,6 +9,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public GameObject TitleUI;
     public GameObject MainMenuUI;
     public GameObject LobbyUI;
+    public GameObject CreditUI;
 
     private void Start() {
         TitleUI.SetActive(true);
@@ -62,5 +63,17 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         FindObjectOfType<SoundBG>().OnclickToStart();
         PhotonNetwork.GameVersion = "0.1";
         PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public void OnClickCredit() 
+    {
+        CreditUI.SetActive(true);
+        FindObjectOfType<SoundBG>().ChangeToMainMenuBGSound();
+        Invoke("OnEndCreditAnimation", 36);
+    }
+
+    public void OnEndCreditAnimation() 
+    {
+        CreditUI.SetActive(false);
     }
 }

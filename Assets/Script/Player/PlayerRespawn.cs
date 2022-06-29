@@ -46,6 +46,7 @@ public class PlayerRespawn : MonoBehaviour
         player.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         player.GetComponent<Player_Attack_Control>().IsDraw = false;
         player.GetComponent<Player_Attack_Control>().IsDrawed = false;
+        player.GetComponent<Player_Buff_Control>().StopCoroutine();
         player.GetComponent<Player_Stat>().WhenRespawn();
         player.GetComponentInChildren<CinemachineFreeLook>().m_XAxis.Value = 0;
         player.transform.position = pos.transform.position;

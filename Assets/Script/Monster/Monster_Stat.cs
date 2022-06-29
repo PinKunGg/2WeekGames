@@ -20,7 +20,7 @@ public class Monster_Stat : MonoBehaviour
     PlayerWeaponDamage forDot;
     PlayerManager_Multiplayer playerManMulti;
     public GameObject WinUI;
-    Vector3 spawnPos;
+    Vector3 spawnPos = Vector3.zero;
 
     public bool IsDie {get;private set;}
     int playerDamageID;
@@ -46,7 +46,8 @@ public class Monster_Stat : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
-            spawnPos = this.gameObject.transform.position;
+            if (spawnPos != Vector3.zero) { this.gameObject.transform.position = spawnPos; }
+            else { spawnPos = this.gameObject.transform.position; }
         }
     }
 
