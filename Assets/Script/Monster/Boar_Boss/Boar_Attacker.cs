@@ -185,6 +185,8 @@ public class Boar_Attacker : MonoBehaviour
     public void DelayAttacker(){
         isCanAttack = true;
         isAttackSpecificInUse = false;
+
+        if(!monsterMove){monsterMove = GetComponent<Monster_Movement>();}
         monsterMove.isStopWalk = false;
     }
     void ChargeAttackSetTargetToNull(){

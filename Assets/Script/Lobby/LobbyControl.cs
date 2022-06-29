@@ -234,7 +234,9 @@ public class LobbyControl : MonoBehaviour
     public void UpdateStageToOther() 
     {
         bool[] allmap = new bool[5] { MapStage[0].activeSelf, MapStage[1].activeSelf, MapStage[2].activeSelf, MapStage[3].activeSelf, MapStage[4].activeSelf };
-        photonView.RPC("Rpc_UpdateStageToOther", RpcTarget.Others, allmap);
+        if(PhotonNetwork.CurrentRoom.PlayerCount > 1){
+            photonView.RPC("Rpc_UpdateStageToOther", RpcTarget.Others, allmap);
+        }
     }
 
     [PunRPC]
