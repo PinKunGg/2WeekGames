@@ -323,8 +323,10 @@ public class LobbyControl : MonoBehaviour
 
         foreach (GameObject boss in AllBoss) 
         {
-            boss.SetActive(false);
+            boss.GetComponent<Monster_Animation>().PlayBoolAnimator("IsIdle",true);
         }
+
+        Invoke("DisalbeAllBoss",2f);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         if (PhotonNetwork.IsMasterClient)
@@ -344,6 +346,14 @@ public class LobbyControl : MonoBehaviour
         }
         FindObjectOfType<SoundBG>().ChangeToMainMenuBGSound();
         resetPosition();
+    }
+    
+    void DisalbeAllBoss(){
+        foreach (GameObject boss in AllBoss) 
+        {
+            boss.GetComponent<Monster_Animation>().PlayBoolAnimator("IsIdle",false);
+            boss.SetActive(false);
+        }
     }
 
     void resetPosition() 

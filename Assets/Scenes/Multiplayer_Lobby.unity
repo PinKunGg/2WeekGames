@@ -16143,16 +16143,6 @@ PrefabInstance:
       propertyPath: WinUI
       value: 
       objectReference: {fileID: 1022141658}
-    - target: {fileID: 5808785006490639860, guid: 6ddf082297e794c41ac8d8507bed1a3d,
-        type: 3}
-      propertyPath: baseMonsterStat.base_HP
-      value: 9240
-      objectReference: {fileID: 0}
-    - target: {fileID: 5808785006490639860, guid: 6ddf082297e794c41ac8d8507bed1a3d,
-        type: 3}
-      propertyPath: baseMonsterStat.base_Damage
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6415003433350563489, guid: 6ddf082297e794c41ac8d8507bed1a3d,
         type: 3}
       propertyPath: sceneViewId
@@ -21681,7 +21671,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 318560045}
   m_Direction: 0
   m_Value: 0.99999994
-  m_Size: 0.3388429
+  m_Size: 0.33884293
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
