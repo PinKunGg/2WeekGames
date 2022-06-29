@@ -29,6 +29,10 @@ public class Monster_Stat : MonoBehaviour
     void Start()
     {
         tutorial_Control = Tutorial_Control.tutorial_Control;
+        if (tutorial_Control.IsTutorial) 
+        {
+            playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
+        }
     }
 
     private void OnEnable()
@@ -147,18 +151,30 @@ public class Monster_Stat : MonoBehaviour
             {
                 if (IsDie == false) 
                 {
-                    IsDie = true;
-                    GetComponent<Animator>().SetBool("IsDie", true); 
-                    Monster_HealthBar.gameObject.SetActive(false);
-                    if (!tutorial_Control.IsTutorial) { WinUI.SetActive(true); }
-                    else {
-                        Cursor.visible = true;
-                        Cursor.lockState = CursorLockMode.None;
-                    }
-                    DropItem();
+                    checkIsdie();
                 }
             }
         }
+    }
+
+    void checkIsdie() 
+    {
+        photonView.RPC("Rpc_monsterDie", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void Rpc_monsterDie() 
+    {
+        if (!tutorial_Control.IsTutorial) { WinUI.SetActive(true); }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        IsDie = true;
+        GetComponent<Animator>().SetBool("IsDie", true);
+        Monster_HealthBar.gameObject.SetActive(false);
+        DropItem();
     }
 
     [PunRPC]
@@ -185,6 +201,7 @@ public class Monster_Stat : MonoBehaviour
     {
         GetComponent<Animator>().SetBool("IsDie", false);
         WinUI.SetActive(false);
+        Monster_HealthBar.gameObject.SetActive(false);
         this.gameObject.transform.position = spawnPos;
         this.gameObject.transform.rotation = Quaternion.Euler(0f,180f,0f);
         LobbyControl.lobbyControl.EndGame();

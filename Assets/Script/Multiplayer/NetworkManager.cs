@@ -127,6 +127,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
             PhotonNetwork.CurrentRoom.IsVisible = false;
             FindObjectOfType<Player_Inventory>().SaveCloth();
             FindObjectOfType<Player_Inventory>().SaveItem();
+            FindObjectOfType<SoundBG>().ChangeToMainMenuBGSound();
             StartCoroutine(PrepareHostDisconnect());
 
             return;

@@ -61,7 +61,7 @@ public class Player_Stat : MonoBehaviour
 
             Player_Name = photonView.Owner.NickName;
             player_Inventory = Player_Inventory.player_Inventory;
-            playerListMenu.AddPlayerStat(this);
+            if (!Tutorial_Control.tutorial_Control.IsTutorial) { playerListMenu.AddPlayerStat(this); }
             HealthBar = GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Slider>();
             PlayerNameUI = GameObject.FindGameObjectWithTag("PlayerName").GetComponent<TextMeshProUGUI>();
             PlayerNameUI.text = Player_Name;
@@ -216,6 +216,7 @@ public class Player_Stat : MonoBehaviour
 
     public void Player_Take_Damage(float damage) 
     {
+        if (!photonView.IsMine) { return; }
         if (IsDie) { return; }
         if (IsImu) { return; }
         if (player_Move_Control.IsIframe) { return; }
@@ -263,6 +264,8 @@ public class Player_Stat : MonoBehaviour
             if (Current_HP <= 0) 
             {
                 IsDie = true;
+                player_Move_Control.OnLobbySetUp(false);
+                player_Attack_Control.CheckWeaponUse();
                 playerRespawn.player = this.gameObject;
                 playerRespawn.player_respawn();
                 

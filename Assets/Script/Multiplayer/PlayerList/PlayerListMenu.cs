@@ -97,6 +97,7 @@ public class PlayerListMenu : MonoBehaviourPunCallbacks
         {
             player_Attack_Control.UpdateAnimForOther();
         }
+        if (PhotonNetwork.IsMasterClient) { FindObjectOfType<LobbyControl>().UpdateStageToOther(); }
     }
 
     public void StartGame()

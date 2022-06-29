@@ -49,6 +49,7 @@ public class Player_Attack_Control : MonoBehaviour
         if (photonView.IsMine)
         {
             //CheckWeaponUse();
+            if (tutorial_Control.IsTutorial) { return; }
             PlayerListMenu.playerListMenu.AddAttackControl(this);
         }
         else if(!IsFormOther)

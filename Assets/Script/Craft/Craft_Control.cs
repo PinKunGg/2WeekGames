@@ -9,7 +9,7 @@ public class Craft_Control : MonoBehaviour
     public Player_Inventory player_inventory;
     public Craft_Slot FirstSlot;
 
-    public bool[] SetUnlockCount = new bool[6] { true,false,false,false,false,false};
+    public bool[] SetUnlockCount = new bool[5] { true,false,false,false,false};
     public GameObject[] AllItemSet = new GameObject[12];
 
     public GameObject Main_Craft_UI;

@@ -472,8 +472,10 @@ public class Player_Inventory : MonoBehaviour
     public void updateCraft() 
     {
         Debug.Log("updateCraft");
+        if (tutorial_Control.IsTutorial) { return; }
         craft_Control.SetUnlockCount = saveInventory.BossUnlockStage;
         craft_Control.UpdateSet();
+        if (PhotonNetwork.IsMasterClient) { FindObjectOfType<LobbyControl>().LoadSelectStage(); }
     }
 
     void LoadItem()
@@ -591,7 +593,7 @@ public class SaveInventory
     public string[] ItemNameArray = new string[40];
     public int[] ItemIndexArray = new int[40];
 
-    public bool[] BossUnlockStage = new bool[6] {true,false,false,false,false,false };
+    public bool[] BossUnlockStage = new bool[5] {true,false,false,false,false};
 }
 
 [System.Serializable]

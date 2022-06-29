@@ -15,6 +15,9 @@ public class LobbyControl : MonoBehaviour
     public List<GameObject> AllPlayerObj;
     public GameObject[] Pos;
     PhotonView photonView;
+    public bool[] SetUnlockCount = new bool[5] { true, false, false, false, false};
+    public string[] nameStage = new string[5] { "Stage 1", "Stage 2", "Stage 3", "Stage 4", "Stage 5" };
+    public Sprite[] imgStage = new Sprite[5];
 
     [Header("MasterUI")]
     public GameObject StartGameButton;
@@ -25,7 +28,8 @@ public class LobbyControl : MonoBehaviour
     public bool IsReady = false;
 
     public TMP_Dropdown SelectStage_DropDown;
-    public GameObject InvenUI, CraftUI, ShowClothUI,SelectBossUI,BossHeathUI;
+    public TextMeshProUGUI selectstage_text;
+    public GameObject InvenButUI, InvenMainUI, CraftButUI, CraftMainUI, ShowClothUI,SelectBossUI,BossHeathUI;
     public Player_Move_Control player_Move_Control;
     public GameObject[] MapStage;
     int stageIndex;
@@ -202,6 +206,47 @@ public class LobbyControl : MonoBehaviour
 
     }
 
+    public void LoadSelectStage() 
+    {
+        SetUnlockCount = FindObjectOfType<Player_Inventory>().saveInventory.BossUnlockStage;
+        SelectStage_DropDown.options.Clear();
+        for (int x = 0; x < SetUnlockCount.Length; x++) 
+        {
+            if (x > 2) { break; }
+            if (SetUnlockCount[x]) 
+            {
+                TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+                data.text = nameStage[x];
+                data.image = imgStage[x];
+                SelectStage_DropDown.options.Add(data);
+            }
+        }
+        if (SelectStage_DropDown.GetComponent<Image>().enabled == false) 
+        {
+            SelectStage_DropDown.GetComponent<Image>().enabled = true;
+            SelectStage_DropDown.GetComponent<Image>().sprite = imgStage[0];
+            selectstage_text.text = nameStage[0];
+            OnStageChange(0);
+        }
+    }
+
+    public void UpdateStageToOther() 
+    {
+        bool[] allmap = new bool[5] { MapStage[0].activeSelf, MapStage[1].activeSelf, MapStage[2].activeSelf, MapStage[3].activeSelf, MapStage[4].activeSelf };
+        photonView.RPC("Rpc_UpdateStageToOther", RpcTarget.Others, allmap);
+    }
+
+    [PunRPC]
+    void Rpc_UpdateStageToOther(bool[] allMapstage) 
+    {
+        Debug.Log("Run : wtf");
+        MapStage[0].SetActive(allMapstage[0]);
+        MapStage[1].SetActive(allMapstage[1]);
+        MapStage[2].SetActive(allMapstage[2]);
+        MapStage[3].SetActive(allMapstage[3]);
+        MapStage[4].SetActive(allMapstage[4]);
+    }
+
     public void StartGame() 
     {
         AstarPath.active.Scan();
@@ -215,8 +260,10 @@ public class LobbyControl : MonoBehaviour
     void Rpc_StartGame(int stage) 
     {
         Tutorial_Control.tutorial_Control.IsLobby = false;
-        InvenUI.SetActive(false);
-        CraftUI.SetActive(false);
+        InvenButUI.SetActive(false);
+        CraftButUI.SetActive(false);
+        InvenMainUI.SetActive(false);
+        CraftMainUI.SetActive(false);
         StartGameButton.SetActive(false);
         ReadyButton.SetActive(false);
         ShowClothUI.SetActive(false);
@@ -226,22 +273,26 @@ public class LobbyControl : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         local_player.GetComponentInChildren<CinemachineFreeLook>().m_XAxis.Value = 0;
+        SoundBG soundbg = FindObjectOfType<SoundBG>();
         if (stage == 0) 
         { 
             AllBoss[0].SetActive(true);
             AllBoss[0].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
+            soundbg.ChangeBGSound(0);
             //AllBoss[0].GetComponent<BoarAI>().DelayStart();
         }
         else if (stage == 1)
         { 
             AllBoss[1].SetActive(true);
             AllBoss[1].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
+            soundbg.ChangeBGSound(1);
             //AllBoss[1].GetComponent<ArachneAI>().DelayStart();
         }
         else if (stage == 2)
         { 
             AllBoss[2].SetActive(true);
             AllBoss[2].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
+            soundbg.ChangeBGSound(2);
             //AllBoss[2].GetComponent<AssasinAI>().DelayStart();
         }
     }
@@ -261,8 +312,8 @@ public class LobbyControl : MonoBehaviour
         local_player.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         local_player.GetComponent<Player_Attack_Control>().IsDraw = false;
         local_player.GetComponent<Player_Attack_Control>().IsDrawed = false;
-        InvenUI.SetActive(true);
-        CraftUI.SetActive(true);
+        InvenButUI.SetActive(true);
+        CraftButUI.SetActive(true);
         ShowClothUI.SetActive(true);
         BossHeathUI.SetActive(false);
         GetComponent<PlayerRespawn>().PlayerDieUI.SetActive(false);
@@ -275,6 +326,7 @@ public class LobbyControl : MonoBehaviour
             ReadyButton.SetActive(false);
             SelectBossUI.SetActive(true);
             Check();
+            LoadSelectStage();
         }
         else 
         {
@@ -283,6 +335,7 @@ public class LobbyControl : MonoBehaviour
             IsReady = false;
             ReadyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
         }
+        FindObjectOfType<SoundBG>().ChangeToMainMenuBGSound();
         resetPosition();
     }
 

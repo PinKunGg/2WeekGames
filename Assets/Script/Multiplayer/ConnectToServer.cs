@@ -46,6 +46,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         TitleUI.SetActive(false);
         MainMenuUI.SetActive(false);
         LobbyUI.SetActive(true);
+
     }
     public void OnClick_MainMenu(){
         TitleUI.SetActive(false);
@@ -58,6 +59,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     }
 
     public void Connect(){
+        FindObjectOfType<SoundBG>().OnclickToStart();
         PhotonNetwork.GameVersion = "0.1";
         PhotonNetwork.ConnectUsingSettings();
     }

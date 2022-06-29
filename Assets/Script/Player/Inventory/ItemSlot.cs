@@ -31,6 +31,7 @@ public class ItemSlot : MonoBehaviour ,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (player_Inventory.InvenUI.activeSelf == false) { return; }
         if (!IsClothesSlot)
         {
             player_Inventory.SelectSlot(NumberOfSlot);
