@@ -204,7 +204,6 @@ public class Monster_Stat : MonoBehaviour
         Monster_HealthBar.gameObject.SetActive(false);
         this.gameObject.transform.position = spawnPos;
         this.gameObject.transform.rotation = Quaternion.Euler(0f,180f,0f);
-        LobbyControl.lobbyControl.EndGame();
         Current_HP = baseMonsterStat.base_HP;
         MonoBehaviour[] allscript = GetComponents<MonoBehaviour>();
         for (int x = 0; x < allscript.Length; x++)
@@ -225,6 +224,7 @@ public class Monster_Stat : MonoBehaviour
     {
         Player_Inventory.SaveCloth();
         Player_Inventory.SaveItem();
+        LobbyControl.lobbyControl.EndGame();
     }
     public void MultiPlyHealth(int multiply) 
     {

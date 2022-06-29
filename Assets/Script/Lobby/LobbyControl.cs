@@ -213,6 +213,7 @@ public class LobbyControl : MonoBehaviour
         for (int x = 0; x < SetUnlockCount.Length; x++) 
         {
             if (x > 2) { break; }
+            Debug.Log("wtf : "+x+" = " + SetUnlockCount[x]);
             if (SetUnlockCount[x]) 
             {
                 TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
