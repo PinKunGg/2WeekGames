@@ -196,7 +196,9 @@ public class Assasin_Attacker : MonoBehaviour
         monsterHopping.rb.isKinematic = true;
         yield return new WaitForSeconds(7.5f);
 
-        monsterHopping.FindDropPoint(0f,0.5f);
+        while(!monsterHopping.FindDropPoint(0f,0.5f)){
+            yield return null;
+        }
         // yield return new WaitForSeconds(1f);
 
         monsterAnima.PlayBoolAnimator("IsTeleportDown",true);
