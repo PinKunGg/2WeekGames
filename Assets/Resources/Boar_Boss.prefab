@@ -993,6 +993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   StopDis: 3.5
+  rotationSpeed: 2
   startWalk: 0
   isStopWalk: 0
   goToTarget: {fileID: 0}
@@ -1012,6 +1013,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackIndex: 000000000100000002000000
   NormalAttackRange: 3
+  chargeAttackRangeDetector: {fileID: 0}
+  chargeAttackRangeDetector_radius: {x: 2, y: 2, z: 2}
+  layer:
+    serializedVersion: 2
+    m_Bits: 641
 --- !u!114 &4739653773620498590
 MonoBehaviour:
   m_ObjectHideFlags: 0

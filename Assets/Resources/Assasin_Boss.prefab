@@ -271,9 +271,9 @@ MonoBehaviour:
   Player_Inventory: {fileID: 0}
   baseMonsterStat:
     Name_Monster: Assasin
-    base_HP: 100
+    base_HP: 9240
     base_Armor: 5
-    base_Damage: 0
+    base_Damage: 195
   BossStageNumber: 3
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
@@ -351,7 +351,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6415003433350563488}
   - {fileID: 6415003433350563503}
-  sceneViewId: 0
+  sceneViewId: 7
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6415003433350563488
@@ -403,6 +403,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsTeleportDown
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsDie
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

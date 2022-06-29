@@ -17,7 +17,7 @@ public class Boar_Attacker : MonoBehaviour
     Monster_Movement monsterMove;
     Monster_Stat monsterStat;
 
-    Sequence AttackSqeuence;
+    Sequence AttackSqeuence, ChargeAttackContinueSqeuence;
 
     float disBetweenEnemyAndPlayer;
 
@@ -153,12 +153,12 @@ public class Boar_Attacker : MonoBehaviour
     }
 
     void ChargeAttackContinute(){
-        AttackSqeuence = DOTween.Sequence();
-        AttackSqeuence.AppendCallback(ChargeAttackSetTargetToNull);
-        AttackSqeuence.AppendInterval(0.1f);
-        AttackSqeuence.Append(monsterMove.rb.DOMove(this.transform.localPosition + (this.transform.forward * 20f),1f));
-        AttackSqeuence.AppendInterval(0.3f);
-        AttackSqeuence.AppendCallback(ChargeAttackFinish);
+        ChargeAttackContinueSqeuence = DOTween.Sequence();
+        ChargeAttackContinueSqeuence.AppendCallback(ChargeAttackSetTargetToNull);
+        ChargeAttackContinueSqeuence.AppendInterval(0.1f);
+        ChargeAttackContinueSqeuence.Append(monsterMove.rb.DOMove(this.transform.localPosition + (this.transform.forward * 20f),1f));
+        ChargeAttackContinueSqeuence.AppendInterval(0.3f);
+        ChargeAttackContinueSqeuence.AppendCallback(ChargeAttackFinish);
     }
 
     void DelayCaculate(){
@@ -191,7 +191,7 @@ public class Boar_Attacker : MonoBehaviour
         monsterMove.lookAtTarget = null;
     }
     void ChargeAttackFinish(){
-        AttackSqeuence.Kill();
+        ChargeAttackContinueSqeuence.Kill();
         monsterMove.rb.velocity = Vector3.zero;
 
         monsterMove.rb.DOMove(this.transform.localPosition + (this.transform.forward * -2f),1f);
@@ -207,7 +207,7 @@ public class Boar_Attacker : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         Debug.Log(other.gameObject.tag);
 
-        if(other.gameObject.CompareTag("Player")){
+        if(!other.gameObject.CompareTag("Ground")){
             if(attackIndexTemp == 2){
                 ChargeAttackFinish();   
             }
