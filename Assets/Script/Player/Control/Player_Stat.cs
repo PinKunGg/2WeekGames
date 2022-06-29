@@ -197,6 +197,17 @@ public class Player_Stat : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BossAttack")) 
         {
+            if (other.gameObject.name == "ExplosionCollider")
+            {
+                Player_Take_Damage(60);
+                return;
+            }
+            else if (other.gameObject.name == "AssasinBoss_ExplosionCore") 
+            {
+                Player_Take_Damage(120);
+                GetComponent<Player_Buff_Control>().CreateBuff(4);
+                return;
+            }
             Player_Take_Damage(other.GetComponentInParent<Monster_Stat>().baseMonsterStat.base_Damage);
         }
     }
@@ -204,12 +215,11 @@ public class Player_Stat : MonoBehaviour
     private void OnParticleCollision(GameObject other) {
         if (other.gameObject.CompareTag("BossAttack")) 
         {
-            if (other.GetComponentInParent<Monster_Stat>().gameObject.name == "Arachne_Boss")
+            if (other.gameObject.name == "Skill_1_PoisionPool")
             {
-                float damage = other.GetComponentInParent<Monster_Stat>().baseMonsterStat.base_Damage;
-                GetComponent<Player_Buff_Control>().posion_damage = damage/10;
+                GetComponent<Player_Buff_Control>().posion_damage = 12;
                 GetComponent<Player_Buff_Control>().CreateBuff(6);
-                Player_Take_Damage(damage/10);
+                //Player_Take_Damage(damage/10);
             }
         }
     }

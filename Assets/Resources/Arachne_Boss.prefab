@@ -20355,7 +20355,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -41522,7 +41522,7 @@ MonoBehaviour:
     Name_Monster: Boar - The Dumpest Boss
     base_HP: 6200
     base_Armor: 5
-    base_Damage: 100
+    base_Damage: 120
   BossStageNumber: 2
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}

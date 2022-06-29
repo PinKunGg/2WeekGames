@@ -16,6 +16,8 @@ public class Player_Buff_Control : MonoBehaviour
     public Sprite[] AllBuff = new Sprite[7];
     public float[] AllBuff_Time = new float[7];
     public float[] AllBuff_Cooldown = new float[7];
+    public List<GameObject> AllBuff_Obj;
+    public List<int> AllBuff_value;
 
     public int Veil_Buff_int = 0;
     public int[] Veil_Buff = new int[5] {99,1,2,0,3};
@@ -50,6 +52,27 @@ public class Player_Buff_Control : MonoBehaviour
         CreateBuff(Veil_Buff[Veil_Buff_int]);
     }
 
+    public void StopCoroutine() 
+    {
+        StopAllCoroutines();
+        if (AllBuff_Obj.Count != 0) {
+            GameObject[] temp_buff = new GameObject[AllBuff_Obj.Count];
+            for (int x = 0; x < AllBuff_Obj.Count; x++) 
+            {
+                temp_buff[x] = AllBuff_Obj[x];
+            }
+            AllBuff_Obj.Clear();
+            for (int y = 0; y < temp_buff.Length; y++) 
+            {
+                Destroy(temp_buff[y]);
+            }
+            for (int z = 0; z < AllBuff_Cooldown.Length; z++) 
+            {
+                AllBuff_Cooldown[z] = 0;
+            }
+        }
+    }
+
     public void CreateBuff(int value) 
     {
         if (!photonView.IsMine) { return; }
@@ -57,12 +80,22 @@ public class Player_Buff_Control : MonoBehaviour
         if(AllBuff_Cooldown[value] != 0) 
         { 
             AllBuff_Cooldown[value] = AllBuff_Time[value];
+            for (int x = 0; x < AllBuff_Obj.Count; x++) 
+            {
+                if (AllBuff_value[x] == value)
+                {
+                    AllBuff_Obj[x].GetComponent<Image>().fillAmount = 1;
+                    break;
+                }
+            }
             return;
         }
         GameObject buff = Instantiate(BuffPrefab);
         buff.GetComponent<Image>().sprite = AllBuff[value];
         buff.transform.parent = BuffZone.transform;
         buff.transform.localScale = Vector3.one;
+        AllBuff_Obj.Add(buff);
+        AllBuff_value.Add(value);
         AllBuff_Cooldown[value] = AllBuff_Time[value];
         if (value == 0)
         {
@@ -103,6 +136,8 @@ public class Player_Buff_Control : MonoBehaviour
             buff_obj.fillAmount -= 1/(AllBuff_Time[value] / 0.1f);
         }
         AllBuff_Cooldown[value] = 0;
+        AllBuff_value.Remove(value);
+        AllBuff_Obj.Remove(buff_obj.gameObject);
         Destroy(buff_obj.gameObject);
     }
 

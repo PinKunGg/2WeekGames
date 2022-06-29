@@ -309,6 +309,8 @@ public class LobbyControl : MonoBehaviour
     void Rpc_EndGame()
     {
         Tutorial_Control.tutorial_Control.IsLobby = true;
+        local_player.GetComponent<Player_Stat>().WhenRespawn();
+        local_player.GetComponent<Player_Buff_Control>().StopCoroutine();
         local_player.GetComponent<Player_Move_Control>().OnLobbySetUp(true);
         local_player.GetComponent<Player_Attack_Control>().CheckWeaponUse();
         local_player.GetComponent<Player_Attack_Control>().IsDraw = false;
@@ -319,6 +321,10 @@ public class LobbyControl : MonoBehaviour
         BossHeathUI.SetActive(false);
         GetComponent<PlayerRespawn>().PlayerDieUI.SetActive(false);
 
+        foreach (GameObject boss in AllBoss) 
+        {
+            boss.SetActive(false);
+        }
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         if (PhotonNetwork.IsMasterClient)

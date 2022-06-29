@@ -2913,6 +2913,8 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  AllBuff_Obj: []
+  AllBuff_value: 
   Veil_Buff_int: 0
   Veil_Buff: 6300000001000000020000000000000003000000
   posion_damage: 5
