@@ -55,6 +55,7 @@ public class Player_Buff_Control : MonoBehaviour
     public void StopCoroutine() 
     {
         StopAllCoroutines();
+        player_Move_Control.updateMoveSpeed(0, 0);
         if (AllBuff_Obj.Count != 0) {
             GameObject[] temp_buff = new GameObject[AllBuff_Obj.Count];
             for (int x = 0; x < AllBuff_Obj.Count; x++) 

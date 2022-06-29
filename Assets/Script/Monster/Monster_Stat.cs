@@ -180,6 +180,7 @@ public class Monster_Stat : MonoBehaviour
 
     [PunRPC]
     void RPC_SendDamageToPlayerManagerMultiplayer(int playerID, float damage){
+        playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
         playerManMulti.AddPlayerDamage(playerID,damage);
     }
 
