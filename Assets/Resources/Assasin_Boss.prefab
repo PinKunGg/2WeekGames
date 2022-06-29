@@ -174,7 +174,12 @@ MonoBehaviour:
   lookAtTarget: {fileID: 0}
   HoppingBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 22, y: 0, z: 22}
+    m_Extent: {x: 22, y: 0, z: 25}
+  checkDropPoint: {fileID: 0}
+  checkDropPoint_radius: {x: 1.5, y: 1.5, z: 1.5}
+  layer:
+    serializedVersion: 2
+    m_Bits: 129
 --- !u!114 &6415003433350563499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,11 +274,11 @@ MonoBehaviour:
     base_HP: 100
     base_Armor: 5
     base_Damage: 0
-  BossStageNumber: 0
+  BossStageNumber: 3
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
-  itemDrop: {fileID: 0}
-  AmountRangeitemDrop: 0000000000000000
+  itemDrop: {fileID: 11400000, guid: 693e6c0d1743c1c4b98ce1f306572e39, type: 2}
+  AmountRangeitemDrop: 0f00000019000000
   WinUI: {fileID: 0}
 --- !u!95 &6415003433350563478
 Animator:

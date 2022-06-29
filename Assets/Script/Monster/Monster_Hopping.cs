@@ -76,8 +76,60 @@ public class Monster_Hopping : MonoBehaviour
     public void DelayDisableHoppingShadow(){
         HoppingShadow.enabled = false;
     }
-    public void FindDropPoint(float minOffset, float maxOffset){
-        this.transform.position = new Vector3(goToTarget.position.x + Random.Range(minOffset,maxOffset),this.transform.position.y,goToTarget.position.z + Random.Range(minOffset,maxOffset));
+
+    public GameObject checkDropPoint;
+    public Vector3 checkDropPoint_radius;
+    Collider[] collideList = new Collider[2];
+    Vector3 dropPos;
+    public LayerMask layer;
+    int limiteLoop = 10;
+    public bool FindDropPoint(float minOffset, float maxOffset){
+        for(int i = 0; i < limiteLoop;){
+            Debug.Log(1111);
+            dropPos = new Vector3(goToTarget.position.x + Random.Range(minOffset,maxOffset),this.transform.position.y,goToTarget.position.z + Random.Range(minOffset,maxOffset));
+            checkDropPoint.transform.position = new Vector3(dropPos.x,0f,dropPos.z);
+            collideList = new Collider[2];
+            int collideCount = Physics.OverlapBoxNonAlloc(checkDropPoint.transform.position,checkDropPoint_radius / 2f,collideList,Quaternion.identity,layer);
+
+            if(collideCount > 0){
+                i++;
+            }
+            else{
+                Debug.Log(2222);
+                ConfirmDropPoint(dropPos);
+                return true;
+            }
+        }
+
+        Debug.Log(3333);
+        CheckBoundDropPoint();
+        return true;
+    }
+
+    void CheckBoundDropPoint(){
+        for(int i = 0; i < limiteLoop;){
+            Debug.Log(4444);
+            Vector3 pos = GetRandomPointInBounds();
+            dropPos = pos;
+            checkDropPoint.transform.position = new Vector3(dropPos.x,0f,dropPos.z);
+            collideList = new Collider[2];
+            int collideCount = Physics.OverlapBoxNonAlloc(checkDropPoint.transform.position,checkDropPoint_radius / 2f,collideList,Quaternion.identity,layer);
+
+            if(collideCount > 0){
+                i++;
+            }
+            else{
+                Debug.Log(5555);
+                ConfirmDropPoint(dropPos);
+                return;
+            }
+        }
+
+        Debug.Log(6666);
+    }
+
+    public void ConfirmDropPoint(Vector3 pos){
+        this.transform.position = pos;
         
         SpawnShadowHopping();
     }
@@ -94,5 +146,7 @@ public class Monster_Hopping : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, StopDis);
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(HoppingBounds.center,HoppingBounds.size);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(checkDropPoint.transform.position,checkDropPoint_radius);
     }
 }

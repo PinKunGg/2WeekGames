@@ -41364,7 +41364,7 @@ Transform:
   m_GameObject: {fileID: 7385873379763382685}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.4999999, y: 1.4999999, z: 1.4999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2862395223096870268}
@@ -41452,8 +41452,13 @@ MonoBehaviour:
   goToTarget: {fileID: 0}
   lookAtTarget: {fileID: 0}
   HoppingBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 22, y: 0, z: 22}
+    m_Center: {x: 0, y: 0, z: 4}
+    m_Extent: {x: 20, y: 0, z: 20}
+  checkDropPoint: {fileID: 0}
+  checkDropPoint_radius: {x: 6.5, y: 6.5, z: 6.5}
+  layer:
+    serializedVersion: 2
+    m_Bits: 129
 --- !u!114 &7385873379763382699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41518,10 +41523,10 @@ MonoBehaviour:
     base_HP: 6200
     base_Armor: 5
     base_Damage: 100
-  BossStageNumber: 0
+  BossStageNumber: 2
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
-  itemDrop: {fileID: 11400000, guid: 6127aee6f2762b14f80a0fbcb6e839c2, type: 2}
+  itemDrop: {fileID: 11400000, guid: 6c3d2f194c12207478ced27009720565, type: 2}
   AmountRangeitemDrop: 0f00000019000000
   WinUI: {fileID: 0}
 --- !u!95 &7385873379763382695

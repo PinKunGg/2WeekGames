@@ -175,7 +175,10 @@ public class Arachne_Attacker : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         transform.DOMoveY(this.transform.position.y + 15f,0.5f);
         yield return new WaitForSeconds(2f);
-        monsterHopping.FindDropPoint(-1f,2f);
+        
+        while(!monsterHopping.FindDropPoint(-1f,2f)){
+            yield return null;
+        }
         yield return new WaitForSeconds(1f);
 
         transform.DOMoveY(this.transform.position.y - 15f,0.5f);
