@@ -7533,6 +7533,11 @@ MonoBehaviour:
   - {fileID: 100792256}
   - {fileID: 1732382534}
   local_player: {fileID: 0}
+  NameBoss_Text: {fileID: 1296469204}
+  AllBossName:
+  - The Boar
+  - Arachne
+  - Assasin
   AllBoss:
   - {fileID: 1156001035}
   - {fileID: 59840327}
@@ -17233,7 +17238,7 @@ PrefabInstance:
     - target: {fileID: 7985898438739627392, guid: 7c87daf8d7d1b7d4991e7e6b0dae3492,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7985898438739627405, guid: 7c87daf8d7d1b7d4991e7e6b0dae3492,
         type: 3}
