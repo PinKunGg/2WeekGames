@@ -73557,7 +73557,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 8
+    intParameter: 12
     messageOptions: 0
   - time: 1.3666667
     functionName: setDamage
@@ -73571,7 +73571,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 4
+    intParameter: 13
     messageOptions: 0
   - time: 2.0333333
     functionName: setDamage

@@ -90290,12 +90290,12 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 3
+    intParameter: 11
     messageOptions: 0
   - time: 1.7
     functionName: PlaySfxOnAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 5
+    intParameter: 10
     messageOptions: 0

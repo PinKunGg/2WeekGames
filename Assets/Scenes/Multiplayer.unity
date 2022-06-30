@@ -2002,7 +2002,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2724}
+  m_AnchoredPosition: {x: 0, y: -2772}
   m_SizeDelta: {x: 784.67, y: 142.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &184729135
@@ -14721,6 +14721,30 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6398d6a06c206224cb77ea4ad9f3babb, type: 3}
   - {fileID: 8300000, guid: a8a39359005fed54eadeeba4b5af466c, type: 3}
   - {fileID: 8300000, guid: a8a39359005fed54eadeeba4b5af466c, type: 3}
+  - {fileID: 8300000, guid: 067d8098d59138e4b9950ddf0ae2bed7, type: 3}
+  - {fileID: 8300000, guid: c98f22feaa7952d41ae9611d47e50127, type: 3}
+  - {fileID: 8300000, guid: a681ae5c6a7895c4087aa9856b30cc05, type: 3}
+  - {fileID: 8300000, guid: 02b2523039a271049880afdd7383a047, type: 3}
+  - {fileID: 8300000, guid: d3a76e4254a51c54d8fe31290264f0ba, type: 3}
+  - {fileID: 8300000, guid: fa47f8d2ef068a24e8489e368636c0d8, type: 3}
+  - {fileID: 8300000, guid: 3842d71e08a9b654da6f5782959398cc, type: 3}
+  - {fileID: 8300000, guid: 2b5ec7bf280791546a4b474e5cf0591d, type: 3}
+  - {fileID: 8300000, guid: 847b65a27d4273344887e39f9fca040c, type: 3}
+  - {fileID: 8300000, guid: c3a4cfc34e10ca04e89bc6cf723fd5c8, type: 3}
+  - {fileID: 8300000, guid: 2f1503386ca65c54ead704b00430d7cb, type: 3}
+  - {fileID: 8300000, guid: 62604a866c0128748947d8c5f22830d5, type: 3}
+  - {fileID: 8300000, guid: 3cdbabb51fb99bb4c9ed14d09d97d1dd, type: 3}
+  - {fileID: 8300000, guid: 54fa9b87703f3064c9debf9a77ad8c17, type: 3}
+  - {fileID: 8300000, guid: b8f918cf1d30f414cb4a4e1f815fa7e2, type: 3}
+  - {fileID: 8300000, guid: 585d85d71a2e3ca4cb9daf7d61a1d605, type: 3}
+  - {fileID: 8300000, guid: eaf233bb6abf1b046bbdf8394be8da49, type: 3}
+  - {fileID: 8300000, guid: fd5ae74f3f777a34b9215c1350740dfa, type: 3}
+  - {fileID: 8300000, guid: 65c3325a01184774d913c43f5b8bc031, type: 3}
+  - {fileID: 8300000, guid: cc1100727758ad745857cf2c163128f1, type: 3}
+  - {fileID: 8300000, guid: 1913ecad50085614e9431c77fdf96b19, type: 3}
+  - {fileID: 8300000, guid: 2d5540305f5e7cb498ead69b107c6cd8, type: 3}
+  - {fileID: 8300000, guid: 71a35c2d60d64f645bf212f75354c7f9, type: 3}
+  - {fileID: 8300000, guid: bb0d6275c678e034cafd4faa9ceb6971, type: 3}
   BGMSource: {fileID: 1673407462}
 --- !u!1 &1679137057
 GameObject:
@@ -16159,8 +16183,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -363}
-  m_SizeDelta: {x: 1716.125, y: 550.632}
+  m_AnchoredPosition: {x: 0, y: -564.30255}
+  m_SizeDelta: {x: 1716.125, y: 857.237}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1733545626
 MonoBehaviour:
@@ -16186,7 +16210,9 @@ MonoBehaviour:
     promoted by https://www.chosic.com/free-music/all/\r\nAttribution 4.0 International
     (CC BY 4.0)\r\nhttps://creativecommons.org/licenses/by/4.0/\n\n\n Epic Chase
     by MaxKoMusic | https://maxkomusic.com/\r\nMusic promoted by https://www.chosic.com/free-music/all/\r\nCreative
-    Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)\r\nhttps://creativecommons.org/licenses/by-sa/3.0/\r\n"
+    Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)\r\nhttps://creativecommons.org/licenses/by-sa/3.0/\r\n\n\u201CSound
+    effects obtained from https://www.zapsplat.com\u201C\r\n\u201CAdditional sound
+    effects from https://www.zapsplat.com\u201C\r\n\u201CMusic from https://www.zapsplat.com\u201C\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -22144,6 +22170,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Loading
+      objectReference: {fileID: 0}
+    - target: {fileID: 7985898438739627392, guid: 7c87daf8d7d1b7d4991e7e6b0dae3492,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7985898438739627405, guid: 7c87daf8d7d1b7d4991e7e6b0dae3492,
         type: 3}

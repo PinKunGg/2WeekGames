@@ -144819,7 +144819,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 3
+    intParameter: 10
     messageOptions: 0
   - time: 1.4
     functionName: setDamage
@@ -144833,7 +144833,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 5
+    intParameter: 11
     messageOptions: 0
   - time: 2.0666666
     functionName: setDamage
@@ -144847,7 +144847,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 3
+    intParameter: 10
     messageOptions: 0
   - time: 2.7333333
     functionName: PlayParticle
@@ -144861,7 +144861,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 4
+    intParameter: 9
     messageOptions: 0
   - time: 2.9666667
     functionName: setDamage

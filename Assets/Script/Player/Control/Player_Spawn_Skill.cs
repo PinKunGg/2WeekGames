@@ -112,7 +112,7 @@ public class Player_Spawn_Skill : MonoBehaviour
             }
             else if (number_of_skill == 2)
             {
-                skill_weapond.Damage = stuff_weapondDamage.Damage*0.3f;
+                skill_weapond.Damage = stuff_weapondDamage.Damage*0.1f;
             }
             skill_weapond.CriRate = stuff_weapondDamage.CriRate;
             skill_weapond.CriDamage = stuff_weapondDamage.CriDamage;
@@ -125,7 +125,7 @@ public class Player_Spawn_Skill : MonoBehaviour
             }
             else if(number_of_skill == 1)
             {
-                skill_weapond.Damage = bow_weapondDamage.Damage / 10;
+                skill_weapond.Damage = bow_weapondDamage.Damage / 8;
             }
             else if (number_of_skill == 2)
             {

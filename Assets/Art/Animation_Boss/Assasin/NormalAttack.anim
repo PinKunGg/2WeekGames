@@ -44071,12 +44071,12 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 18
+    intParameter: 25
     messageOptions: 0
   - time: 1.1666666
     functionName: BossPlaySoundSfx
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 19
+    intParameter: 26
     messageOptions: 0
