@@ -14,6 +14,7 @@ public class Player_Attack_Control : MonoBehaviour
     Player_Inventory player_inventory;
     Tutorial_Control tutorial_Control;
     Player_Stat player_Stat;
+    SoundManager soundManager;
     bool IsFormOther = false;
     public bool IsNoWeapon = false;
 
@@ -403,6 +404,23 @@ public class Player_Attack_Control : MonoBehaviour
                 anim.SetBool("Draw", true);
                 anim.SetBool("IsDraw", true);
             }
+        }
+    }
+
+    public void PlaySfxOnAttack(int value) 
+    {
+        if (soundManager == null) { soundManager = SoundManager.soundman; }
+        if (value == 1)
+        {
+            soundManager.PlaySFX(value, this.gameObject.transform.position, 7f, 0.7f);
+        }
+        else if (value == 9)
+        {
+            soundManager.PlaySFX(value, this.gameObject.transform.position, 4f, 0.7f);
+        }
+        else 
+        {
+            soundManager.PlaySFX(value, this.gameObject.transform.position, 2, 0.7f);
         }
     }
 

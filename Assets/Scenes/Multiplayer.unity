@@ -13923,6 +13923,7 @@ GameObject:
   - component: {fileID: 1673407467}
   - component: {fileID: 1673407465}
   - component: {fileID: 1673407466}
+  - component: {fileID: 1673407468}
   m_Layer: 0
   m_Name: Sound
   m_TagString: Untagged
@@ -13942,7 +13943,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c82ff52d3573e744e8e0b807b0eca57b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -14108,10 +14109,44 @@ MonoBehaviour:
   isPlayBGM: 0
   Bgm: []
   Sfx:
-  - {fileID: 8300000, guid: a8a39359005fed54eadeeba4b5af466c, type: 3}
-  - {fileID: 8300000, guid: a8a39359005fed54eadeeba4b5af466c, type: 3}
-  - {fileID: 8300000, guid: a8a39359005fed54eadeeba4b5af466c, type: 3}
+  - {fileID: 8300000, guid: 067d8098d59138e4b9950ddf0ae2bed7, type: 3}
+  - {fileID: 8300000, guid: c98f22feaa7952d41ae9611d47e50127, type: 3}
+  - {fileID: 8300000, guid: a681ae5c6a7895c4087aa9856b30cc05, type: 3}
+  - {fileID: 8300000, guid: 2b5ec7bf280791546a4b474e5cf0591d, type: 3}
+  - {fileID: 8300000, guid: 3842d71e08a9b654da6f5782959398cc, type: 3}
+  - {fileID: 8300000, guid: 847b65a27d4273344887e39f9fca040c, type: 3}
+  - {fileID: 8300000, guid: 62604a866c0128748947d8c5f22830d5, type: 3}
+  - {fileID: 8300000, guid: 2f1503386ca65c54ead704b00430d7cb, type: 3}
+  - {fileID: 8300000, guid: c3a4cfc34e10ca04e89bc6cf723fd5c8, type: 3}
+  - {fileID: 8300000, guid: d3a76e4254a51c54d8fe31290264f0ba, type: 3}
+  - {fileID: 8300000, guid: fa47f8d2ef068a24e8489e368636c0d8, type: 3}
+  - {fileID: 8300000, guid: 02b2523039a271049880afdd7383a047, type: 3}
+  - {fileID: 8300000, guid: 3cdbabb51fb99bb4c9ed14d09d97d1dd, type: 3}
+  - {fileID: 8300000, guid: 54fa9b87703f3064c9debf9a77ad8c17, type: 3}
+  - {fileID: 8300000, guid: b8f918cf1d30f414cb4a4e1f815fa7e2, type: 3}
+  - {fileID: 8300000, guid: eaf233bb6abf1b046bbdf8394be8da49, type: 3}
+  - {fileID: 8300000, guid: fd5ae74f3f777a34b9215c1350740dfa, type: 3}
+  - {fileID: 8300000, guid: 585d85d71a2e3ca4cb9daf7d61a1d605, type: 3}
+  - {fileID: 8300000, guid: 71a35c2d60d64f645bf212f75354c7f9, type: 3}
+  - {fileID: 8300000, guid: bb0d6275c678e034cafd4faa9ceb6971, type: 3}
+  - {fileID: 8300000, guid: 585d85d71a2e3ca4cb9daf7d61a1d605, type: 3}
+  - {fileID: 8300000, guid: 65c3325a01184774d913c43f5b8bc031, type: 3}
+  - {fileID: 8300000, guid: 2d5540305f5e7cb498ead69b107c6cd8, type: 3}
+  - {fileID: 8300000, guid: 1913ecad50085614e9431c77fdf96b19, type: 3}
+  - {fileID: 8300000, guid: cc1100727758ad745857cf2c163128f1, type: 3}
   BGMSource: {fileID: 1673407462}
+--- !u!114 &1673407468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673407461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd344cbc7dd642f40a8e98098945936c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1674223876
 GameObject:
   m_ObjectHideFlags: 0

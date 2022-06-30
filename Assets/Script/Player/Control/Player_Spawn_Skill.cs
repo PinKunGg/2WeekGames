@@ -9,6 +9,7 @@ public class Player_Spawn_Skill : MonoBehaviour
     PhotonView photonView;
     Player_Attack_Control player_Attack_Control;
     public GameObject spawn_pos;
+    public SoundManager sound_manager;
 
     [Header("Magic Skill Prefab")]
     public GameObject Magic_Normal_Attack;
@@ -76,11 +77,18 @@ public class Player_Spawn_Skill : MonoBehaviour
 
     void SpawnNetworkSkill(int weapond,int number_of_skill){
         if (all_weapond_skill_obj[0][0] == null) { init(); }
+        if (sound_manager == null) { sound_manager = SoundManager.soundman; }
         if (weapond == 0) 
         {
-            if (number_of_skill == 0) { spawn_pos = Magic_spawn_pos1; }
-            else if (number_of_skill == 1) { spawn_pos = Magic_spawn_pos2; }
-            else if (number_of_skill == 2) { spawn_pos = Magic_spawn_pos3; }
+            if (number_of_skill == 0) { 
+                spawn_pos = Magic_spawn_pos1;
+            }
+            else if (number_of_skill == 1) { 
+                spawn_pos = Magic_spawn_pos2;
+            }
+            else if (number_of_skill == 2) { 
+                spawn_pos = Magic_spawn_pos3;
+            }
         }
         else if(weapond == 1)
         {

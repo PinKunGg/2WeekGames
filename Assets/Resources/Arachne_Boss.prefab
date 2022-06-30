@@ -41348,6 +41348,7 @@ GameObject:
   - component: {fileID: 7385873379763382660}
   - component: {fileID: 7385873379763382661}
   - component: {fileID: 6764642759564979210}
+  - component: {fileID: 1662935020568064985}
   m_Layer: 8
   m_Name: Arachne_Boss
   m_TagString: Untagged
@@ -41625,6 +41626,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsDie
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsIdle
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -41682,3 +41686,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackIndex: 00000000010000000200000003000000
   NormalAttackRange: 4.5
+--- !u!114 &1662935020568064985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7385873379763382685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd344cbc7dd642f40a8e98098945936c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
