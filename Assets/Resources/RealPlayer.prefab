@@ -61753,13 +61753,13 @@ MonoBehaviour:
   BuffPrefab: {fileID: 2054014228480558388, guid: 56054f9fe7bbcca4dbc0314f3db248c9,
     type: 3}
   AllBuff:
-  - {fileID: 21300000, guid: 6439f3da8560fde4c8376e5df414f1d9, type: 3}
-  - {fileID: 21300000, guid: e7babf0a38ce1c042a4a9f7c4f895cd4, type: 3}
-  - {fileID: 21300000, guid: 7050b40524a7e4145b3311b6da819341, type: 3}
-  - {fileID: 21300000, guid: 64e15ab69e20d234fba2a2f0ddfbb083, type: 3}
-  - {fileID: 21300000, guid: 7050b40524a7e4145b3311b6da819341, type: 3}
-  - {fileID: 21300000, guid: 465a92e9dd6b4594b87ad77013665084, type: 3}
-  - {fileID: 21300000, guid: 465a92e9dd6b4594b87ad77013665084, type: 3}
+  - {fileID: 21300000, guid: 8cf928782eaa8bb4ca24d00ee4984d24, type: 3}
+  - {fileID: 21300000, guid: e0e88cca53efef04f974b8be04e25edf, type: 3}
+  - {fileID: 21300000, guid: 26d120a8a8e065248a46ff7b5079361d, type: 3}
+  - {fileID: 21300000, guid: 6ff016194020d30448b2b34b7ce10bbf, type: 3}
+  - {fileID: 21300000, guid: 98dbfc881aea47247b30fa7b713c906c, type: 3}
+  - {fileID: 21300000, guid: 2444a93572c84ea47bbe5321404df879, type: 3}
+  - {fileID: 21300000, guid: 16ffddfb64a3d5842b58b79d2cc117ce, type: 3}
   AllBuff_Time:
   - 10
   - 10

@@ -57,16 +57,16 @@ public class Craft_Control : MonoBehaviour
         {
             set.SetActive(false);
         }
-        if (SetUnlockCount[5] == true)
-        {
-            AllItemSet[11].SetActive(true);
-            AllItemSet[10].SetActive(true);
-        }
-        if (SetUnlockCount[4] == true) 
-        {
-            AllItemSet[9].SetActive(true);
-            AllItemSet[8].SetActive(true);
-        }
+        //if (SetUnlockCount[5] == true)
+        //{
+        //    AllItemSet[11].SetActive(true);
+        //    AllItemSet[10].SetActive(true);
+        //}
+        //if (SetUnlockCount[4] == true) 
+        //{
+        //    AllItemSet[9].SetActive(true);
+        //    AllItemSet[8].SetActive(true);
+        //}
         if (SetUnlockCount[3] == true)
         {
             AllItemSet[7].SetActive(true);

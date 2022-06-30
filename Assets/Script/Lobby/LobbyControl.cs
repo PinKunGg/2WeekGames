@@ -35,6 +35,8 @@ public class LobbyControl : MonoBehaviour
     int stageIndex;
 
     public GameObject local_player;
+    public TextMeshProUGUI NameBoss_Text;
+    public string[] AllBossName;
     public GameObject[] AllBoss;
 
     private void Awake()
@@ -279,6 +281,7 @@ public class LobbyControl : MonoBehaviour
         { 
             AllBoss[0].SetActive(true);
             AllBoss[0].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
+            NameBoss_Text.text = AllBossName[0];
             soundbg.ChangeBGSound(0);
             //AllBoss[0].GetComponent<BoarAI>().DelayStart();
         }
@@ -286,6 +289,7 @@ public class LobbyControl : MonoBehaviour
         { 
             AllBoss[1].SetActive(true);
             AllBoss[1].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
+            NameBoss_Text.text = AllBossName[1];
             soundbg.ChangeBGSound(1);
             //AllBoss[1].GetComponent<ArachneAI>().DelayStart();
         }
@@ -293,6 +297,7 @@ public class LobbyControl : MonoBehaviour
         { 
             AllBoss[2].SetActive(true);
             AllBoss[2].GetComponent<Monster_Stat>().MultiPlyHealth(AllPlayerObj.Count);
+            NameBoss_Text.text = AllBossName[2];
             soundbg.ChangeBGSound(2);
             //AllBoss[2].GetComponent<AssasinAI>().DelayStart();
         }
@@ -367,6 +372,7 @@ public class LobbyControl : MonoBehaviour
                 AllPlayerObj[x].transform.rotation = Pos[x].transform.rotation;
             }
         }
+        local_player.GetComponent<Player_Move_Control>().OnLobbySetUp(true);
     }
 
 }

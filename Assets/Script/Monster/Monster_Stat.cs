@@ -227,7 +227,10 @@ public class Monster_Stat : MonoBehaviour
     }
     public void MultiPlyHealth(int multiply) 
     {
-        Current_HP = baseMonsterStat.base_HP * multiply;
+        if (multiply != 1) 
+        {
+            Current_HP = baseMonsterStat.base_HP * (multiply+1);
+        }
         Monster_HealthBar = GameObject.FindGameObjectWithTag("MonsterHealthBar").GetComponent<Slider>();
         Monster_HealthBar.maxValue = Current_HP;
         Monster_HealthBar.value = Current_HP;

@@ -379,14 +379,12 @@ public class Player_Inventory : MonoBehaviour
                         inventory.ItemNameArray[slotnumber] = null;
                         inventory.ItemIndexArray[slotnumber] = 0;
                         PotionSlot = 5;
-                        ClothesSlot_pic[6].sprite = Defath_Sprite;
                     }
                     else if (inventory.ItemIndexArray[slotnumber] - 5 < 0)
                     {
                         PotionSlot = inventory.ItemIndexArray[slotnumber];
                         inventory.ItemNameArray[slotnumber] = null;
                         inventory.ItemIndexArray[slotnumber] = 0;
-                        ClothesSlot_pic[6].sprite = Defath_Sprite;
                     }
                     break;
                 }
