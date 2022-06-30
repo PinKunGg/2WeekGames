@@ -8538,6 +8538,7 @@ GameObject:
   - component: {fileID: 1120122781}
   - component: {fileID: 1120122783}
   - component: {fileID: 1120122784}
+  - component: {fileID: 1120122785}
   m_Layer: 0
   m_Name: Settings
   m_TagString: Untagged
@@ -8646,6 +8647,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInLobby: 1
   isOverride: 0
+--- !u!114 &1120122785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120122777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d82fc040bccd4342bc9375d7c5390c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundIndex: 0
 --- !u!1 &1124949790
 GameObject:
   m_ObjectHideFlags: 0
