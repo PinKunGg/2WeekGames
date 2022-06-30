@@ -274,7 +274,7 @@ MonoBehaviour:
     Name_Monster: Assasin
     base_HP: 9240
     base_Armor: 5
-    base_Damage: 195
+    base_Damage: 300
   BossStageNumber: 3
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
