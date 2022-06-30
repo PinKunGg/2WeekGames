@@ -119,6 +119,8 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     }
 
     void PreparePlayerData(){
+        LoadingScene.loading.OpenLoading();
+
         if (!isTutorial)
         {
             PhotonNetwork.NickName = playerName.text;
@@ -137,6 +139,8 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public override void OnCreateRoomFailed(short returnCode, string message){
         base.OnCreateRoomFailed(returnCode, message);
+
+        LoadingScene.loading.CloseLoading();
 
         Debug.LogFormat("Fail to create '{0}' room: {1}",createRoomName.text,message);
         FindObjectOfType<GameAlert_Nortification>().SetAlert("Create room failed",string.Format("fail to create '{0}' room : {1}",createRoomName.text,message),true);
@@ -158,6 +162,8 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message){
         base.OnJoinRoomFailed(returnCode, message);
+
+        LoadingScene.loading.CloseLoading();
 
         Debug.LogFormat("Can't join room '{0}': {1}",joinRoomName.text,message);
         FindObjectOfType<GameAlert_Nortification>().SetAlert("Join room failed",string.Format("Can't join room '{0}' : {1}",joinRoomName.text,message),true);

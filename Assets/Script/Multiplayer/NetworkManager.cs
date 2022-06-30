@@ -120,6 +120,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
     [PunRPC]
     public void RPC_Disconnect(){
+        LoadingScene.loading.OpenLoading();
+
         Destroy(FindObjectOfType<PlayerListMenu>().gameObject);
         if (PhotonNetwork.IsMasterClient){
             base.photonView.RPC("RPC_HostDisconnect",RpcTarget.Others,PhotonNetwork.CurrentRoom.Name);
@@ -139,6 +141,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
         FindObjectOfType<Player_Inventory>().SaveCloth();
         FindObjectOfType<Player_Inventory>().SaveItem();
         LobbyControl.lobbyControl.UnReady();
+
         PhotonNetwork.LeaveRoom();
     }
 
