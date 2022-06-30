@@ -50,8 +50,7 @@ public class LobbyControl : MonoBehaviour
         }
         else 
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            CursorSettings.cursor.isInLobby = true;
         }
         if (PhotonNetwork.IsMasterClient)
         {
@@ -255,6 +254,7 @@ public class LobbyControl : MonoBehaviour
         AstarPath.active.Scan();
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
+        CursorSettings.cursor.isInLobby = false;
         IsotherReady_count = 0;
         photonView.RPC("Rpc_StartGame", RpcTarget.All,stageIndex);
     }
@@ -273,8 +273,7 @@ public class LobbyControl : MonoBehaviour
         SelectBossUI.SetActive(false);
         BossHeathUI.SetActive(true);
         player_Move_Control.CameraOn();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        CursorSettings.cursor.ToggleCursor(false);
         local_player.GetComponentInChildren<CinemachineFreeLook>().m_XAxis.Value = 0;
         SoundBG soundbg = FindObjectOfType<SoundBG>();
         if (stage == 0) 
@@ -310,6 +309,7 @@ public class LobbyControl : MonoBehaviour
     [PunRPC]
     void Rpc_EndGame()
     {
+        CursorSettings.cursor.isInLobby = true;
         Tutorial_Control.tutorial_Control.IsLobby = true;
         local_player.GetComponent<Player_Stat>().WhenRespawn();
         local_player.GetComponent<Player_Buff_Control>().StopCoroutine();
@@ -329,8 +329,7 @@ public class LobbyControl : MonoBehaviour
         }
 
         Invoke("DisalbeAllBoss",2f);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        CursorSettings.cursor.ToggleCursor(true);
         if (PhotonNetwork.IsMasterClient)
         {
             StartGameButton.SetActive(true);

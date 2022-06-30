@@ -167,8 +167,7 @@ public class Monster_Stat : MonoBehaviour
         if (!tutorial_Control.IsTutorial) { WinUI.SetActive(true); }
         else
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            CursorSettings.cursor.ToggleCursor(true);
         }
         IsDie = true;
         GetComponent<Animator>().SetBool("IsDie", true);

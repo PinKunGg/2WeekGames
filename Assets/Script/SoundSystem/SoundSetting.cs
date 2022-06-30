@@ -8,7 +8,7 @@ public class SoundSetting : MonoBehaviour
     public static SoundSetting sound;
     private void Awake() {
         sound = this;
-        try{bgmSource = GameObject.Find("BGM").GetComponent<AudioSource>();}catch{}
+        try{bgmSource = GameObject.Find("Sound").GetComponent<AudioSource>();}catch{}
     }
 
     [SerializeField] Slider bgm_bar;
@@ -25,8 +25,6 @@ public class SoundSetting : MonoBehaviour
             SaveManager.saveEvent.AddListener(Save);
             SaveManager.loadEvent.AddListener(Load);
         }catch{}
-
-        LoadSoundSetting();
     }
 
     void Save(){
@@ -47,22 +45,33 @@ public class SoundSetting : MonoBehaviour
         LoadSoundSetting();
     }
 
+    public void OnClickSaveSetting(){
+        Save();
+    }
+    public void OnClickLoadSetting(){
+        Load();
+    }
+
     public void LoadSoundSetting(){
         try{
             bgm_bar.value = sc.BGMvalue;
             sfx_bar.value = sc.SFXvalue;
         }catch{}
 
-        try{bgmSource.volume = sc.BGMvalue;}catch{}
+        try{bgmSource.volume = sc.BGMvalue / bgm_bar.maxValue;}catch{}
     }
 
-    public void OnBgmChange(float value){
-        sc.BGMvalue = value;
-        try{bgmSource.volume = sc.BGMvalue;}catch{}
+    public void OnBgmChange(){
+        sc.BGMvalue = bgm_bar.value;
+        try{bgmSource.volume = sc.BGMvalue / bgm_bar.maxValue;}catch{}
     }
 
-    public void OnSfxChange(float value){
-        sc.SFXvalue = value;
+    public void OnSfxChange(){
+        sc.SFXvalue = sfx_bar.value;
+    }
+
+    public float GetSfxVolume(){
+        return sc.SFXvalue / sfx_bar.maxValue;
     }
 }
 

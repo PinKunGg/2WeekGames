@@ -22,6 +22,10 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public TMP_InputField joinRoomName;
 
+    [Space]
+    public Button createRoom_button;
+    public Button joinRoom_button;
+
     bool isRoomVisible;
     float maxPlayer = 2;
 
@@ -29,12 +33,30 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         OnClick_PublicRoom();
     }
 
+    private void Update() {
+        if(string.IsNullOrEmpty(playerName.text) || string.IsNullOrEmpty(createRoomName.text)){
+            createRoom_button.interactable = false;
+        }
+        else{
+            createRoom_button.interactable = true;
+        }
+
+        if(string.IsNullOrEmpty(playerName.text) || string.IsNullOrEmpty(joinRoomName.text)){
+            joinRoom_button.interactable = false;
+        }
+        else{
+            joinRoom_button.interactable = true;
+        }
+    }
+
     public void CreateRoom(){
-        if(string.IsNullOrEmpty(playerName.text) && string.IsNullOrEmpty(createRoomName.text)){
+        if(string.IsNullOrEmpty(playerName.text) || string.IsNullOrEmpty(createRoomName.text)){
             return;
         }
         
         if(!PhotonNetwork.IsConnected){
+            Debug.LogFormat("Fail to create '{0}' room: {1}",createRoomName.text,"Can't connect to the main server");
+            FindObjectOfType<GameAlert_Nortification>().SetAlert("Create room failed",string.Format("fail to create '{0}' room : {1}",createRoomName.text,"Can't connect to main server"),true);
             return;
         }
 
@@ -67,8 +89,12 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     }
 
     public void OnMaxPlayerValueChange_InputField(){
-        if(float.Parse(createMaxPlayer_InputField.text) > 4f){
-            maxPlayer = 4f;
+        if(float.Parse(createMaxPlayer_InputField.text) > createMaxPlayer.maxValue){
+            maxPlayer = createMaxPlayer.maxValue;
+            createMaxPlayer_InputField.text = maxPlayer.ToString();
+        }
+        else if(float.Parse(createMaxPlayer_InputField.text) < createMaxPlayer.minValue){
+            maxPlayer = createMaxPlayer.minValue;
             createMaxPlayer_InputField.text = maxPlayer.ToString();
         }
         else{
@@ -78,15 +104,8 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         createMaxPlayer.value = maxPlayer;
     }
 
-    List<RoomInfo> infos = new List<RoomInfo>();
-    public override void OnRoomListUpdate(List<RoomInfo> roomList){
-        base.OnRoomListUpdate(roomList);
-
-        infos = roomList;
-    }
-
     public void JoinRoom(){
-        if(string.IsNullOrEmpty(playerName.text) && string.IsNullOrEmpty(joinRoomName.text)){
+        if(string.IsNullOrEmpty(playerName.text) || string.IsNullOrEmpty(joinRoomName.text)){
             return;
         }
 
@@ -100,6 +119,8 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     }
 
     void PreparePlayerData(){
+        LoadingScene.loading.OpenLoading();
+
         if (!isTutorial)
         {
             PhotonNetwork.NickName = playerName.text;
@@ -119,7 +140,10 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message){
         base.OnCreateRoomFailed(returnCode, message);
 
-        Debug.LogFormat("Fail to crated '{0}' room: {1}",createRoomName.text,message);
+        LoadingScene.loading.CloseLoading();
+
+        Debug.LogFormat("Fail to create '{0}' room: {1}",createRoomName.text,message);
+        FindObjectOfType<GameAlert_Nortification>().SetAlert("Create room failed",string.Format("fail to create '{0}' room : {1}",createRoomName.text,message),true);
     }
 
     public override void OnJoinedRoom(){
@@ -139,7 +163,10 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message){
         base.OnJoinRoomFailed(returnCode, message);
 
+        LoadingScene.loading.CloseLoading();
+
         Debug.LogFormat("Can't join room '{0}': {1}",joinRoomName.text,message);
+        FindObjectOfType<GameAlert_Nortification>().SetAlert("Join room failed",string.Format("Can't join room '{0}' : {1}",joinRoomName.text,message),true);
     }
 
     public void TutorialMode() 

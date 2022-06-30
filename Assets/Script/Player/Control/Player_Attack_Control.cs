@@ -111,15 +111,6 @@ public class Player_Attack_Control : MonoBehaviour
         if (player_Move_Control.IsRun) { return; }
         if (Input.GetMouseButton(0))
         {
-            //if (tutorial_Control.IsLobby == false) 
-            //{
-            //    if (Cursor.visible == true)
-            //    {
-            //        Cursor.visible = false;
-            //        Cursor.lockState = CursorLockMode.Locked;
-            //        return;
-            //    }
-            //}
             Attack();
         }
         else

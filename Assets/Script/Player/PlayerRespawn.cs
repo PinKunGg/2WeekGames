@@ -32,15 +32,13 @@ public class PlayerRespawn : MonoBehaviour
 
     public void player_respawn() 
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        CursorSettings.cursor.ToggleCursor(true);
         PlayerDieUI.SetActive(true);
         photonView.RPC("SentDeathCountToMaster", RpcTarget.MasterClient);
     }
     public void When_player_respawn()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        CursorSettings.cursor.ToggleCursor(false);
         PlayerDieUI.SetActive(false);
         player.GetComponent<Player_Move_Control>().OnLobbySetUp(false);
         player.GetComponent<Player_Attack_Control>().CheckWeaponUse();

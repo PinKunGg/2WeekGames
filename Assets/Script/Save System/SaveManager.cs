@@ -30,7 +30,7 @@ public class SaveManager : MonoBehaviour
     }
 
     private void Start() {
-        // LoadNow();
+        LoadNow();
     }
 
     private void Update() {
