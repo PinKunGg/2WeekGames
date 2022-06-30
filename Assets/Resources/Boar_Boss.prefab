@@ -1145,7 +1145,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsDie
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsIdle
   m_SynchronizeLayers:
   - SynchronizeType: 1

@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using DG.Tweening;
 
-public class Monster_Hopping : MonoBehaviour
+public class Monster_Hopping : MonoBehaviourPunCallbacks
 {
     public SpriteRenderer HoppingShadow;
     public float StopDis = 7f;
@@ -25,17 +25,18 @@ public class Monster_Hopping : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void OnEnable() {
-        if(!PhotonNetwork.IsMasterClient){
-            enabled = false;
-            return;
-        }
+    public override void OnEnable() {
+        base.OnEnable();
+
+        if(!PhotonNetwork.IsMasterClient){return;}
         
         if(!HoppingShadow){return;}
         HoppingShadow.enabled = false;
     }
 
     private void Update() {
+        if(!PhotonNetwork.IsMasterClient){return;}
+
         if(!goToTarget){return;}
 
         disBetweenEnemyAndPlayer = Vector3.Distance(this.transform.position, goToTarget.transform.localPosition);
@@ -60,7 +61,7 @@ public class Monster_Hopping : MonoBehaviour
         if(!HoppingShadow){return;}
 
         HoppingShadow.transform.localPosition = new Vector3(this.transform.position.x,0.3f,this.transform.position.z);
-        HoppingShadow.enabled = true;
+        base.photonView.RPC("RPC_ToggleHoppingShadow",RpcTarget.All,true);
         Sequence FadeShadow = DOTween.Sequence();
         Vector3 fullScale = new Vector3(6,6,6);
         FadeShadow.Append(HoppingShadow.transform.DOScale(fullScale,0.3f));
@@ -74,7 +75,12 @@ public class Monster_Hopping : MonoBehaviour
     }
 
     public void DelayDisableHoppingShadow(){
-        HoppingShadow.enabled = false;
+        base.photonView.RPC("RPC_ToggleHoppingShadow",RpcTarget.All,false);
+    }
+
+    [PunRPC]
+    void RPC_ToggleHoppingShadow(bool value){
+        HoppingShadow.enabled = value;
     }
 
     public GameObject checkDropPoint;

@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using DG.Tweening;
 
-public class Assasin_Attacker : MonoBehaviour
+public class Assasin_Attacker : MonoBehaviourPunCallbacks
 {
     public int[] attackIndex;
     int attackIndexTemp, previousAttackIndex;
@@ -29,16 +29,17 @@ public class Assasin_Attacker : MonoBehaviour
         monsterStat = GetComponent<Monster_Stat>();
     }
 
-    private void OnEnable() {
-        if (!PhotonNetwork.IsMasterClient){ 
-            enabled = false;
-            return;
-        }
+    public override void OnEnable() {
+        base.OnEnable();
+
+        if(!PhotonNetwork.IsMasterClient){return;}
 
         isCanAttack = true;
     }
 
     private void Update() {
+        if(!PhotonNetwork.IsMasterClient){return;}
+
         if(Input.GetKeyDown(KeyCode.O)){
             // Attack();
         }
@@ -140,8 +141,7 @@ public class Assasin_Attacker : MonoBehaviour
     }
 
     void TeleportToPlayer(){
-        _collider.enabled = false;
-        monsterHopping.rb.isKinematic = true;
+        base.photonView.RPC("RPC_ToggleRigiBody",RpcTarget.All,false);
         monsterAnima.PlayBoolAnimator("IsTeleportUp",true);
 
         monsterHopping.SpawnShadowHopping();
@@ -175,11 +175,17 @@ public class Assasin_Attacker : MonoBehaviour
     }
 
     void DelayCaculate(){
-        monsterHopping.rb.isKinematic = false;
+        base.photonView.RPC("RPC_ToggleRigiBody",RpcTarget.All,false);
         Debug.Log(monsterAnima.GetCurrentAnimationTime() * 1.5f);
         AttackSqeuence = DOTween.Sequence();
         AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 1.5f);
         AttackSqeuence.AppendCallback(DelayAttacker);
+    }
+
+    [PunRPC]
+    void RPC_ToggleRigiBody(bool value){
+        monsterHopping.rb.isKinematic = value;
+        _collider.enabled = !value;
     }
 
     string AnimationName;
@@ -193,7 +199,7 @@ public class Assasin_Attacker : MonoBehaviour
     }
 
     IEnumerator Jumping(){
-        monsterHopping.rb.isKinematic = true;
+        base.photonView.RPC("RPC_ToggleRigiBody",RpcTarget.All,true);
         yield return new WaitForSeconds(7.5f);
 
         while(!monsterHopping.FindDropPoint(0f,0.5f)){
@@ -206,8 +212,7 @@ public class Assasin_Attacker : MonoBehaviour
 
         monsterAnima.PlayBoolAnimator("IsTeleportDown",false);
         yield return new WaitForSeconds(0.1f);
-        _collider.enabled = true;
-        monsterHopping.rb.isKinematic = false;
+        base.photonView.RPC("RPC_ToggleRigiBody",RpcTarget.All,false);
 
         monsterAnima.PlayBoolAnimator("IsNormalAttack",true);
         

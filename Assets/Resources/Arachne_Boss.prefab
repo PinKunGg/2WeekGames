@@ -21768,8 +21768,9 @@ GameObject:
   - component: {fileID: 3127315140236632755}
   - component: {fileID: 3127315140236632754}
   - component: {fileID: 3127315140236632753}
-  - component: {fileID: 244738107}
   - component: {fileID: 4162027363311868931}
+  - component: {fileID: 8942661152941449656}
+  - component: {fileID: 2481283122903014628}
   m_Layer: 8
   m_Name: Skill_1
   m_TagString: BossAttack
@@ -26660,19 +26661,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &244738107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3127315140236632752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c093a8af30639454bb9bc17667d2c94e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &4162027363311868931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26685,6 +26673,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb62b018f0ffe11498d89dba5a0960d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8942661152941449656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127315140236632752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2481283122903014628}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &2481283122903014628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127315140236632752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3127315141341520585
 GameObject:
   m_ObjectHideFlags: 0
@@ -41435,6 +41462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92bec92e8f1e8384d8da4bea3e73d5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Skill1SpawnPos: {fileID: 3127315140236632755}
 --- !u!114 &7385873379763382662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41523,7 +41551,7 @@ MonoBehaviour:
     Name_Monster: Boar - The Dumpest Boss
     base_HP: 6200
     base_Armor: 5
-    base_Damage: 120
+    base_Damage: 180
   BossStageNumber: 2
   Current_HP: 0
   Monster_HealthBar: {fileID: 0}
@@ -41627,7 +41655,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsDie
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsIdle
   m_SynchronizeLayers:
   - SynchronizeType: 1

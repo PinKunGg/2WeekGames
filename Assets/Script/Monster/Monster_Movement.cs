@@ -37,10 +37,7 @@ public class Monster_Movement : MonoBehaviour
     }
 
     private void OnEnable(){
-        if(!PhotonNetwork.IsMasterClient){
-            enabled = false;
-            return;
-        }
+        if(!PhotonNetwork.IsMasterClient){return;}
 
         isStopWalk = false;
         InvokeRepeating("UpdatePath", 0f, 0.5f);
@@ -63,6 +60,8 @@ public class Monster_Movement : MonoBehaviour
         catch{}
     }
     private void Update(){
+        if(!PhotonNetwork.IsMasterClient){return;}
+
         if(goToTarget == null){return;}
 
         if (!goToTarget.gameObject.activeInHierarchy){
@@ -73,6 +72,8 @@ public class Monster_Movement : MonoBehaviour
         }
     }
     void FixedUpdate(){
+        if(!PhotonNetwork.IsMasterClient){return;}
+        
         if (path == null){return;}
         if (currentWaypoint >= path.vectorPath.Count){return;}
 

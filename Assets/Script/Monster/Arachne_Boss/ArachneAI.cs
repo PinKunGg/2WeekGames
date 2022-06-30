@@ -4,13 +4,14 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class ArachneAI : MonoBehaviour
+public class ArachneAI : MonoBehaviourPunCallbacks
 {
     Monster_Hopping monsterHopping;
-    Monster_RotateToTarget monsterRotToTarget;
     Arachne_Attacker arachneAttack;
     PlayerManager_Multiplayer playerManMulti;
     public Monster_Stat monsterStat {get;private set;}
+    public Transform Skill1SpawnPos;
+    Transform targetPlayer;
 
     bool isChargeAttackReady = true;
 
@@ -18,16 +19,13 @@ public class ArachneAI : MonoBehaviour
         monsterHopping = GetComponent<Monster_Hopping>();
         arachneAttack = GetComponent<Arachne_Attacker>();
         playerManMulti = FindObjectOfType<PlayerManager_Multiplayer>();
-        monsterRotToTarget = GetComponentInChildren<Monster_RotateToTarget>();
         monsterStat = GetComponent<Monster_Stat>();
     }
     
-    private void OnEnable()
+    public override void OnEnable()
     {
-        if (!PhotonNetwork.IsMasterClient){ 
-            enabled = false;
-            return;
-        }
+        if (!PhotonNetwork.IsMasterClient){return;}
+
         DelayStart();
     }
     void DelayStart(){
@@ -37,17 +35,30 @@ public class ArachneAI : MonoBehaviour
     }
 
     void GetPlayerTarget(){
-        Transform targetPlayer = playerManMulti.GetRandomPlayer().transform;
+        targetPlayer = playerManMulti.GetRandomPlayer().transform;
         monsterHopping.goToTarget = targetPlayer;
         monsterHopping.lookAtTarget = targetPlayer;
-        monsterRotToTarget.target = targetPlayer;
     }
 
     private void Update() {
+        try{
+            Vector3 newLookAt = new Vector3(targetPlayer.position.x,targetPlayer.position.y + 1f,targetPlayer.position.z);
+
+            base.photonView.RPC("RPC_RotateSkill1SpawnPos",RpcTarget.All,newLookAt);
+        }
+        catch{}
+
+        if(!PhotonNetwork.IsMasterClient){return;}
+
         if(Input.GetKeyDown(KeyCode.O)){
             // arachneAttack.AttackSpecific(2);
             // arachneAttack.Attack();
         }
+    }
+
+    [PunRPC]
+    void RPC_RotateSkill1SpawnPos(Vector3 rot){
+        Skill1SpawnPos.transform.LookAt(rot);
     }
 
     void CheckIsPlayerInRange(){
@@ -77,10 +88,9 @@ public class ArachneAI : MonoBehaviour
             }
         }
 
-        Transform targetPlayer = playerManMulti._allPlayerInCurrentRoom[playerHightestDamage]._playerGameObject.transform;
+        targetPlayer = playerManMulti._allPlayerInCurrentRoom[playerHightestDamage]._playerGameObject.transform;
         monsterHopping.goToTarget = targetPlayer;
         monsterHopping.lookAtTarget = targetPlayer;
-        monsterRotToTarget.target = targetPlayer;
     }
 
     void DelayChargeAttack(){
