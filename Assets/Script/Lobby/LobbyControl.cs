@@ -367,6 +367,7 @@ public class LobbyControl : MonoBehaviour
                 AllPlayerObj[x].transform.rotation = Pos[x].transform.rotation;
             }
         }
+        local_player.GetComponent<Player_Move_Control>().OnLobbySetUp(true);
     }
 
 }

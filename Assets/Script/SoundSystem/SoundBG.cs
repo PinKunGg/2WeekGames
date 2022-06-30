@@ -29,6 +29,7 @@ public class SoundBG : MonoBehaviour
 
     public void OnclickToStart() 
     {
+        Debug.Log("???");
         audioSource.Play();
     }
 
