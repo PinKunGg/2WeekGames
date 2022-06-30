@@ -62,12 +62,12 @@ public class Player_Move_Control : MonoBehaviour
         if (!photonView.IsMine) { return; }
         if (tutorial_Control.IsLobby == false) 
         {
-            SwitchCursor(false); 
+            CursorSettings.cursor.ToggleCursor(false);
         }
         else 
         {
             LobbyControl.lobbyControl.player_Move_Control = this;
-            SwitchCursor(true);
+            CursorSettings.cursor.ToggleCursor(true);
             cam_player.SetActive(false);
             cam_player_inven.SetActive(false);
         }
@@ -95,10 +95,6 @@ public class Player_Move_Control : MonoBehaviour
         if (tutorial_Control.IsLobby) { return; }
         if (!photonView.IsMine){ return; }
         if (player_Stat.IsDie) { return; }
-        if (Input.GetKeyDown(KeyCode.Escape)) 
-        {
-            SwitchCursor(true);
-        }
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Skill1") || anim.GetCurrentAnimatorStateInfo(1).IsName("Skill2"))
         {
             return;
@@ -133,24 +129,6 @@ public class Player_Move_Control : MonoBehaviour
     {
         cam_player.SetActive(true);
         cam_player_inven.SetActive(true);
-    }
-
-    public void SwitchCursor(bool value)
-    {
-        if (tutorial_Control.IsLobby)
-        {
-            return;
-        }
-        if (!value)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else if (value)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
     }
 
     void MoveMent()

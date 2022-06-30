@@ -32,7 +32,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         TitleUI.SetActive(true);
         MainMenuUI.SetActive(false);
         LobbyUI.SetActive(false);
-        Debug.LogFormat("Disconnected to server: {0}",cause.ToString());
+        Debug.LogFormat("Disconnected From The Server: {0}",cause.ToString());
+        FindObjectOfType<GameAlert_Nortification>().SetAlert("Disconnected from the server",string.Format(cause.ToString()),true);
     }
 
     public override void OnJoinedLobby(){
@@ -55,8 +56,20 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         LobbyUI.SetActive(false);
     }
     public void OnClick_ExitGame(){
-        PhotonNetwork.Disconnect();
-        Application.Quit();
+        FindObjectOfType<GameAlert_Nortification>().SetAlert("Exiting the game?",string.Format("Are you sure?"),false);
+
+        StartCoroutine(FindObjectOfType<GameAlert_Nortification>().WaiteForCallBack(ConfirmExitGame));
+    }
+
+    void ConfirmExitGame(bool value){
+        if(value){
+            Debug.Log("Exiting the game");
+            PhotonNetwork.Disconnect();
+            Application.Quit();
+        }
+        else{
+            Debug.Log("Exiting the game abort");
+        }
     }
 
     public void Connect(){
@@ -69,7 +82,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         CreditUI.SetActive(true);
         FindObjectOfType<SoundBG>().ChangeToMainMenuBGSound();
-        Invoke("OnEndCreditAnimation", 36);
+        Invoke("OnEndCreditAnimation", 36f);
     }
 
     public void OnEndCreditAnimation() 

@@ -64,8 +64,7 @@ public class Tutorial_Control : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            CursorSettings.cursor.ToggleCursor(true);
             PhotonNetwork.LeaveRoom();
         }
     }

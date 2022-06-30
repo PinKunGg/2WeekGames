@@ -122,6 +122,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
     public void RPC_Disconnect(){
         Destroy(FindObjectOfType<PlayerListMenu>().gameObject);
         if (PhotonNetwork.IsMasterClient){
+            base.photonView.RPC("RPC_HostDisconnect",RpcTarget.Others,PhotonNetwork.CurrentRoom.Name);
             base.photonView.RPC("RPC_Disconnect",RpcTarget.Others);
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
@@ -132,10 +133,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
 
             return;
         }
+        CursorSettings.cursor.isOverride = false;
+        CursorSettings.cursor.isInLobby = false;
+        CursorSettings.cursor.ToggleCursor(true);
         FindObjectOfType<Player_Inventory>().SaveCloth();
         FindObjectOfType<Player_Inventory>().SaveItem();
         LobbyControl.lobbyControl.UnReady();
         PhotonNetwork.LeaveRoom();
+    }
+
+    [PunRPC]
+    public void RPC_HostDisconnect(string roomName){
+        FindObjectOfType<GameAlert_Nortification>().SetAlert("Disconnected from the server",string.Format("The game '{0}' no longer exists.",roomName),true);
     }
 
     IEnumerator PrepareHostDisconnect(){
@@ -168,6 +177,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
                     
                 isNotSaveThisPlayerData = true;
 
+                FindObjectOfType<GameAlert_Nortification>().SetAlert("Disconnected from the server",string.Format("That name is already taken."),true);
                 base.photonView.RPC("RPC_Disconnect",newPlayer);
                 break;
             }

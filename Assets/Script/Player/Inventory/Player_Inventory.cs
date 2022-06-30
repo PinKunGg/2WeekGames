@@ -109,7 +109,7 @@ public class Player_Inventory : MonoBehaviour
         if (tutorial_Control.IsLobby == false) 
         {
             CameraPlayer.SetActive(!CameraPlayer.activeSelf);
-            player_Move_Control.SwitchCursor(InvenUI.activeSelf);
+            CursorSettings.cursor.ToggleCursor(InvenUI.activeSelf);
         }
         FindObjectOfType<Craft_Control>().Main_Craft_UI.SetActive(false);
         UpdateSlot();

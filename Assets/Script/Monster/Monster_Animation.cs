@@ -16,6 +16,7 @@ public class Monster_Animation : MonoBehaviour
         AnimatorStateInfo animationState = anima.GetCurrentAnimatorStateInfo(0);
         AnimatorClipInfo[] animatorClip = anima.GetCurrentAnimatorClipInfo(0);
         float animateTime = animatorClip[0].clip.length * animationState.normalizedTime;
+        Debug.Log(animateTime);
         return animateTime;
     }
 }

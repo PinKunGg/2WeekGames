@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -9,14 +10,24 @@ public class RoomListMenu : MonoBehaviourPunCallbacks
     [SerializeField] Transform content;
     [SerializeField] RoomListInfo roomListInfo;
 
-    private List<RoomListInfo> roomListingInfos = new List<RoomListInfo>();
+    List<RoomListInfo> roomListingInfos = new List<RoomListInfo>();
+    CreateAndJoinRoom createAndJoinRoom;
 
     private void Awake() {
-        
+        createAndJoinRoom = FindObjectOfType<CreateAndJoinRoom>();
     }
 
-    void GetAllCurrentRoom(){
-        
+    private void Update() {
+        if(string.IsNullOrEmpty(createAndJoinRoom.playerName.text)){
+            for(int i = 0; i < roomListingInfos.Count; i++){
+                roomListingInfos[i].GetComponent<Button>().interactable = false;
+            }
+        }
+        else{
+            for(int i = 0; i < roomListingInfos.Count; i++){
+                roomListingInfos[i].GetComponent<Button>().interactable = true;
+            }
+        }
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList){

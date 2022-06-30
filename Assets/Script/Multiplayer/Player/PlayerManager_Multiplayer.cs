@@ -40,6 +40,7 @@ public class PlayerManager_Multiplayer : MonoBehaviourPunCallbacks
         Debug.Log("WTF : " + obj.name);
         lobbyControl = GetComponent<LobbyControl>();
         lobbyControl.addPlayer(obj);
+
         if (PhotonNetwork.IsMasterClient){
             _savePlayerData.LoadData(a._playerGameObject.GetComponent<PhotonView>());
         }

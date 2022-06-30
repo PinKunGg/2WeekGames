@@ -23,6 +23,6 @@ public class ButtonClickSound : MonoBehaviour
     public void PlaySFX()
     {
         if(!sm){return;}
-        sm.PlaySFX(SoundIndex,Vector3.zero,Time,sound.sc.SFXvalue);
+        sm.PlaySFX(SoundIndex,Vector3.zero,Time,sound.GetSfxVolume());
     }
 }
