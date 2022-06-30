@@ -743,6 +743,11 @@ PrefabInstance:
       propertyPath: WinUI
       value: 
       objectReference: {fileID: 1022141658}
+    - target: {fileID: 8942661152941449656, guid: ee8a2f23fd6d7e54583feac142a78957,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8a2f23fd6d7e54583feac142a78957, type: 3}
 --- !u!1 &59840327 stripped
@@ -29161,7 +29166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
 --- !u!114 &1629335855
 MonoBehaviour:
@@ -34639,7 +34644,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 318560045}
   m_Direction: 0
   m_Value: 1
-  m_Size: 0.5061728
+  m_Size: 0.50617284
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
