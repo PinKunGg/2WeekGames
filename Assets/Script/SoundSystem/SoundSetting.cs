@@ -35,6 +35,7 @@ public class SoundSetting : MonoBehaviour
         string loadData = js.LoadJson(Application.persistentDataPath + "/Setting","Sound");
         if (string.IsNullOrEmpty(loadData)){
             Debug.LogError("Fail to load Sound");
+            LoadSoundSetting();
             return;
         }
 
