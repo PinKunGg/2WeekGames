@@ -27,15 +27,14 @@ public class Boar_Attacker : MonoBehaviour
         monsterStat = GetComponent<Monster_Stat>();
     }
     private void OnEnable() {
-        if (!PhotonNetwork.IsMasterClient){ 
-            enabled = false;
-            return;
-        }
+        if(!PhotonNetwork.IsMasterClient){return;}
 
         isCanAttack = true;
     }
 
     private void Update() {
+        if(!PhotonNetwork.IsMasterClient){return;}
+        
         if(Input.GetKeyDown(KeyCode.O)){
             // Attack();
         }

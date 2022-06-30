@@ -145,6 +145,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
         PhotonNetwork.LeaveRoom();
     }
 
+    public override void OnMasterClientSwitched(Player newMasterClient){
+        base.OnMasterClientSwitched(newMasterClient);
+
+        FindObjectOfType<GameAlert_Nortification>().SetAlert("Disconnected from the server",string.Format("The game '{0}' no longer exists.",PhotonNetwork.CurrentRoom.Name),true);
+
+        CursorSettings.cursor.isOverride = false;
+        CursorSettings.cursor.isInLobby = false;
+        CursorSettings.cursor.ToggleCursor(true);
+        FindObjectOfType<Player_Inventory>().SaveCloth();
+        FindObjectOfType<Player_Inventory>().SaveItem();
+        LobbyControl.lobbyControl.UnReady();
+
+        PhotonNetwork.LeaveRoom();        
+    }
+
     [PunRPC]
     public void RPC_HostDisconnect(string roomName){
         FindObjectOfType<GameAlert_Nortification>().SetAlert("Disconnected from the server",string.Format("The game '{0}' no longer exists.",roomName),true);

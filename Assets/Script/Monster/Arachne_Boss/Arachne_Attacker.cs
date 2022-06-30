@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using DG.Tweening;
 
-public class Arachne_Attacker : MonoBehaviour
+public class Arachne_Attacker : MonoBehaviourPunCallbacks
 {
     public int[] attackIndex;
     int attackIndexTemp, previousAttackIndex;
@@ -28,16 +28,17 @@ public class Arachne_Attacker : MonoBehaviour
         monsterStat = GetComponent<Monster_Stat>();
     }
 
-    private void OnEnable() {
-        if (!PhotonNetwork.IsMasterClient){ 
-            enabled = false;
-            return;
-        }
+    public override void OnEnable() {
+        base.OnEnable();
+
+        if(!PhotonNetwork.IsMasterClient){return;}
         
         isCanAttack = true;
     }
 
     private void Update() {
+        if(!PhotonNetwork.IsMasterClient){return;}
+
         if(Input.GetKeyDown(KeyCode.O)){
             // Attack();
         }
@@ -153,11 +154,16 @@ public class Arachne_Attacker : MonoBehaviour
     }
 
     void DelayCaculate(){
-        monsterHopping.rb.isKinematic = false;
+        base.photonView.RPC("RPC_ToggleRigiBody",RpcTarget.All,false);
         Debug.Log(monsterAnima.GetCurrentAnimationTime() * 4f);
         AttackSqeuence = DOTween.Sequence();
         AttackSqeuence.AppendInterval(monsterAnima.GetCurrentAnimationTime() * 4f);
         AttackSqeuence.AppendCallback(DelayAttacker);
+    }
+
+    [PunRPC]
+    void RPC_ToggleRigiBody(bool value){
+        monsterHopping.rb.isKinematic = value;
     }
 
     string AnimationName;
@@ -171,7 +177,7 @@ public class Arachne_Attacker : MonoBehaviour
     }
 
     IEnumerator Jumping(){
-        monsterHopping.rb.isKinematic = true;
+        base.photonView.RPC("RPC_ToggleRigiBody",RpcTarget.All,true);
         yield return new WaitForSeconds(0.7f);
         transform.DOMoveY(this.transform.position.y + 15f,0.5f);
         yield return new WaitForSeconds(2f);
