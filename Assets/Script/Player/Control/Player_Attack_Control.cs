@@ -401,11 +401,11 @@ public class Player_Attack_Control : MonoBehaviour
     public void PlaySfxOnAttack(int value) 
     {
         if (soundManager == null) { soundManager = SoundManager.soundman; }
-        if (value == 1)
+        if (value == 4)
         {
             soundManager.PlaySFX(value, this.gameObject.transform.position, 7f, 0.7f);
         }
-        else if (value == 9)
+        else if (value == 7)
         {
             soundManager.PlaySFX(value, this.gameObject.transform.position, 4f, 0.7f);
         }

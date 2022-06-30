@@ -6354,7 +6354,7 @@ MonoBehaviour:
     - 1Pant
     - 1Feet
     - 1Veil
-    - 1Bow
+    - 1Stuff
     - 
   PotionSlot: 0
   AllSlotPic: []
@@ -28962,8 +28962,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 318560047}
   m_HandleRect: {fileID: 318560045}
   m_Direction: 0
-  m_Value: 1.0000001
-  m_Size: 0.33884293
+  m_Value: 0.99999994
+  m_Size: 0.3388429
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
