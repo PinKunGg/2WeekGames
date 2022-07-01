@@ -152,6 +152,7 @@ public class Player_Stat : MonoBehaviour
     public void setDamage(float damageMultiply) 
     {
         Player_Attack_Control playerWeaponDamage = GetComponent<Player_Attack_Control>();
+        player_Inventory = FindObjectOfType<Player_Inventory>();
         playerWeaponDamage.SetDamage((basePlayerStat.base_Damage + player_Inventory.Damage)*damageMultiply, basePlayerStat.base_Cri_Rate + player_Inventory.Cri_Rate,
     basePlayerStat.base_Cri_Damage + player_Inventory.Cri_Damage, Damage_Multiplay);
     }
