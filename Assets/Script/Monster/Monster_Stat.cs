@@ -210,7 +210,7 @@ public class Monster_Stat : MonoBehaviour
             if (allscript[x] != this) { allscript[x].enabled = true; }
         }
         photonView.RPC("SaveInven", RpcTarget.All);
-        Invoke("DelayDisable",2f);
+        Invoke("DelayDisable",1f);
     }
 
     void DelayDisable(){
