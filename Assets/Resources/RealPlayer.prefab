@@ -54381,9 +54381,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 0
   m_FollowOffset: {x: 0, y: 1.7, z: -6}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -54571,9 +54571,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 0
   m_FollowOffset: {x: 0, y: 1.7, z: -6}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -55426,9 +55426,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 0
   m_FollowOffset: {x: 0, y: 1.7, z: -6}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -61528,9 +61528,9 @@ Rigidbody:
   m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_Constraints: 80
+  m_CollisionDetection: 1
 --- !u!136 &404467076680457189
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -62376,21 +62376,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollideAgainst:
     serializedVersion: 2
-    m_Bits: 1
-  m_IgnoreTag: 
+    m_Bits: 192
+  m_IgnoreTag: Player
   m_TransparentLayers:
     serializedVersion: 2
-    m_Bits: 1
-  m_MinimumDistanceFromTarget: 0.1
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.01
   m_AvoidObstacles: 1
   m_DistanceLimit: 0
   m_MinimumOcclusionTime: 0
   m_CameraRadius: 0.1
   m_Strategy: 0
   m_MaximumEffort: 4
-  m_SmoothingTime: 1
-  m_Damping: 0
-  m_DampingWhenOccluded: 0
+  m_SmoothingTime: 0
+  m_Damping: 0.5
+  m_DampingWhenOccluded: 0.5
   m_OptimalTargetDistance: 0
 --- !u!1 &7998033973670344161
 GameObject:

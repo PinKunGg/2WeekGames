@@ -28,6 +28,7 @@ public class GraphicSettings : MonoBehaviour
     void Load(){
         string loadData = js.LoadJson(Application.persistentDataPath + "/Setting","Graphic");
         if (string.IsNullOrEmpty(loadData)){
+            LoadGraphicSetting();
             Debug.LogError("Fail to load Sound");
             return;
         }

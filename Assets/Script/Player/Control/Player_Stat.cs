@@ -78,6 +78,11 @@ public class Player_Stat : MonoBehaviour
             return;
         }
 
+        if(IsDie){
+            CursorSettings.cursor.isOverride = true;
+            CursorSettings.cursor.ToggleCursor(true);
+        }
+
         if (Input.GetKeyDown(KeyCode.X))
         {
             Player_Take_Damage(10);

@@ -38,6 +38,7 @@ public class PlayerRespawn : MonoBehaviour
     }
     public void When_player_respawn()
     {
+        CursorSettings.cursor.isOverride = false;
         CursorSettings.cursor.ToggleCursor(false);
         PlayerDieUI.SetActive(false);
         player.GetComponent<Player_Move_Control>().OnLobbySetUp(false);
