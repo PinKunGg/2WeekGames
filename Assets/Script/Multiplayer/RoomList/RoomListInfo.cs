@@ -32,6 +32,7 @@ public class RoomListInfo : MonoBehaviour
             return;
         }
 
+        LoadingScene.loading.OpenLoading();
         PhotonNetwork.NickName = playerName.text;
         PhotonNetwork.JoinRoom(roomName.text);
     }
